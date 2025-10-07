@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Catalysis - Consultoría en Transformación Digital{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar" {% block nav_class %}{% endblock %}>
+        <div class="nav-container">
+            <a href="{{ url_for('main.index') }}" class="logo">catalysis</a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('main.index') }}#inicio">Inicio</a></li>
+                <li><a href="{{ url_for('main.index') }}#nosotros">Nosotros</a></li>
+                <li><a href="{{ url_for('main.servicios') }}">Servicios</a></li>
+                <li><a href="{{ url_for('main.index') }}#metodologia">Metodología</a></li>
+                <li><a href="{{ url_for('blog.index') }}">Blog</a></li>
+                <li><a href="{{ url_for('main.contacto') }}">Contacto</a></li>
+            </ul>
+            <a href="{{ url_for('main.contacto') }}" class="cta-button">Agenda tu diagnóstico</a>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Main Content -->
+    {% block content %}{% endblock %}
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-about">
+                <h3>catalysis</h3>
+                <p>Impulsamos la transformación digital de empresas que quieren liderar en la era digital. Estrategia, tecnología y resultados medibles.</p>
+                <p>📧 contacto@catalysis.com.mx<br>
+                📱 +52 55 1234 5678<br>
+                📍 Ciudad de México, México</p>
+            </div>
+            <div class="footer-links">
+                <h4>Servicios</h4>
+                <ul>
+                    <li><a href="{{ url_for('main.servicios') }}#servicio-1">Transformación Digital</a></li>
+                    <li><a href="{{ url_for('main.servicios') }}#servicio-4">Data & Analytics</a></li>
+                    <li><a href="{{ url_for('main.servicios') }}#servicio-6">Inteligencia Artificial</a></li>
+                    <li><a href="{{ url_for('main.servicios') }}#servicio-3">Cloud Computing</a></li>
+                    <li><a href="{{ url_for('main.servicios') }}#servicio-2">Optimización de Procesos</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Empresa</h4>
+                <ul>
+                    <li><a href="{{ url_for('main.index') }}#nosotros">Sobre Nosotros</a></li>
+                    <li><a href="{{ url_for('main.index') }}#metodologia">Metodología</a></li>
+                    <li><a href="{{ url_for('blog.index') }}">Blog</a></li>
+                    <li><a href="{{ url_for('main.contacto') }}">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Recursos</h4>
+                <ul>
+                    <li><a href="{{ url_for('blog.index') }}">Artículos</a></li>
+                    <li><a href="{{ url_for('main.contacto') }}">Contacto</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© {{ current_year }} Catalysis. Todos los derechos reservados. Diseñando el futuro digital.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
