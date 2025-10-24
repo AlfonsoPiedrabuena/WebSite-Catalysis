@@ -4,157 +4,306 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Catalysis is a digital transformation consulting company website with two implementations:
-1. **Templates/** - Original static HTML/CSS/JS templates (reference/design source)
-2. **Site_Flask/** - Production Flask application with PostgreSQL backend (active development)
+Catalysis es un sitio web de consultoría en transformación digital. El proyecto ha migrado de Flask a HTML estático con Firebase.
+
+**Implementación actual:**
+- **site/** - Sitio web HTML estático con Firebase (PRODUCCIÓN ACTIVA)
+
+**Implementaciones legacy (solo referencia):**
+- **Templates/** - Plantillas HTML estáticas originales
+- **Site_Flask/** - Aplicación Flask anterior (deprecada)
 
 ## Project Structure
 
 ```
 /
-├── Site_Flask/          # 🎯 MAIN FLASK APPLICATION (PRODUCTION)
-│   ├── app.py          # Flask application entry point
-│   ├── config.py       # Configuration management
-│   ├── init_db.py      # Database initialization script
-│   ├── requirements.txt # Python dependencies
-│   ├── .env            # Environment variables (not in git)
-│   ├── models/         # SQLAlchemy models
-│   │   ├── contact.py  # Contact form submissions
-│   │   └── blog.py     # Blog posts and categories
-│   ├── routes/         # Flask blueprints
-│   │   ├── main.py     # Main pages (home, services, contact)
-│   │   └── blog.py     # Blog routes
-│   ├── forms/          # WTForms forms
-│   │   └── contact_form.py
-│   ├── templates/      # Jinja2 templates
-│   │   ├── base.html
-│   │   ├── index.html
-│   │   ├── servicios.html
-│   │   ├── contacto.html
-│   │   ├── blog.html
-│   │   └── blog_post.html
-│   └── static/         # Static assets
-│       ├── css/style.css
-│       ├── js/main.js
-│       └── images/
+├── site/                   # 🎯 SITIO WEB PRINCIPAL (HTML + Firebase)
+│   ├── index.html         # Página principal
+│   ├── servicios.html     # Página de servicios
+│   ├── contacto.html      # Página de contacto con formulario
+│   ├── blog.html          # Listado de artículos del blog
+│   ├── blog-post.html     # Vista individual de artículo
+│   ├── README.md          # Documentación completa de Firebase
+│   ├── css/
+│   │   └── style.css      # Estilos del sitio
+│   ├── js/
+│   │   ├── main.js        # JavaScript principal (navbar, smooth scroll)
+│   │   ├── firebase-config.js  # Configuración de Firebase
+│   │   ├── blog.js        # Carga de posts desde Firestore
+│   │   ├── blog-post.js   # Vista individual de post
+│   │   └── contact.js     # Formulario de contacto a Firestore
+│   └── images/            # Imágenes del sitio
 │
-├── Templates/          # Original static templates (reference only)
-│   ├── index.html
-│   ├── servicios.html
-│   ├── contacto.html
-│   ├── blog.html
-│   ├── css/style.css
-│   └── js/main.js
-│
-├── website_catalysis/  # Python virtual environment
-└── CLAUDE.md          # This file
+├── Site_Flask/            # ⚠️ DEPRECADO - No usar (solo referencia)
+├── Templates/             # ⚠️ LEGACY - Plantillas originales (solo referencia)
+├── website_catalysis/     # Virtual environment de Flask (deprecado)
+└── CLAUDE.md             # Este archivo
 ```
 
-## Development Environment
+## Arquitectura Actual
 
-### Flask Application Setup
+### Stack Tecnológico
 
-**Prerequisites:**
-- Python 3.12+
-- PostgreSQL 12+
-- Virtual environment in `website_catalysis/`
+**Frontend:**
+- HTML5 estático
+- CSS3 con CSS Custom Properties
+- Vanilla JavaScript (ES6+)
 
-**Quick Start:**
+**Backend:**
+- Firebase Firestore (base de datos NoSQL)
+- Firebase Hosting (opcional para deployment)
+
+**Sin dependencias de frameworks:** No se usa React, Vue, Angular, Flask, etc.
+
+### Firebase Collections
+
+**1. `blog_posts`** - Artículos del blog
+```javascript
+{
+  titulo: string,
+  slug: string,              // URL-friendly (opcional)
+  resumen: string,
+  contenido: string,         // HTML
+  autor: string,
+  imagen_portada: string,    // URL (opcional)
+  categoria: string,         // Opcional
+  tags: array,               // Array de strings
+  publicado: boolean,        // Solo se muestran si es true
+  fecha_publicacion: timestamp,
+  fecha_creacion: timestamp,
+  vistas: number            // Se incrementa automáticamente
+}
+```
+
+**2. `contactos`** - Formularios de contacto
+```javascript
+{
+  nombre: string,
+  email: string,
+  empresa: string,
+  telefono: string,
+  mensaje: string,
+  fecha_creacion: timestamp,  // Auto-generado
+  atendido: boolean          // Para marcar como leído
+}
+```
+
+### Reglas de Seguridad de Firestore
+
+```javascript
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /blog_posts/{postId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    match /contactos/{contactId} {
+      allow read: if request.auth != null;
+      allow create: if true;
+      allow update, delete: if request.auth != null;
+    }
+  }
+}
+```
+
+## Desarrollo Local
+
+### Requisitos
+- Navegador web moderno
+- Servidor HTTP local (no funciona con `file://`)
+
+### Opciones para servidor local
+
 ```bash
-# Navigate to Flask app
-cd Site_Flask
+# Opción 1: Python
+cd site
+python3 -m http.server 8000
 
-# Activate virtual environment
-source ../website_catalysis/bin/activate
+# Opción 2: Node.js
+npm install -g http-server
+cd site
+http-server -p 8000
 
-# Install dependencies (if not already installed)
-pip install -r requirements.txt
-
-# Initialize database (first time only)
-python init_db.py
-
-# Run application
-python app.py
+# Opción 3: VS Code Live Server
+# Instalar extensión y hacer clic derecho > Open with Live Server
 ```
 
-**Application runs on:** http://localhost:5001
+Luego abrir http://localhost:8000
 
-### Database Setup
+### Configuración de Firebase
 
-**PostgreSQL Database:**
-- Database name: `catalysis_db`
-- Configuration in: `Site_Flask/.env`
-- Models location: `Site_Flask/models/`
+**Primer uso:**
+1. Ver `site/README.md` para instrucciones completas
+2. Crear proyecto en [Firebase Console](https://console.firebase.google.com/)
+3. Configurar Firestore Database
+4. Copiar credenciales a `site/js/firebase-config.js`
+5. Configurar reglas de seguridad
 
-**Database Models:**
-1. **Contact** - Contact form submissions
-   - Fields: nombre, email, empresa, telefono, mensaje, fecha_creacion, atendido
+## Funcionalidades del Sitio
 
-2. **BlogPost** - Blog articles
-   - Fields: titulo, slug, resumen, contenido, autor, imagen_portada, categoria, tags, publicado, fechas, vistas
+### Páginas Principales
 
-3. **BlogCategory** - Blog categories
-   - Fields: nombre, slug, descripcion
+1. **index.html** - Homepage
+   - Hero section
+   - Sección "Sobre Nosotros" con estadísticas
+   - Preview de servicios (9 servicios)
+   - Metodología (5 pasos)
+   - Formulario de contacto rápido
+   - Footer
 
-**Common Database Tasks:**
-```bash
-# Reinitialize database with sample data
-python init_db.py
+2. **servicios.html** - Servicios detallados
+   - 9 tarjetas de servicios con descripciones completas
 
-# Access Flask shell for manual DB operations
-flask shell
-```
+3. **contacto.html** - Formulario de contacto
+   - Formulario completo con validación
+   - Información de contacto
+   - Guarda en Firestore `contactos` collection
 
-## Architecture Notes
+4. **blog.html** - Listado de blog
+   - Carga posts desde Firestore
+   - Solo muestra posts con `publicado: true`
+   - Ordenados por fecha (más reciente primero)
+   - Tarjetas con imagen, categoría, título, resumen
 
-### Flask Application Architecture
+5. **blog-post.html** - Vista individual de post
+   - Carga post por ID (URL: `?id=POST_ID`)
+   - Muestra contenido completo
+   - Incrementa contador de vistas automáticamente
+   - Muestra tags si existen
 
-**Pattern:** Factory Pattern with Application Factory
-- Entry point: `app.py` with `create_app()` function
-- Blueprints for modular routing:
-  - `main` blueprint: Home, services, contact pages
-  - `blog` blueprint: Blog listing and individual posts
-- Configuration: Environment-based (development/production)
-- Database: SQLAlchemy ORM with Flask-Migrate for migrations
-- Forms: Flask-WTF with CSRF protection
+### JavaScript Modules
 
-### Template System (Jinja2)
+**main.js:**
+- Navbar scroll effect (agrega clase `scrolled` después de 100px)
+- Smooth scrolling para anchor links
+- Actualiza año en footer automáticamente
 
-**Base Template Pattern:**
-- `base.html` contains common structure (nav, footer)
-- All pages extend base template
-- Blocks: `title`, `content`, `extra_css`, `extra_js`
-- Template inheritance for consistent design
+**firebase-config.js:**
+- Inicializa Firebase con credenciales del proyecto
+- Expone `window.firestoreDb` para otros scripts
 
-**Template Features:**
-- Semantic HTML5
-- Spanish language content (lang="es")
-- Responsive meta viewport configuration
-- Flash messages for user feedback
-- Dynamic navigation with url_for()
+**blog.js:**
+- Carga posts desde Firestore
+- Filtra solo posts publicados
+- Crea tarjetas de posts dinámicamente
+- Maneja estados de carga y sin posts
+
+**blog-post.js:**
+- Obtiene ID de post desde URL params
+- Carga post individual desde Firestore
+- Renderiza contenido HTML
+- Incrementa vistas automáticamente
+- Maneja errores (post no encontrado, no publicado)
+
+**contact.js:**
+- Maneja submits de formularios (contacto y quick-contact)
+- Guarda datos en Firestore
+- Muestra mensajes de éxito/error
+- Resetea formulario después de envío exitoso
 
 ### CSS Architecture
 
-- CSS uses CSS custom properties (CSS variables) for theming
-- Color scheme defined in `:root`:
-  - `--primary`: #0f0f0f (dark)
-  - `--secondary`: #ffffff (white)
-  - `--text`: #666666 (gray)
-  - `--light-bg`: #fafafa (light background)
-  - `--border`: #e5e5e5 (border color)
-- Responsive design with flexbox/grid layouts
-- Modern CSS features: backdrop-filter, smooth scrolling
+**CSS Custom Properties (Variables):**
+```css
+--primary: #0f0f0f     /* Negro/dark */
+--secondary: #ffffff    /* Blanco */
+--text: #666666        /* Gris para texto */
+--light-bg: #fafafa    /* Fondo claro */
+--border: #e5e5e5      /* Color de bordes */
+```
 
-### JavaScript Features
+**Características:**
+- Diseño responsive (móvil, tablet, desktop)
+- Tipografía: System fonts (-apple-system, BlinkMacSystemFont, Segoe UI)
+- Animaciones suaves (transitions)
+- Grid y Flexbox para layouts
+- Mobile-first approach
 
-The main navigation includes:
-- Scroll-triggered navbar styling (`.scrolled` class added after 100px scroll)
-- Smooth scrolling for anchor links
-- Event delegation for navigation
+## Gestión de Contenido
 
-### Key Content Sections
+### Crear Posts de Blog
 
-The site includes 9 service offerings:
+**Desde Firebase Console (Recomendado):**
+
+1. Ir a Firestore Database
+2. Colección `blog_posts`
+3. "Agregar documento"
+4. Completar campos:
+   - `titulo`: string
+   - `resumen`: string
+   - `contenido`: string (puede incluir HTML)
+   - `autor`: string
+   - `categoria`: string
+   - `tags`: array
+   - `publicado`: boolean (true)
+   - `fecha_publicacion`: timestamp (ahora)
+   - `fecha_creacion`: timestamp (ahora)
+   - `vistas`: number (0)
+   - `imagen_portada`: string (URL, opcional)
+
+5. Guardar
+
+**Contenido HTML:**
+El campo `contenido` acepta HTML completo:
+```html
+<h2>Título de sección</h2>
+<p>Párrafo de texto...</p>
+<ul>
+  <li>Item 1</li>
+  <li>Item 2</li>
+</ul>
+<img src="url-imagen.jpg" alt="Descripción">
+```
+
+### Ver Contactos Recibidos
+
+1. Firebase Console > Firestore
+2. Colección `contactos`
+3. Ver documentos ordenados por `fecha_creacion`
+4. Marcar `atendido: true` cuando se procesen
+
+## Deployment
+
+### Opción 1: Firebase Hosting
+
+```bash
+npm install -g firebase-tools
+firebase login
+cd site
+firebase init hosting
+firebase deploy
+```
+
+### Opción 2: Netlify
+
+1. Conectar repositorio GitHub
+2. Build settings:
+   - Base directory: `site`
+   - Publish directory: `site`
+   - Build command: (none)
+3. Deploy
+
+### Opción 3: Vercel
+
+```bash
+npm install -g vercel
+cd site
+vercel
+```
+
+### Opción 4: GitHub Pages
+
+1. Settings > Pages
+2. Source: Deploy from branch
+3. Branch: main, folder: `/site`
+
+**Nota:** Para cualquier opción, asegúrate de configurar correctamente `firebase-config.js` con tus credenciales.
+
+## Diseño y Contenido
+
+### Servicios (9 total)
+
 1. Evaluación y Estrategia Digital
 2. Optimización de Procesos
 3. Adopción de Tecnologías Cloud
@@ -165,71 +314,120 @@ The site includes 9 service offerings:
 8. Analítica Predictiva con IA
 9. Computer Vision & NLP
 
-### Design Patterns
+### Metodología (5 pasos)
 
-- Fixed navigation with blur backdrop effect
-- Service cards with numbered items (01-09)
-- 5-step methodology section (PASO 01-05)
-- Statistics display with prominent numbers
-- Contact form integration section
-- Footer with multi-column layout
+1. Diagnóstico
+2. Estrategia
+3. Quick Wins
+4. Transformación
+5. Evolución
+
+### Estadísticas
+
+- 200+ Proyectos completados
+- 150+ Clientes satisfechos
+- 85% Aumento de eficiencia
+- 12+ Años de experiencia
 
 ## Development Guidelines
 
-### Working with Flask Application
+### Agregar Nueva Página
 
-**File Organization:**
-- New routes: Add to appropriate blueprint in `routes/`
-- New models: Create in `models/` and import in `models/__init__.py`
-- New forms: Add to `forms/`
-- New templates: Add to `templates/` and extend `base.html`
+1. Crear archivo HTML en `site/`
+2. Incluir estructura base (nav, footer)
+3. Agregar links en navegación de todas las páginas
+4. Si usa Firebase, incluir scripts SDK y configuración
 
-**Database Changes:**
-```bash
-# After modifying models
-flask db migrate -m "Description of changes"
-flask db upgrade
+### Modificar Estilos
+
+- Editar `site/css/style.css`
+- Usar variables CSS existentes
+- Mantener diseño responsive
+- Probar en móvil, tablet y desktop
+
+### Agregar Funcionalidad JavaScript
+
+- Crear archivo en `site/js/`
+- Incluir en HTML correspondiente
+- Usar vanilla JS (no frameworks)
+- Manejar errores apropiadamente
+
+### Trabajar con Firestore
+
+**Leer datos:**
+```javascript
+const snapshot = await window.firestoreDb
+  .collection('nombre_coleccion')
+  .where('campo', '==', 'valor')
+  .get();
 ```
 
-**Adding Blog Posts:**
-- Use `init_db.py` as reference
-- Or use Flask shell for manual creation
-- Ensure slug is unique and URL-friendly
+**Escribir datos:**
+```javascript
+await window.firestoreDb
+  .collection('nombre_coleccion')
+  .add({ campo: 'valor' });
+```
 
-**Form Validation:**
-- All forms use Flask-WTF for CSRF protection
-- Validators defined in form classes
-- Error messages in Spanish
+**Actualizar:**
+```javascript
+await window.firestoreDb
+  .collection('nombre_coleccion')
+  .doc('doc_id')
+  .update({ campo: 'nuevo_valor' });
+```
 
-### Code Style
+## Archivos Importantes
 
-**Python:**
-- Follow PEP 8
-- Use docstrings for functions and classes
-- Type hints where appropriate
-- Keep functions focused and single-purpose
+**NO modificar sin leer documentación:**
+- `site/js/firebase-config.js` - Contiene credenciales (no commitear con datos reales)
+- `site/js/blog.js` - Lógica de carga de blog
+- `site/js/blog-post.js` - Vista individual de posts
+- `site/js/contact.js` - Formulario de contacto
 
-**Templates:**
-- Maintain consistent Spanish language content
-- Use Jinja2 filters for formatting
-- Keep logic minimal in templates
-- Use url_for() for all internal links
+**Seguro modificar:**
+- `site/css/style.css` - Estilos
+- `site/index.html` - Contenido de homepage
+- `site/servicios.html` - Contenido de servicios
+- Cualquier archivo HTML (estructura/contenido)
 
-**CSS/JavaScript:**
-- Reference existing CSS custom properties
-- Maintain vanilla JS (no framework dependencies)
-- Keep responsive design considerations
-- Maintain minimalist, professional aesthetic
+## Troubleshooting
 
-### Important Files
+### Posts no se cargan
 
-**DO NOT commit to git:**
-- `Site_Flask/.env` - Contains sensitive credentials
-- `website_catalysis/` - Virtual environment
-- `__pycache__/` - Python cache files
-- `*.pyc` - Compiled Python files
+1. Verificar consola del navegador (F12)
+2. Verificar `firebase-config.js` tiene credenciales correctas
+3. Verificar reglas de Firestore permiten lectura
+4. Verificar que posts tengan `publicado: true`
 
-**Key configuration:**
-- `Site_Flask/config.py` - Application configuration
-- `Site_Flask/.env` - Environment variables (create from .env.example)
-- `Site_Flask/requirements.txt` - Python dependencies
+### Formulario no envía
+
+1. Verificar consola del navegador
+2. Verificar reglas de Firestore permiten `create` en `contactos`
+3. Verificar Firebase SDK está cargado
+
+### Error CORS
+
+No usar `file://` - siempre usar servidor HTTP local
+
+## Recursos Adicionales
+
+- [Firebase Documentation](https://firebase.google.com/docs)
+- [Firestore Guide](https://firebase.google.com/docs/firestore)
+- [README completo](site/README.md) - Instrucciones detalladas de setup
+
+## Notas de Migración
+
+Este proyecto migró de Flask + PostgreSQL a HTML estático + Firebase en 2025.
+
+**Razones de la migración:**
+- Simplificación de infraestructura
+- Reducción de costos de hosting
+- Mejor escalabilidad
+- Gestión de contenido más accesible (Firebase Console)
+- No requiere servidor backend
+
+**Archivos legacy (no usar):**
+- `Site_Flask/` - Aplicación Flask anterior
+- `Templates/` - Plantillas HTML originales
+- `website_catalysis/` - Virtual environment de Python

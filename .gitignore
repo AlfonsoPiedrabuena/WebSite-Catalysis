@@ -43,6 +43,14 @@ Thumbs.db
 htmlcov/
 .pytest_cache/
 
+# Firebase
+.firebase/
+*-debug.log
+firebase-debug.*.log
+
+# Node modules (if used)
+node_modules/
+
 # Project specific
 context.md
 website_ambiente_virtual.rtf

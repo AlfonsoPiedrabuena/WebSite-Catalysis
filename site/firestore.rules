@@ -1,0 +1,17 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Blog posts - lectura pública, escritura solo para usuarios autenticados
+    match /blog_posts/{postId} {
+      allow read: if true;  // Cualquiera puede leer posts
+      allow write: if request.auth != null;  // Solo usuarios autenticados pueden escribir
+    }
+
+    // Contactos - solo escritura pública (para formulario de contacto)
+    match /contactos/{contactId} {
+      allow read: if request.auth != null;  // Solo admin autenticado puede leer
+      allow create: if true;  // Cualquiera puede crear (enviar formulario)
+      allow update, delete: if request.auth != null;  // Solo admin puede actualizar/eliminar
+    }
+  }
+}

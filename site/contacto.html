@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Catalysis</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar" class="static">
+        <div class="nav-container">
+            <a href="index.html" class="logo">catalysis</a>
+            <ul class="nav-links">
+                <li><a href="index.html#inicio">Inicio</a></li>
+                <li><a href="index.html#nosotros">Nosotros</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="index.html#metodologia">Metodología</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+            <a href="contacto.html" class="cta-button">Agenda tu diagnóstico</a>
+        </div>
+    </nav>
+
+    <!-- Contact Hero -->
+    <section class="hero" style="padding-top: 180px; min-height: 50vh;">
+        <div class="hero-content">
+            <div class="hero-label">CONTACTO</div>
+            <h1>Hablemos sobre tu<br><span>transformación</span><br>digital</h1>
+            <p>Agenda una consulta estratégica gratuita con nuestro equipo de expertos.</p>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="cta-section" style="padding: 100px 5%;">
+        <div class="cta-content">
+            <div>
+                <h2>Información de contacto</h2>
+                <p style="margin-bottom: 3rem;">Completa el formulario y nos pondremos en contacto contigo en menos de 24 horas.</p>
+
+                <div style="margin-top: 3rem;">
+                    <h4 style="font-size: 1.2rem; color: var(--primary); margin-bottom: 1rem; font-weight: 400;">Oficinas</h4>
+                    <p>📍 Ciudad de México, México</p>
+                    <p>📧 contacto@catalysis.com.mx</p>
+                    <p>📱 +52 55 1234 5678</p>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h4 style="font-size: 1.2rem; color: var(--primary); margin-bottom: 1rem; font-weight: 400;">Horario</h4>
+                    <p>Lunes a Viernes: 9:00 - 18:00</p>
+                    <p>Sábado: 10:00 - 14:00</p>
+                </div>
+            </div>
+
+            <div class="cta-form">
+                <form id="contactForm">
+                    <div>
+                        <input type="text" id="nombre" name="nombre" placeholder="Nombre completo" required>
+                    </div>
+
+                    <div>
+                        <input type="email" id="email" name="email" placeholder="Correo electrónico" required>
+                    </div>
+
+                    <div>
+                        <input type="text" id="empresa" name="empresa" placeholder="Empresa" required>
+                    </div>
+
+                    <div>
+                        <input type="tel" id="telefono" name="telefono" placeholder="Teléfono" required>
+                    </div>
+
+                    <div>
+                        <textarea id="mensaje" name="mensaje" placeholder="Mensaje (opcional)" rows="4"></textarea>
+                    </div>
+
+                    <button type="submit" class="cta-button">Enviar mensaje</button>
+                </form>
+                <div id="form-message" style="display: none; margin-top: 1rem;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-about">
+                <h3>catalysis</h3>
+                <p>Impulsamos la transformación digital de empresas que quieren liderar en la era digital. Estrategia, tecnología y resultados medibles.</p>
+                <p>📧 contacto@catalysis.com.mx<br>
+                📱 +52 55 1234 5678<br>
+                📍 Ciudad de México, México</p>
+            </div>
+            <div class="footer-links">
+                <h4>Servicios</h4>
+                <ul>
+                    <li><a href="servicios.html#servicio-1">Transformación Digital</a></li>
+                    <li><a href="servicios.html#servicio-4">Data & Analytics</a></li>
+                    <li><a href="servicios.html#servicio-6">Inteligencia Artificial</a></li>
+                    <li><a href="servicios.html#servicio-3">Cloud Computing</a></li>
+                    <li><a href="servicios.html#servicio-2">Optimización de Procesos</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Empresa</h4>
+                <ul>
+                    <li><a href="index.html#nosotros">Sobre Nosotros</a></li>
+                    <li><a href="index.html#metodologia">Metodología</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Recursos</h4>
+                <ul>
+                    <li><a href="blog.html">Artículos</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p id="footer-year"></p>
+        </div>
+    </footer>
+
+    <style>
+        .cta-form textarea {
+            padding: 1.2rem 0;
+            border: none;
+            border-bottom: 1px solid var(--border);
+            font-size: 1rem;
+            background: transparent;
+            color: var(--primary);
+            font-family: inherit;
+            width: 100%;
+            resize: vertical;
+        }
+
+        .cta-form textarea::placeholder {
+            color: var(--text);
+            opacity: 0.5;
+        }
+
+        .cta-form textarea:focus {
+            outline: none;
+            border-bottom-color: var(--primary);
+        }
+    </style>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <!-- Scripts del sitio -->
+    <script src="js/main.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/contact.js"></script>
+</body>
+</html>

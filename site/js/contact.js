@@ -1,0 +1,129 @@
+/* ====================================
+   CONTACT FORM - SAVE TO FIRESTORE
+   ==================================== */
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle main contact form
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', handleContactSubmit);
+    }
+
+    // Handle quick contact form (from homepage)
+    const quickContactForm = document.getElementById('quick-contact-form');
+    if (quickContactForm) {
+        quickContactForm.addEventListener('submit', handleQuickContactSubmit);
+    }
+});
+
+/**
+ * Handle contact form submission
+ * @param {Event} e - Form submit event
+ */
+async function handleContactSubmit(e) {
+    e.preventDefault();
+
+    const formMessage = document.getElementById('form-message');
+    const submitButton = e.target.querySelector('button[type="submit"]');
+
+    // Disable submit button
+    submitButton.disabled = true;
+    submitButton.textContent = 'Enviando...';
+
+    try {
+        // Check if Firebase is initialized
+        if (!window.firestoreDb) {
+            throw new Error('Firebase not initialized');
+        }
+
+        // Get form data
+        const formData = {
+            nombre: document.getElementById('nombre').value,
+            email: document.getElementById('email').value,
+            empresa: document.getElementById('empresa').value,
+            telefono: document.getElementById('telefono').value,
+            mensaje: document.getElementById('mensaje')?.value || '',
+            fecha_creacion: firebase.firestore.FieldValue.serverTimestamp(),
+            atendido: false
+        };
+
+        // Save to Firestore
+        await window.firestoreDb.collection('contactos').add(formData);
+
+        // Show success message
+        formMessage.style.display = 'block';
+        formMessage.style.color = 'green';
+        formMessage.textContent = '¡Gracias por tu mensaje! Nos pondremos en contacto contigo pronto.';
+
+        // Reset form
+        e.target.reset();
+
+    } catch (error) {
+        console.error('Error submitting contact form:', error);
+
+        // Show error message
+        formMessage.style.display = 'block';
+        formMessage.style.color = 'red';
+        formMessage.textContent = 'Hubo un error al enviar tu mensaje. Por favor, intenta nuevamente.';
+    } finally {
+        // Re-enable submit button
+        submitButton.disabled = false;
+        submitButton.textContent = 'Enviar mensaje';
+    }
+}
+
+/**
+ * Handle quick contact form submission (from homepage)
+ * @param {Event} e - Form submit event
+ */
+async function handleQuickContactSubmit(e) {
+    e.preventDefault();
+
+    const formMessage = document.getElementById('quick-form-message');
+    const submitButton = e.target.querySelector('button[type="submit"]');
+
+    // Disable submit button
+    submitButton.disabled = true;
+    submitButton.textContent = 'Enviando...';
+
+    try {
+        // Check if Firebase is initialized
+        if (!window.firestoreDb) {
+            throw new Error('Firebase not initialized');
+        }
+
+        // Get form data
+        const formData = {
+            nombre: document.getElementById('quick-nombre').value,
+            email: document.getElementById('quick-email').value,
+            empresa: document.getElementById('quick-empresa').value,
+            telefono: document.getElementById('quick-telefono').value,
+            mensaje: 'Solicitud de consulta gratuita desde homepage',
+            fecha_creacion: firebase.firestore.FieldValue.serverTimestamp(),
+            atendido: false
+        };
+
+        // Save to Firestore
+        await window.firestoreDb.collection('contactos').add(formData);
+
+        // Show success message
+        formMessage.style.display = 'block';
+        formMessage.style.color = 'green';
+        formMessage.textContent = '¡Gracias! Hemos recibido tu solicitud y nos pondremos en contacto contigo pronto.';
+
+        // Reset form
+        e.target.reset();
+
+    } catch (error) {
+        console.error('Error submitting quick contact form:', error);
+
+        // Show error message
+        formMessage.style.display = 'block';
+        formMessage.style.color = 'red';
+        formMessage.textContent = 'Hubo un error al enviar tu solicitud. Por favor, intenta nuevamente.';
+    } finally {
+        // Re-enable submit button
+        submitButton.disabled = false;
+        submitButton.textContent = 'Agendar consulta gratuita';
+    }
+}
