@@ -4,40 +4,44 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Catalysis es un sitio web de consultoría en transformación digital. El proyecto ha migrado de Flask a HTML estático con Firebase.
+Catalysis es un sitio web de consultoría en transformación digital construido con HTML estático y Firebase.
 
-**Implementación actual:**
-- **site/** - Sitio web HTML estático con Firebase (PRODUCCIÓN ACTIVA)
-
-**Implementaciones legacy (solo referencia):**
-- **Templates/** - Plantillas HTML estáticas originales
-- **Site_Flask/** - Aplicación Flask anterior (deprecada)
+**Implementación de producción:**
+- **site/** - Sitio web HTML estático con Firebase Firestore
 
 ## Project Structure
 
 ```
 /
-├── site/                   # 🎯 SITIO WEB PRINCIPAL (HTML + Firebase)
+├── site/                   # 🎯 SITIO WEB DE PRODUCCIÓN
 │   ├── index.html         # Página principal
 │   ├── servicios.html     # Página de servicios
 │   ├── contacto.html      # Página de contacto con formulario
 │   ├── blog.html          # Listado de artículos del blog
 │   ├── blog-post.html     # Vista individual de artículo
+│   ├── test-firebase.html # Herramienta de diagnóstico
 │   ├── README.md          # Documentación completa de Firebase
+│   ├── SETUP_FIREBASE.md  # Guía de configuración
+│   ├── GUIA_PASO_A_PASO.md # Tutorial detallado
+│   ├── POSTS_PARA_FIREBASE.txt # Posts para cargar
+│   ├── DEPLOY_INSTRUCTIONS.md # Guía de despliegue
 │   ├── css/
 │   │   └── style.css      # Estilos del sitio
 │   ├── js/
-│   │   ├── main.js        # JavaScript principal (navbar, smooth scroll)
+│   │   ├── main.js        # JavaScript principal
 │   │   ├── firebase-config.js  # Configuración de Firebase
 │   │   ├── blog.js        # Carga de posts desde Firestore
 │   │   ├── blog-post.js   # Vista individual de post
 │   │   └── contact.js     # Formulario de contacto a Firestore
-│   └── images/            # Imágenes del sitio
+│   ├── images/            # Imágenes del sitio
+│   ├── firebase.json      # Configuración de Firebase Hosting
+│   ├── firestore.rules    # Reglas de seguridad
+│   ├── firestore.indexes.json # Índices de Firestore
+│   └── .firebaserc        # Proyecto de Firebase
 │
-├── Site_Flask/            # ⚠️ DEPRECADO - No usar (solo referencia)
-├── Templates/             # ⚠️ LEGACY - Plantillas originales (solo referencia)
-├── website_catalysis/     # Virtual environment de Flask (deprecado)
-└── CLAUDE.md             # Este archivo
+├── CLAUDE.md              # Este archivo
+├── README.md              # Documentación principal
+└── .gitignore             # Archivos ignorados por git
 ```
 
 ## Arquitectura Actual
@@ -416,18 +420,15 @@ No usar `file://` - siempre usar servidor HTTP local
 - [Firestore Guide](https://firebase.google.com/docs/firestore)
 - [README completo](site/README.md) - Instrucciones detalladas de setup
 
-## Notas de Migración
+## Notas de Desarrollo
 
-Este proyecto migró de Flask + PostgreSQL a HTML estático + Firebase en 2025.
+**Versión actual:** 2.0 (HTML + Firebase)
+**Última actualización:** Octubre 2025
 
-**Razones de la migración:**
-- Simplificación de infraestructura
-- Reducción de costos de hosting
-- Mejor escalabilidad
-- Gestión de contenido más accesible (Firebase Console)
-- No requiere servidor backend
-
-**Archivos legacy (no usar):**
-- `Site_Flask/` - Aplicación Flask anterior
-- `Templates/` - Plantillas HTML originales
-- `website_catalysis/` - Virtual environment de Python
+**Características del stack:**
+- Arquitectura JAMstack (JavaScript, APIs, Markup)
+- Sin servidor backend tradicional
+- Base de datos serverless con Firestore
+- Hosting estático con CDN global
+- SSL/HTTPS automático
+- Escalabilidad automática

@@ -13,7 +13,7 @@ Sitio web corporativo con HTML estático y Firebase para gestión de contenido d
 
 ```
 WebSite/
-├── site/                   # 🎯 SITIO WEB PRINCIPAL (Producción)
+├── site/                   # 🎯 SITIO WEB DE PRODUCCIÓN
 │   ├── *.html             # Páginas del sitio
 │   ├── css/               # Estilos
 │   ├── js/                # JavaScript + Firebase
@@ -22,12 +22,11 @@ WebSite/
 │   ├── SETUP_FIREBASE.md  # Guía de configuración paso a paso
 │   ├── GUIA_PASO_A_PASO.md # Tutorial detallado
 │   ├── POSTS_PARA_FIREBASE.txt # Posts para cargar en Firestore
+│   ├── DEPLOY_INSTRUCTIONS.md # Instrucciones de despliegue
 │   ├── firebase.json      # Configuración de Firebase
 │   ├── firestore.rules    # Reglas de seguridad
 │   └── firestore.indexes.json # Índices de Firestore
 │
-├── Site_Flask/            # ⚠️ DEPRECADO - Versión Flask anterior
-├── Templates/             # ⚠️ LEGACY - Plantillas originales
 ├── CLAUDE.md              # Documentación para desarrollo
 └── README.md              # Este archivo
 ```
@@ -168,20 +167,16 @@ open http://localhost:8000/contacto.html
 3. Ver mensajes ordenados por fecha_creacion
 4. Marcar `atendido: true` cuando se procesen
 
-## 🔄 Migración desde Flask
+## 🎯 Ventajas de la Arquitectura
 
-Este proyecto migró de Flask + PostgreSQL a HTML estático + Firebase en 2025.
-
-**Beneficios:**
+**Stack moderno y eficiente:**
 - ✅ Sin servidor backend requerido
-- ✅ Hosting más económico (estático)
-- ✅ Mejor escalabilidad
-- ✅ Gestión de contenido más simple (Firebase Console)
-- ✅ Despliegue más rápido
-
-**Archivos legacy:**
-- `Site_Flask/` - Aplicación Flask anterior (deprecada)
-- `Templates/` - Templates HTML originales (referencia)
+- ✅ Hosting estático económico y rápido
+- ✅ Escalabilidad automática con Firebase
+- ✅ Gestión de contenido simple desde Firebase Console
+- ✅ Despliegue instantáneo
+- ✅ CDN global incluido
+- ✅ SSL/HTTPS automático
 
 ## 🐛 Solución de Problemas
 
@@ -215,4 +210,3 @@ Para problemas o preguntas:
 
 **Versión:** 2.0 (HTML + Firebase)
 **Última actualización:** Octubre 2025
-**Stack anterior:** Flask + PostgreSQL (deprecado)
