@@ -82,7 +82,7 @@ async function handleContactSubmit(e) {
     } finally {
         // Re-enable submit button
         submitButton.disabled = false;
-        submitButton.textContent = 'Enviar mensaje';
+        submitButton.textContent = 'Enviar consulta';
     }
 }
 

@@ -1,5 +1,6 @@
-La estructura de datos deberá de ser la siguiente: 
+Formularios
 
+Estructura de formularios: 
 - Nombre (campo tipo string de hasta 100 caracteres)
 - Primer Apellido (campo tipo string de hasta 100 caracteres)
 - Correo electrónico (campo tipo correo electrónico)
@@ -30,4 +31,9 @@ La estructura de datos deberá de ser la siguiente:
 - Aceptas nuestras políticas de privacidad (checkbox)
 - Enviar (submit button)
 
+Integración con Firebase
 Por el momento se deberá de guardar en una base de datos dentro de Firebase bajo el proyecto Catalysis registros (catalysis-registros). Será necesario que puedas acceder a Firebase para crear la base de datos y entonces integrarlo al sitio para que los registros generados por ese formulario se guarden en dicha base.
+
+Instrucciones de estilo y diseño
+
+Estas instrucciones aplican para cualquier formulario colocado en sitio. El formulario deberá de ser presentando el ancho completo del contenedor donde se encuentre, cada pregunta deberá de ser un renglón y los elementos deberán de ocupar el 100% del ancho. Debemos de asegurar que el formulario sea amigable con los dispositivos móviles para que el llenado pueda ser más rápido. Las preguntas relacionadas a los checkboxes deberán de tener el texto en gris al igual que los demás campos. El botón de enviar deberá decir "Enviar consulta". No se puede enviar el formulario sino aceptan las políticas de privacidad y el checkbox de "Te podemos escribir por WhatsApp" deberá de venir seleccionado desde un inicio. 

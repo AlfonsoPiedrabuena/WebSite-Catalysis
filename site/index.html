@@ -265,25 +265,30 @@
                         <option value="otro">Otro</option>
                     </select>
 
-                    <select id="quick-nivel-madurez" name="nivel-madurez" required>
-                        <option value="">Nivel de madurez de tu empresa</option>
-                        <option value="1">Nivel 1</option>
-                        <option value="2">Nivel 2</option>
-                        <option value="3">Nivel 3</option>
-                        <option value="4">Nivel 4</option>
-                        <option value="5">Nivel 5</option>
-                    </select>
+                    <div>
+                        <select id="quick-nivel-madurez" name="nivel-madurez" required>
+                            <option value="">Selecciona el nivel de madurez de tu empresa</option>
+                            <option value="1">Nivel 1</option>
+                            <option value="2">Nivel 2</option>
+                            <option value="3">Nivel 3</option>
+                            <option value="4">Nivel 4</option>
+                            <option value="5">Nivel 5</option>
+                        </select>
+                        <small style="display: block; margin-top: 0.5rem; color: var(--text); font-size: 0.85rem;">
+                            Si no conoces el nivel, <a href="#" style="color: var(--secondary); text-decoration: underline;">revisa nuestro marco de referencia</a>
+                        </small>
+                    </div>
 
                     <textarea id="quick-problema" name="problema" placeholder="Problema o duda a resolver" rows="3" maxlength="500" required></textarea>
 
                     <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; margin-top: 0.5rem;">
-                        <input type="checkbox" id="quick-whatsapp" name="whatsapp" style="width: auto; margin: 0;">
-                        <span style="color: var(--secondary); font-size: 0.9rem;">Te podemos escribir por WhatsApp</span>
+                        <input type="checkbox" id="quick-whatsapp" name="whatsapp" style="width: auto; margin: 0;" checked>
+                        <span style="color: var(--text); font-size: 0.9rem;">Te podemos escribir por WhatsApp</span>
                     </label>
 
                     <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; margin-top: 0.5rem;">
                         <input type="checkbox" id="quick-privacidad" name="privacidad" style="width: auto; margin: 0;" required>
-                        <span style="color: var(--secondary); font-size: 0.9rem;">Acepto las <a href="#" style="color: var(--secondary); text-decoration: underline;">políticas de privacidad</a> *</span>
+                        <span style="color: var(--text); font-size: 0.9rem;">Acepto las <a href="#" style="color: var(--secondary); text-decoration: underline;">políticas de privacidad</a> *</span>
                     </label>
 
                     <button type="submit" class="cta-button" style="margin-top: 1rem;">Agendar consulta gratuita</button>

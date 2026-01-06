@@ -449,6 +449,11 @@ nav.static {
     background: transparent;
     color: var(--primary);
     font-family: inherit;
+    width: 100%;
+}
+
+.cta-form input[type="checkbox"] {
+    width: auto;
 }
 
 .cta-form input::placeholder {
@@ -469,6 +474,7 @@ nav.static {
     background: transparent;
     color: var(--primary);
     font-family: inherit;
+    width: 100%;
     cursor: pointer;
     appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%230f0f0f' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
@@ -500,6 +506,7 @@ nav.static {
     background: transparent;
     color: var(--primary);
     font-family: inherit;
+    width: 100%;
     resize: vertical;
 }
 
@@ -529,6 +536,19 @@ nav.static {
 
 .cta-form button:hover {
     background: var(--text);
+}
+
+/* Asegurar que todos los elementos dentro del formulario usen 100% del ancho */
+.cta-form > div {
+    width: 100%;
+}
+
+.cta-form label {
+    width: 100%;
+}
+
+.cta-form small {
+    width: 100%;
 }
 
 /* ============================================
