@@ -14,6 +14,15 @@ document.addEventListener('DOMContentLoaded', function() {
     if (quickContactForm) {
         quickContactForm.addEventListener('submit', handleQuickContactSubmit);
     }
+
+    // Character counter for problema field
+    const problemaField = document.getElementById('problema');
+    const charCount = document.getElementById('char-count');
+    if (problemaField && charCount) {
+        problemaField.addEventListener('input', function() {
+            charCount.textContent = this.value.length;
+        });
+    }
 });
 
 /**
@@ -39,10 +48,15 @@ async function handleContactSubmit(e) {
         // Get form data
         const formData = {
             nombre: document.getElementById('nombre').value,
+            apellido: document.getElementById('apellido').value,
             email: document.getElementById('email').value,
-            empresa: document.getElementById('empresa').value,
             telefono: document.getElementById('telefono').value,
-            mensaje: document.getElementById('mensaje')?.value || '',
+            empresa: document.getElementById('empresa').value,
+            sector: document.getElementById('sector').value,
+            nivel_madurez: document.getElementById('nivel-madurez').value,
+            problema: document.getElementById('problema').value,
+            whatsapp: document.getElementById('whatsapp').checked,
+            privacidad_aceptada: document.getElementById('privacidad').checked,
             fecha_creacion: firebase.firestore.FieldValue.serverTimestamp(),
             atendido: false
         };
@@ -95,10 +109,16 @@ async function handleQuickContactSubmit(e) {
         // Get form data
         const formData = {
             nombre: document.getElementById('quick-nombre').value,
+            apellido: document.getElementById('quick-apellido').value,
             email: document.getElementById('quick-email').value,
-            empresa: document.getElementById('quick-empresa').value,
             telefono: document.getElementById('quick-telefono').value,
-            mensaje: 'Solicitud de consulta gratuita desde homepage',
+            empresa: document.getElementById('quick-empresa').value,
+            sector: document.getElementById('quick-sector').value,
+            nivel_madurez: document.getElementById('quick-nivel-madurez').value,
+            problema: document.getElementById('quick-problema').value,
+            whatsapp: document.getElementById('quick-whatsapp').checked,
+            privacidad_aceptada: document.getElementById('quick-privacidad').checked,
+            tipo_solicitud: 'Consulta gratuita desde homepage',
             fecha_creacion: firebase.firestore.FieldValue.serverTimestamp(),
             atendido: false
         };

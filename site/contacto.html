@@ -56,7 +56,11 @@
             <div class="cta-form">
                 <form id="contactForm">
                     <div>
-                        <input type="text" id="nombre" name="nombre" placeholder="Nombre completo" required>
+                        <input type="text" id="nombre" name="nombre" placeholder="Nombre" maxlength="100" required>
+                    </div>
+
+                    <div>
+                        <input type="text" id="apellido" name="apellido" placeholder="Primer Apellido" maxlength="100" required>
                     </div>
 
                     <div>
@@ -64,18 +68,68 @@
                     </div>
 
                     <div>
-                        <input type="text" id="empresa" name="empresa" placeholder="Empresa" required>
+                        <input type="tel" id="telefono" name="telefono" placeholder="Teléfono" maxlength="30" required>
                     </div>
 
                     <div>
-                        <input type="tel" id="telefono" name="telefono" placeholder="Teléfono" required>
+                        <input type="text" id="empresa" name="empresa" placeholder="Empresa" maxlength="50" required>
                     </div>
 
                     <div>
-                        <textarea id="mensaje" name="mensaje" placeholder="Mensaje (opcional)" rows="4"></textarea>
+                        <select id="sector" name="sector" required>
+                            <option value="">Selecciona tu sector</option>
+                            <option value="retail">Retail & E-commerce</option>
+                            <option value="manufactura">Manufactura</option>
+                            <option value="finanzas">Finanzas & Seguros</option>
+                            <option value="salud">Salud & Farmacéutico</option>
+                            <option value="tecnologia">Tecnología</option>
+                            <option value="educacion">Educación</option>
+                            <option value="servicios">Servicios Profesionales</option>
+                            <option value="turismo">Turismo & Hospitalidad</option>
+                            <option value="logistica">Logística & Transporte</option>
+                            <option value="gobierno">Gobierno & Sector Público</option>
+                            <option value="bienes-raices">Bienes Raíces & Construcción</option>
+                            <option value="energia">Energía & Utilities</option>
+                            <option value="otro">Otro</option>
+                        </select>
                     </div>
 
-                    <button type="submit" class="cta-button">Enviar mensaje</button>
+                    <div>
+                        <select id="nivel-madurez" name="nivel-madurez" required>
+                            <option value="">Selecciona el nivel de madurez de tu empresa</option>
+                            <option value="1">Nivel 1</option>
+                            <option value="2">Nivel 2</option>
+                            <option value="3">Nivel 3</option>
+                            <option value="4">Nivel 4</option>
+                            <option value="5">Nivel 5</option>
+                        </select>
+                        <small style="display: block; margin-top: 0.5rem; color: var(--text); font-size: 0.85rem;">
+                            Si no conoces el nivel, <a href="#" style="color: var(--primary); text-decoration: underline;">revisa nuestro marco de referencia</a>
+                        </small>
+                    </div>
+
+                    <div>
+                        <textarea id="problema" name="problema" placeholder="Problema o duda a resolver" rows="4" maxlength="500" required></textarea>
+                        <small style="display: block; margin-top: 0.5rem; color: var(--text); font-size: 0.85rem; text-align: right;">
+                            <span id="char-count">0</span>/500 caracteres
+                        </small>
+                    </div>
+
+                    <div style="margin-top: 1rem;">
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" id="whatsapp" name="whatsapp" style="width: auto; margin: 0;">
+                            <span style="color: var(--text); font-size: 0.95rem;">Te podemos escribir por WhatsApp</span>
+                        </label>
+                    </div>
+
+                    <div style="margin-top: 1rem;">
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" id="privacidad" name="privacidad" style="width: auto; margin: 0;" required>
+                            <span style="color: var(--text); font-size: 0.95rem;">Acepto las <a href="#" style="color: var(--primary); text-decoration: underline;">políticas de privacidad</a> *</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="cta-button" style="margin-top: 1.5rem;">Enviar mensaje</button>
                 </form>
                 <div id="form-message" style="display: none; margin-top: 1rem;"></div>
             </div>
@@ -145,6 +199,38 @@
         .cta-form textarea:focus {
             outline: none;
             border-bottom-color: var(--primary);
+        }
+
+        .cta-form select {
+            padding: 1.2rem 0;
+            border: none;
+            border-bottom: 1px solid var(--border);
+            font-size: 1rem;
+            background: transparent;
+            color: var(--primary);
+            font-family: inherit;
+            width: 100%;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%230f0f0f' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0 center;
+        }
+
+        .cta-form select:focus {
+            outline: none;
+            border-bottom-color: var(--primary);
+        }
+
+        .cta-form select option {
+            background: white;
+            color: var(--primary);
+            padding: 0.5rem;
+        }
+
+        .cta-form select:invalid {
+            color: var(--text);
+            opacity: 0.5;
         }
     </style>
 

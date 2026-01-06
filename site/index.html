@@ -242,11 +242,51 @@
             </div>
             <div class="cta-form">
                 <form id="quick-contact-form">
-                    <input type="text" id="quick-nombre" name="nombre" placeholder="Nombre completo" required>
+                    <input type="text" id="quick-nombre" name="nombre" placeholder="Nombre" maxlength="100" required>
+                    <input type="text" id="quick-apellido" name="apellido" placeholder="Primer Apellido" maxlength="100" required>
                     <input type="email" id="quick-email" name="email" placeholder="Correo electrónico" required>
-                    <input type="text" id="quick-empresa" name="empresa" placeholder="Empresa" required>
-                    <input type="tel" id="quick-telefono" name="telefono" placeholder="Teléfono" required>
-                    <button type="submit" class="cta-button">Agendar consulta gratuita</button>
+                    <input type="tel" id="quick-telefono" name="telefono" placeholder="Teléfono" maxlength="30" required>
+                    <input type="text" id="quick-empresa" name="empresa" placeholder="Empresa" maxlength="50" required>
+
+                    <select id="quick-sector" name="sector" required>
+                        <option value="">Selecciona tu sector</option>
+                        <option value="retail">Retail & E-commerce</option>
+                        <option value="manufactura">Manufactura</option>
+                        <option value="finanzas">Finanzas & Seguros</option>
+                        <option value="salud">Salud & Farmacéutico</option>
+                        <option value="tecnologia">Tecnología</option>
+                        <option value="educacion">Educación</option>
+                        <option value="servicios">Servicios Profesionales</option>
+                        <option value="turismo">Turismo & Hospitalidad</option>
+                        <option value="logistica">Logística & Transporte</option>
+                        <option value="gobierno">Gobierno & Sector Público</option>
+                        <option value="bienes-raices">Bienes Raíces & Construcción</option>
+                        <option value="energia">Energía & Utilities</option>
+                        <option value="otro">Otro</option>
+                    </select>
+
+                    <select id="quick-nivel-madurez" name="nivel-madurez" required>
+                        <option value="">Nivel de madurez de tu empresa</option>
+                        <option value="1">Nivel 1</option>
+                        <option value="2">Nivel 2</option>
+                        <option value="3">Nivel 3</option>
+                        <option value="4">Nivel 4</option>
+                        <option value="5">Nivel 5</option>
+                    </select>
+
+                    <textarea id="quick-problema" name="problema" placeholder="Problema o duda a resolver" rows="3" maxlength="500" required></textarea>
+
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; margin-top: 0.5rem;">
+                        <input type="checkbox" id="quick-whatsapp" name="whatsapp" style="width: auto; margin: 0;">
+                        <span style="color: var(--secondary); font-size: 0.9rem;">Te podemos escribir por WhatsApp</span>
+                    </label>
+
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; margin-top: 0.5rem;">
+                        <input type="checkbox" id="quick-privacidad" name="privacidad" style="width: auto; margin: 0;" required>
+                        <span style="color: var(--secondary); font-size: 0.9rem;">Acepto las <a href="#" style="color: var(--secondary); text-decoration: underline;">políticas de privacidad</a> *</span>
+                    </label>
+
+                    <button type="submit" class="cta-button" style="margin-top: 1rem;">Agendar consulta gratuita</button>
                 </form>
                 <div id="quick-form-message" style="display: none; margin-top: 1rem;"></div>
             </div>
