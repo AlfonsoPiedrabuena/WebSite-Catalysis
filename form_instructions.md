@@ -37,3 +37,9 @@ Por el momento se deberá de guardar en una base de datos dentro de Firebase baj
 Instrucciones de estilo y diseño
 
 Estas instrucciones aplican para cualquier formulario colocado en sitio. El formulario deberá de ser presentando el ancho completo del contenedor donde se encuentre, cada pregunta deberá de ser un renglón y los elementos deberán de ocupar el 100% del ancho. Debemos de asegurar que el formulario sea amigable con los dispositivos móviles para que el llenado pueda ser más rápido. Las preguntas relacionadas a los checkboxes deberán de tener el texto en gris al igual que los demás campos. El botón de enviar deberá decir "Enviar consulta". No se puede enviar el formulario sino aceptan las políticas de privacidad y el checkbox de "Te podemos escribir por WhatsApp" deberá de venir seleccionado desde un inicio. 
+
+Condiciones
+Los campos del formulario deberán de aceptar solo el tipo de dato que está específicado, por ejemplo el teléfono solo debería de poder recibir números mientras que el correo siempre deberá de contar con un @ y terminar como cualquier correo. 
+
+Actualización de Div footer-about
+El div con la clase footer-about contiene elementos que también deberán de ser dinámicos. Por dinámicos se puede entender que el teléfono pueda ser un link que inicie una llamada, el correo igual deberia de ser un enlace tipo mailto. 

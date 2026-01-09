@@ -531,7 +531,7 @@
                     <input type="text" id="quick-nombre" name="nombre" placeholder="Nombre" maxlength="100" required>
                     <input type="text" id="quick-apellido" name="apellido" placeholder="Primer Apellido" maxlength="100" required>
                     <input type="email" id="quick-email" name="email" placeholder="Correo electrónico" required>
-                    <input type="tel" id="quick-telefono" name="telefono" placeholder="Teléfono" maxlength="30" required>
+                    <input type="tel" id="quick-telefono" name="telefono" placeholder="Teléfono" maxlength="30" pattern="[0-9+\s\-()]{7,30}" title="Por favor ingresa solo números, espacios, +, - o paréntesis" required>
                     <input type="text" id="quick-empresa" name="empresa" placeholder="Empresa" maxlength="50" required>
 
                     <select id="quick-sector" name="sector" required>
@@ -565,7 +565,12 @@
                         </small>
                     </div>
 
-                    <textarea id="quick-problema" name="problema" placeholder="Problema o duda a resolver" rows="3" maxlength="500" required></textarea>
+                    <div>
+                        <textarea id="quick-problema" name="problema" placeholder="Problema o duda a resolver" rows="3" maxlength="500" required></textarea>
+                        <small style="display: block; margin-top: 0.5rem; color: var(--text); font-size: 0.85rem; text-align: right;">
+                            <span id="quick-char-count">0</span>/500 caracteres
+                        </small>
+                    </div>
 
                     <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; margin-top: 0.5rem;">
                         <input type="checkbox" id="quick-whatsapp" name="whatsapp" style="width: auto; margin: 0;" checked>
@@ -577,7 +582,7 @@
                         <span style="color: var(--text); font-size: 0.9rem;">Acepto las <a href="aviso-privacidad.html" style="color: var(--secondary); text-decoration: underline;">políticas de privacidad</a> *</span>
                     </label>
 
-                    <button type="submit" class="cta-button" style="margin-top: 1rem;">Agendar consulta gratuita</button>
+                    <button type="submit" class="cta-button" style="margin-top: 1rem;">Enviar consulta</button>
                 </form>
                 <div id="quick-form-message" style="display: none; margin-top: 1rem;"></div>
             </div>
@@ -590,8 +595,8 @@
             <div class="footer-about">
                 <h3>catalysis</h3>
                 <p>Impulsamos la transformación digital de empresas que quieren liderar en la era digital. Estrategia, tecnología y resultados medibles.</p>
-                <p>📧 contacto@catalysis.com.mx<br>
-                📱 +52 55 3933 7086<br>
+                <p>📧 <a href="mailto:contacto@catalysis.com.mx" style="color: inherit; text-decoration: none;">contacto@catalysis.com.mx</a><br>
+                📱 <a href="tel:+5255393370086" style="color: inherit; text-decoration: none;">+52 55 3933 7086</a><br>
                 📍 Ciudad de México, México</p>
             </div>
             <div class="footer-links">
