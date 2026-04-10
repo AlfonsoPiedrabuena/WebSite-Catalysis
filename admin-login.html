@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Catalysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            color: #0f0f0f;
+            margin-bottom: 5px;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .lock-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0f0f0f;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: #0f0f0f;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #333;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .error {
+            background: #fee;
+            border: 1px solid #fcc;
+            color: #c33;
+        }
+
+        .success {
+            background: #efe;
+            border: 1px solid #cfc;
+            color: #3c3;
+        }
+
+        .info {
+            background: #e3f2fd;
+            border: 1px solid #90caf9;
+            color: #1976d2;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            color: #999;
+            font-size: 12px;
+        }
+
+        .mfa-step {
+            display: none;
+        }
+
+        .mfa-step.active {
+            display: block;
+        }
+
+        .code-input {
+            font-size: 24px;
+            text-align: center;
+            letter-spacing: 8px;
+            font-weight: bold;
+        }
+
+        .helper-text {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            color: #0f0f0f;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #0f0f0f;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <div class="lock-icon">🔐</div>
+            <h1>Catalysis Admin</h1>
+            <p>Panel de Administración</p>
+        </div>
+
+        <div id="message-container"></div>
+
+        <!-- Paso 1: Login con Email/Password -->
+        <div id="login-step" class="login-step">
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        autocomplete="email"
+                        placeholder="admin@catalysis.com"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        required
+                        autocomplete="current-password"
+                        placeholder="••••••••"
+                    >
+                </div>
+
+                <button type="submit" class="btn" id="login-btn">
+                    Iniciar Sesión
+                </button>
+            </form>
+        </div>
+
+        <!-- Paso 2: Verificación 2FA -->
+        <div id="mfa-step" class="mfa-step">
+            <div class="form-group">
+                <label for="mfa-code">Código de Autenticación</label>
+                <input
+                    type="text"
+                    id="mfa-code"
+                    name="mfa-code"
+                    maxlength="6"
+                    pattern="[0-9]{6}"
+                    placeholder="000000"
+                    class="code-input"
+                    autocomplete="off"
+                >
+                <p class="helper-text">
+                    Ingresa el código de 6 dígitos de tu aplicación de autenticación (Google Authenticator, Authy, etc.)
+                </p>
+            </div>
+
+            <button type="button" class="btn" id="verify-mfa-btn">
+                Verificar Código
+            </button>
+
+            <a href="#" class="back-link" id="back-to-login">← Volver al login</a>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+    <!-- Firebase Config -->
+    <script src="js/firebase-config.js"></script>
+
+    <script>
+        console.log('🔐 Admin Login: Iniciando...');
+
+        let resolver = null; // Para almacenar el MFA resolver
+
+        // Referencias a elementos
+        const loginStep = document.getElementById('login-step');
+        const mfaStep = document.getElementById('mfa-step');
+        const messageContainer = document.getElementById('message-container');
+        const loginForm = document.getElementById('login-form');
+        const loginBtn = document.getElementById('login-btn');
+        const mfaCodeInput = document.getElementById('mfa-code');
+        const verifyMfaBtn = document.getElementById('verify-mfa-btn');
+        const backToLoginLink = document.getElementById('back-to-login');
+
+        // Funciones de UI
+        function showMessage(message, type = 'info') {
+            messageContainer.textContent = '';
+            const div = document.createElement('div');
+            div.className = 'message ' + type;
+            div.textContent = message;
+            messageContainer.appendChild(div);
+        }
+
+        function clearMessage() {
+            messageContainer.textContent = '';
+        }
+
+        function showMfaStep() {
+            loginStep.style.display = 'none';
+            mfaStep.classList.add('active');
+            mfaCodeInput.focus();
+        }
+
+        function showLoginStep() {
+            mfaStep.classList.remove('active');
+            loginStep.style.display = 'block';
+            resolver = null;
+        }
+
+        // Verificar si ya está autenticado
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                console.log('✅ Usuario ya autenticado:', user.email);
+                showMessage('Redirigiendo...', 'success');
+                setTimeout(() => {
+                    window.location.href = 'admin-contactos.html';
+                }, 1000);
+            }
+        });
+
+        // Login con Email/Password
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearMessage();
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                showMessage('Por favor completa todos los campos', 'error');
+                return;
+            }
+
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Verificando...';
+
+            try {
+                console.log('🔑 Intentando login con:', email);
+
+                // Intentar login
+                const result = await firebase.auth().signInWithEmailAndPassword(email, password);
+
+                console.log('✅ Login exitoso:', result.user.email);
+                showMessage('Login exitoso! Redirigiendo...', 'success');
+
+                // Redirigir al admin
+                setTimeout(() => {
+                    window.location.href = 'admin-contactos.html';
+                }, 1500);
+
+            } catch (error) {
+                console.error('❌ Error en login:', error);
+
+                // Si el error es por MFA requerido
+                if (error.code === 'auth/multi-factor-auth-required') {
+                    console.log('🔐 MFA requerido');
+                    resolver = error.resolver;
+                    showMessage('Se requiere autenticación de dos factores', 'info');
+                    showMfaStep();
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = 'Iniciar Sesión';
+                    return;
+                }
+
+                // Otros errores
+                let errorMessage = 'Error al iniciar sesión';
+
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        errorMessage = 'Usuario no encontrado';
+                        break;
+                    case 'auth/wrong-password':
+                        errorMessage = 'Contraseña incorrecta';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'Email inválido';
+                        break;
+                    case 'auth/user-disabled':
+                        errorMessage = 'Usuario deshabilitado';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMessage = 'Demasiados intentos. Intenta más tarde';
+                        break;
+                    default:
+                        errorMessage = error.message;
+                }
+
+                showMessage(errorMessage, 'error');
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Iniciar Sesión';
+            }
+        });
+
+        // Verificar código MFA
+        verifyMfaBtn.addEventListener('click', async () => {
+            const code = mfaCodeInput.value.trim();
+
+            if (!code || code.length !== 6) {
+                showMessage('Ingresa un código de 6 dígitos', 'error');
+                return;
+            }
+
+            if (!resolver) {
+                showMessage('Error: No hay sesión MFA activa', 'error');
+                showLoginStep();
+                return;
+            }
+
+            verifyMfaBtn.disabled = true;
+            verifyMfaBtn.textContent = 'Verificando...';
+
+            try {
+                console.log('🔐 Verificando código MFA...');
+
+                // Obtener el hint del factor de autenticación
+                const selectedIndex = 0; // Primer factor (TOTP)
+                const phoneInfoOptions = {
+                    multiFactorHint: resolver.hints[selectedIndex],
+                    session: resolver.session
+                };
+
+                // Verificar el código TOTP
+                const multiFactorAssertion = firebase.auth.TotpMultiFactorGenerator
+                    .assertionForSignIn(resolver.hints[selectedIndex].uid, code);
+
+                // Completar el login
+                const result = await resolver.resolveSignIn(multiFactorAssertion);
+
+                console.log('✅ MFA verificado correctamente:', result.user.email);
+                showMessage('Autenticación exitosa! Redirigiendo...', 'success');
+
+                setTimeout(() => {
+                    window.location.href = 'admin-contactos.html';
+                }, 1500);
+
+            } catch (error) {
+                console.error('❌ Error en verificación MFA:', error);
+
+                let errorMessage = 'Código incorrecto';
+
+                switch (error.code) {
+                    case 'auth/invalid-verification-code':
+                        errorMessage = 'Código inválido o expirado';
+                        break;
+                    case 'auth/code-expired':
+                        errorMessage = 'El código ha expirado';
+                        break;
+                    default:
+                        errorMessage = error.message;
+                }
+
+                showMessage(errorMessage, 'error');
+                verifyMfaBtn.disabled = false;
+                verifyMfaBtn.textContent = 'Verificar Código';
+                mfaCodeInput.value = '';
+                mfaCodeInput.focus();
+            }
+        });
+
+        // Volver al login
+        backToLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showLoginStep();
+            clearMessage();
+            loginForm.reset();
+        });
+
+        // Auto-submit al completar código de 6 dígitos
+        mfaCodeInput.addEventListener('input', (e) => {
+            // Solo permitir números
+            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+
+            // Auto-verificar cuando llegue a 6 dígitos
+            if (e.target.value.length === 6) {
+                verifyMfaBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>

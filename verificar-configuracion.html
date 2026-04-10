@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificador de Configuración - Firebase Auth & 2FA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0f0f0f 0%, #2d2d2d 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header-icon {
+            font-size: 64px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .check-section {
+            margin-bottom: 30px;
+            border-left: 4px solid #e5e5e5;
+            padding-left: 20px;
+            transition: border-color 0.3s;
+        }
+
+        .check-section.success {
+            border-left-color: #00c853;
+        }
+
+        .check-section.error {
+            border-left-color: #f44336;
+        }
+
+        .check-section.warning {
+            border-left-color: #ff9800;
+        }
+
+        .check-section.loading {
+            border-left-color: #2196f3;
+        }
+
+        .check-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .check-icon {
+            font-size: 24px;
+        }
+
+        .check-message {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .check-details {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+
+        .action-button {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #0f0f0f;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .action-button:hover {
+            background: #333;
+        }
+
+        .summary {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .summary h2 {
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .summary-item {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #e5e5e5;
+        }
+
+        .summary-item.success {
+            border-left-color: #00c853;
+        }
+
+        .summary-item.error {
+            border-left-color: #f44336;
+        }
+
+        .summary-item h3 {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .summary-item p {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e5e5;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00c853 0%, #00e676 100%);
+            transition: width 0.5s;
+        }
+
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #0f0f0f;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .recommendation {
+            background: #e3f2fd;
+            border: 1px solid #90caf9;
+            color: #1976d2;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .recommendation strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .step-list {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .step-list li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-icon">🔍</div>
+            <h1>Verificador de Configuración</h1>
+            <p class="subtitle">Firebase Authentication & Multi-Factor Authentication</p>
+        </div>
+
+        <div class="content">
+            <div class="summary" id="summary" style="display: none;">
+                <h2>📊 Resumen de Verificación</h2>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="summary-grid">
+                    <div class="summary-item" id="total-checks">
+                        <h3>Total de Verificaciones</h3>
+                        <p id="total-count">0</p>
+                    </div>
+                    <div class="summary-item success" id="passed-checks">
+                        <h3>✅ Pasadas</h3>
+                        <p id="passed-count">0</p>
+                    </div>
+                    <div class="summary-item error" id="failed-checks">
+                        <h3>❌ Fallidas</h3>
+                        <p id="failed-count">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="checks-container">
+                <div class="loading-spinner"></div>
+                <p style="text-align: center; color: #666; margin-top: 20px;">
+                    Verificando configuración de Firebase...
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <!-- Firebase Config -->
+    <script src="js/firebase-config.js"></script>
+
+    <script>
+        console.log('🔍 Verificador de Configuración: Iniciado');
+
+        const checks = [];
+        let passedCount = 0;
+        let failedCount = 0;
+
+        // Función para crear elemento de verificación de forma segura
+        function createCheckElement(title, status, message, details = null, recommendation = null) {
+            const section = document.createElement('div');
+            section.className = `check-section ${status}`;
+
+            const icon = status === 'success' ? '✅' :
+                        status === 'error' ? '❌' :
+                        status === 'warning' ? '⚠️' : '⏳';
+
+            // Título
+            const titleDiv = document.createElement('div');
+            titleDiv.className = 'check-title';
+
+            const iconSpan = document.createElement('span');
+            iconSpan.className = 'check-icon';
+            iconSpan.textContent = icon;
+
+            const titleSpan = document.createElement('span');
+            titleSpan.textContent = title;
+
+            titleDiv.appendChild(iconSpan);
+            titleDiv.appendChild(titleSpan);
+            section.appendChild(titleDiv);
+
+            // Mensaje
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'check-message';
+            messageDiv.textContent = message;
+            section.appendChild(messageDiv);
+
+            // Detalles
+            if (details) {
+                const detailsDiv = document.createElement('div');
+                detailsDiv.className = 'check-details';
+                detailsDiv.textContent = details;
+                section.appendChild(detailsDiv);
+            }
+
+            // Recomendación
+            if (recommendation) {
+                const recDiv = document.createElement('div');
+                recDiv.className = 'recommendation';
+
+                const strong = document.createElement('strong');
+                strong.textContent = '💡 Recomendación:';
+                recDiv.appendChild(strong);
+
+                if (typeof recommendation === 'string') {
+                    const text = document.createTextNode(recommendation);
+                    recDiv.appendChild(text);
+                } else if (recommendation.steps) {
+                    const text = document.createTextNode(recommendation.text);
+                    recDiv.appendChild(text);
+
+                    const ol = document.createElement('ol');
+                    ol.className = 'step-list';
+                    recommendation.steps.forEach(step => {
+                        const li = document.createElement('li');
+                        li.textContent = step;
+                        ol.appendChild(li);
+                    });
+                    recDiv.appendChild(ol);
+
+                    if (recommendation.link) {
+                        const link = document.createElement('a');
+                        link.href = recommendation.link.href;
+                        link.className = 'action-button';
+                        link.target = '_blank';
+                        link.textContent = recommendation.link.text;
+                        recDiv.appendChild(link);
+                    }
+                }
+
+                section.appendChild(recDiv);
+            }
+
+            return section;
+        }
+
+        // Función para agregar verificación
+        function addCheck(title, status, message, details = null, recommendation = null) {
+            checks.push({ title, status, message, details, recommendation });
+
+            if (status === 'success') passedCount++;
+            if (status === 'error') failedCount++;
+
+            renderChecks();
+        }
+
+        // Función para renderizar verificaciones
+        function renderChecks() {
+            const container = document.getElementById('checks-container');
+            container.textContent = '';
+
+            checks.forEach(check => {
+                const element = createCheckElement(
+                    check.title,
+                    check.status,
+                    check.message,
+                    check.details,
+                    check.recommendation
+                );
+                container.appendChild(element);
+            });
+
+            updateSummary();
+        }
+
+        // Función para actualizar resumen
+        function updateSummary() {
+            const summary = document.getElementById('summary');
+            const totalCount = checks.length;
+            const progress = totalCount > 0 ? (passedCount / totalCount) * 100 : 0;
+
+            summary.style.display = 'block';
+
+            document.getElementById('total-count').textContent = totalCount.toString();
+            document.getElementById('passed-count').textContent = passedCount.toString();
+            document.getElementById('failed-count').textContent = failedCount.toString();
+            document.getElementById('progress-fill').style.width = progress + '%';
+        }
+
+        // Iniciar verificaciones
+        async function runChecks() {
+            try {
+                // Check 1: Firebase SDK cargado
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                if (typeof firebase === 'undefined') {
+                    addCheck(
+                        'Firebase SDK',
+                        'error',
+                        'Firebase SDK no se cargó correctamente desde el CDN.',
+                        'Error: firebase is undefined',
+                        'Verifica tu conexión a internet. El SDK se carga desde: https://www.gstatic.com/firebasejs/'
+                    );
+                    return;
+                }
+
+                addCheck(
+                    'Firebase SDK',
+                    'success',
+                    'Firebase SDK v8.10.0 cargado correctamente.',
+                    'Módulos disponibles: App, Auth, Firestore'
+                );
+
+                // Check 2: Firebase Config
+                await new Promise(resolve => setTimeout(resolve, 300));
+
+                if (!window.firestoreDb) {
+                    addCheck(
+                        'Configuración de Firebase',
+                        'error',
+                        'Firebase no está inicializado correctamente.',
+                        'window.firestoreDb es undefined',
+                        'Verifica que js/firebase-config.js tenga las credenciales correctas de tu proyecto Firebase.'
+                    );
+                } else {
+                    const config = firebase.app().options;
+                    addCheck(
+                        'Configuración de Firebase',
+                        'success',
+                        'Firebase inicializado correctamente.',
+                        `Proyecto: ${config.projectId}\nAuth Domain: ${config.authDomain}`
+                    );
+                }
+
+                // Check 3: Firebase Authentication
+                await new Promise(resolve => setTimeout(resolve, 300));
+
+                try {
+                    const auth = firebase.auth();
+                    await auth.fetchSignInMethodsForEmail('test@example.com').catch(() => null);
+
+                    addCheck(
+                        'Firebase Authentication',
+                        'success',
+                        'Firebase Authentication está habilitado y accesible.',
+                        'Nota: Aún necesitas verificar que Email/Password esté activado en la consola'
+                    );
+
+                } catch (error) {
+                    addCheck(
+                        'Firebase Authentication',
+                        'error',
+                        'Firebase Authentication no está disponible o configurado correctamente.',
+                        `Error: ${error.code} - ${error.message}`,
+                        'Ve a Firebase Console → Authentication y habilita el proveedor Email/Password'
+                    );
+                }
+
+                // Check 4: Reglas de Firestore
+                await new Promise(resolve => setTimeout(resolve, 300));
+
+                try {
+                    const testRef = window.firestoreDb.collection('contactos').limit(1);
+                    await testRef.get();
+
+                    addCheck(
+                        'Reglas de Firestore - Contactos',
+                        'warning',
+                        'Las reglas de Firestore permiten acceso sin autenticación.',
+                        'Esto es INSEGURO para producción. Los contactos son visibles públicamente.',
+                        'Actualiza las reglas de Firestore para requerir autenticación: allow read: if request.auth != null;'
+                    );
+
+                } catch (error) {
+                    if (error.code === 'permission-denied') {
+                        addCheck(
+                            'Reglas de Firestore - Contactos',
+                            'success',
+                            'Las reglas de Firestore requieren autenticación para leer contactos. ✅ CORRECTO',
+                            'allow read: if request.auth != null;',
+                            'Esto es correcto. Solo usuarios autenticados pueden ver contactos.'
+                        );
+                    } else {
+                        addCheck(
+                            'Reglas de Firestore - Contactos',
+                            'error',
+                            'Error al verificar reglas de Firestore.',
+                            `Error: ${error.code} - ${error.message}`
+                        );
+                    }
+                }
+
+                // Check 5: Archivos del sistema
+                await new Promise(resolve => setTimeout(resolve, 300));
+
+                const files = [
+                    'admin-login.html',
+                    'admin-setup-2fa.html',
+                    'admin-contactos.html'
+                ];
+
+                const fileChecks = await Promise.all(
+                    files.map(file =>
+                        fetch(file, { method: 'HEAD' })
+                            .then(res => res.ok)
+                            .catch(() => false)
+                    )
+                );
+
+                const allFilesExist = fileChecks.every(exists => exists);
+
+                if (allFilesExist) {
+                    addCheck(
+                        'Archivos del Sistema',
+                        'success',
+                        'Todas las páginas de autenticación están presentes.',
+                        files.join('\n')
+                    );
+                } else {
+                    const missing = files.filter((_, i) => !fileChecks[i]);
+                    addCheck(
+                        'Archivos del Sistema',
+                        'error',
+                        'Faltan archivos necesarios del sistema.',
+                        `Archivos faltantes:\n${missing.join('\n')}`,
+                        'Asegúrate de tener todos los archivos del sistema de autenticación.'
+                    );
+                }
+
+                // Check 6: Instrucciones pendientes
+                await new Promise(resolve => setTimeout(resolve, 300));
+
+                addCheck(
+                    'Pasos Pendientes en Firebase Console',
+                    'warning',
+                    'Debes completar estos pasos manualmente en Firebase Console:',
+                    null,
+                    {
+                        text: 'Pasos obligatorios:',
+                        steps: [
+                            'Authentication → Sign-in method → Habilitar "Email/Password"',
+                            'Authentication → Settings → Habilitar "Multi-factor authentication (TOTP)"',
+                            'Authentication → Users → Crear al menos un usuario administrador',
+                            'Firestore → Rules → Actualizar reglas de seguridad'
+                        ],
+                        link: {
+                            href: 'GUIA_FIREBASE_AUTH_2FA.md',
+                            text: '📖 Ver Guía Completa'
+                        }
+                    }
+                );
+
+                console.log('✅ Verificación completada');
+                console.log(`Total: ${checks.length}, Pasadas: ${passedCount}, Fallidas: ${failedCount}`);
+
+            } catch (error) {
+                console.error('❌ Error en verificación:', error);
+                addCheck(
+                    'Error General',
+                    'error',
+                    'Ocurrió un error inesperado durante la verificación.',
+                    error.message
+                );
+            }
+        }
+
+        // Ejecutar verificaciones cuando la página cargue
+        window.addEventListener('load', () => {
+            console.log('🚀 Iniciando verificaciones...');
+            runChecks();
+        });
+    </script>
+</body>
+</html>

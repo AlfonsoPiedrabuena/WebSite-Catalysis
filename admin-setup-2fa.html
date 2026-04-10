@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurar 2FA - Catalysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header-icon {
+            font-size: 64px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            color: #0f0f0f;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .step {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .step-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e5e5e5;
+            transition: background 0.3s;
+        }
+
+        .step-dot.active {
+            background: #0f0f0f;
+        }
+
+        .step-dot.completed {
+            background: #00c853;
+        }
+
+        .qr-container {
+            background: #fafafa;
+            border: 2px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .qr-code {
+            width: 256px;
+            height: 256px;
+            margin: 0 auto;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .secret-key {
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            word-break: break-all;
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .copy-btn {
+            padding: 8px 16px;
+            background: #e5e5e5;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .copy-btn:hover {
+            background: #d5d5d5;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0f0f0f;
+        }
+
+        .code-input {
+            font-size: 24px;
+            text-align: center;
+            letter-spacing: 8px;
+            font-weight: bold;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: #0f0f0f;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #333;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #e5e5e5;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #d5d5d5;
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .error {
+            background: #fee;
+            border: 1px solid #fcc;
+            color: #c33;
+        }
+
+        .success {
+            background: #efe;
+            border: 1px solid #cfc;
+            color: #3c3;
+        }
+
+        .info {
+            background: #e3f2fd;
+            border: 1px solid #90caf9;
+            color: #1976d2;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+
+        .instruction-list {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .instruction-list ol {
+            margin-left: 20px;
+        }
+
+        .instruction-list li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .app-links {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .app-link {
+            padding: 8px 16px;
+            background: #f5f5f5;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #333;
+            font-size: 12px;
+            transition: background 0.3s;
+        }
+
+        .app-link:hover {
+            background: #e5e5e5;
+        }
+
+        .helper-text {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .logout-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .logout-link:hover {
+            color: #0f0f0f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-icon">🔐</div>
+            <h1>Configurar Autenticación de Dos Factores</h1>
+            <p class="subtitle">Protege tu cuenta con un segundo factor de seguridad</p>
+        </div>
+
+        <div class="step-indicator">
+            <div class="step-dot active" id="dot-1"></div>
+            <div class="step-dot" id="dot-2"></div>
+            <div class="step-dot" id="dot-3"></div>
+        </div>
+
+        <div id="message-container"></div>
+
+        <!-- Paso 1: Verificar contraseña -->
+        <div id="step-1" class="step active">
+            <h2 style="margin-bottom: 20px; font-size: 20px;">Paso 1: Verifica tu identidad</h2>
+
+            <div class="info message">
+                Por seguridad, confirma tu contraseña antes de continuar.
+            </div>
+
+            <form id="verify-password-form">
+                <div class="form-group">
+                    <label for="current-password">Contraseña actual</label>
+                    <input
+                        type="password"
+                        id="current-password"
+                        required
+                        autocomplete="current-password"
+                        placeholder="Ingresa tu contraseña"
+                    >
+                </div>
+
+                <button type="submit" class="btn" id="verify-btn">
+                    Continuar
+                </button>
+            </form>
+
+            <a href="admin-contactos.html" class="logout-link">← Volver al panel</a>
+        </div>
+
+        <!-- Paso 2: Escanear QR -->
+        <div id="step-2" class="step">
+            <h2 style="margin-bottom: 20px; font-size: 20px;">Paso 2: Escanea el código QR</h2>
+
+            <div class="instruction-list">
+                <p style="margin-bottom: 15px; font-weight: 500;">Instala una aplicación de autenticación:</p>
+                <div class="app-links">
+                    <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2" target="_blank" class="app-link">Google Authenticator</a>
+                    <a href="https://authy.com/download/" target="_blank" class="app-link">Authy</a>
+                    <a href="https://www.microsoft.com/en-us/security/mobile-authenticator-app" target="_blank" class="app-link">Microsoft Authenticator</a>
+                </div>
+
+                <ol style="margin-top: 20px;">
+                    <li>Abre tu aplicación de autenticación</li>
+                    <li>Selecciona "Agregar cuenta" o "Escanear QR"</li>
+                    <li>Escanea el código QR a continuación</li>
+                </ol>
+            </div>
+
+            <div class="qr-container">
+                <div id="qr-code" class="qr-code"></div>
+
+                <p style="margin-top: 20px; color: #666; font-size: 14px;">
+                    ¿No puedes escanear? Ingresa manualmente:
+                </p>
+                <div class="secret-key" id="secret-key">Cargando...</div>
+                <button class="copy-btn" id="copy-secret-btn">📋 Copiar código</button>
+            </div>
+
+            <button type="button" class="btn" id="continue-to-verify-btn">
+                Continuar
+            </button>
+        </div>
+
+        <!-- Paso 3: Verificar código -->
+        <div id="step-3" class="step">
+            <h2 style="margin-bottom: 20px; font-size: 20px;">Paso 3: Verifica el código</h2>
+
+            <div class="info message">
+                Ingresa el código de 6 dígitos que aparece en tu aplicación de autenticación para confirmar la configuración.
+            </div>
+
+            <div class="form-group">
+                <label for="verification-code">Código de verificación</label>
+                <input
+                    type="text"
+                    id="verification-code"
+                    maxlength="6"
+                    pattern="[0-9]{6}"
+                    placeholder="000000"
+                    class="code-input"
+                    autocomplete="off"
+                >
+                <p class="helper-text">Código de 6 dígitos de tu app de autenticación</p>
+            </div>
+
+            <button type="button" class="btn" id="finalize-btn">
+                Activar 2FA
+            </button>
+
+            <button type="button" class="btn btn-secondary" id="back-to-qr-btn" style="margin-top: 10px;">
+                ← Ver código QR nuevamente
+            </button>
+        </div>
+
+        <!-- Paso 4: Completado -->
+        <div id="step-4" class="step">
+            <div style="text-align: center;">
+                <div style="font-size: 80px; margin-bottom: 20px;">✅</div>
+                <h2 style="margin-bottom: 15px; font-size: 24px; color: #00c853;">¡2FA Activado Correctamente!</h2>
+                <p style="color: #666; margin-bottom: 30px; line-height: 1.6;">
+                    Tu cuenta ahora está protegida con autenticación de dos factores.<br>
+                    A partir de ahora necesitarás tu contraseña y un código de tu aplicación de autenticación para iniciar sesión.
+                </p>
+
+                <div class="warning message">
+                    <strong>⚠️ Importante:</strong> Guarda tu aplicación de autenticación en un lugar seguro. Si pierdes acceso a ella, no podrás iniciar sesión.
+                </div>
+
+                <button type="button" class="btn" onclick="window.location.href='admin-contactos.html'">
+                    Ir al Panel de Administración
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+    <!-- QR Code Generator -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <!-- Firebase Config -->
+    <script src="js/firebase-config.js"></script>
+
+    <script>
+        console.log('🔐 Setup 2FA: Iniciando...');
+
+        let multiFactorSession = null;
+        let secretKey = null;
+
+        // Referencias a elementos
+        const messageContainer = document.getElementById('message-container');
+        const verifyPasswordForm = document.getElementById('verify-password-form');
+        const verifyBtn = document.getElementById('verify-btn');
+        const continueToVerifyBtn = document.getElementById('continue-to-verify-btn');
+        const backToQrBtn = document.getElementById('back-to-qr-btn');
+        const finalizeBtn = document.getElementById('finalize-btn');
+        const copySecretBtn = document.getElementById('copy-secret-btn');
+        const verificationCodeInput = document.getElementById('verification-code');
+
+        // Funciones de UI
+        function showMessage(message, type = 'info') {
+            messageContainer.textContent = '';
+            const div = document.createElement('div');
+            div.className = 'message ' + type;
+            div.textContent = message;
+            messageContainer.appendChild(div);
+        }
+
+        function clearMessage() {
+            messageContainer.textContent = '';
+        }
+
+        function showStep(stepNumber) {
+            // Ocultar todos los pasos
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+
+            // Mostrar paso actual
+            document.getElementById('step-' + stepNumber).classList.add('active');
+
+            // Actualizar indicadores
+            document.querySelectorAll('.step-dot').forEach((dot, index) => {
+                dot.classList.remove('active', 'completed');
+                if (index < stepNumber - 1) {
+                    dot.classList.add('completed');
+                } else if (index === stepNumber - 1) {
+                    dot.classList.add('active');
+                }
+            });
+
+            clearMessage();
+        }
+
+        // Verificar autenticación
+        firebase.auth().onAuthStateChanged(user => {
+            if (!user) {
+                console.log('❌ Usuario no autenticado');
+                window.location.href = 'admin-login.html';
+            } else {
+                console.log('✅ Usuario autenticado:', user.email);
+
+                // Verificar si ya tiene 2FA activado
+                user.multiFactor.enrolledFactors.forEach(factor => {
+                    if (factor.factorId === firebase.auth.TotpMultiFactorGenerator.FACTOR_ID) {
+                        console.log('⚠️ Usuario ya tiene 2FA activado');
+                        showMessage('Ya tienes 2FA activado', 'info');
+                        setTimeout(() => {
+                            window.location.href = 'admin-contactos.html';
+                        }, 2000);
+                    }
+                });
+            }
+        });
+
+        // Paso 1: Verificar contraseña
+        verifyPasswordForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearMessage();
+
+            const password = document.getElementById('current-password').value;
+            const user = firebase.auth().currentUser;
+
+            if (!user) {
+                showMessage('Sesión expirada. Por favor, inicia sesión nuevamente.', 'error');
+                return;
+            }
+
+            verifyBtn.disabled = true;
+            verifyBtn.textContent = 'Verificando...';
+
+            try {
+                // Re-autenticar usuario
+                const credential = firebase.auth.EmailAuthProvider.credential(
+                    user.email,
+                    password
+                );
+
+                await user.reauthenticateWithCredential(credential);
+                console.log('✅ Contraseña verificada');
+
+                // Obtener sesión multi-factor
+                multiFactorSession = await user.multiFactor.getSession();
+                console.log('✅ Sesión MFA obtenida');
+
+                // Generar secret TOTP
+                const totpSecret = await firebase.auth.TotpMultiFactorGenerator.generateSecret(multiFactorSession);
+                secretKey = totpSecret.secretKey;
+
+                console.log('✅ Secret TOTP generado');
+
+                // Generar URL para QR
+                const totpUri = totpSecret.generateQrCodeUrl(
+                    user.email,
+                    'Catalysis Admin'
+                );
+
+                // Mostrar QR
+                document.getElementById('secret-key').textContent = secretKey;
+
+                // Generar código QR
+                const qrCodeContainer = document.getElementById('qr-code');
+                qrCodeContainer.textContent = '';
+                new QRCode(qrCodeContainer, {
+                    text: totpUri,
+                    width: 256,
+                    height: 256,
+                    colorDark: '#0f0f0f',
+                    colorLight: '#ffffff',
+                });
+
+                showStep(2);
+
+            } catch (error) {
+                console.error('❌ Error:', error);
+
+                let errorMessage = 'Error al verificar contraseña';
+
+                if (error.code === 'auth/wrong-password') {
+                    errorMessage = 'Contraseña incorrecta';
+                } else if (error.code === 'auth/too-many-requests') {
+                    errorMessage = 'Demasiados intentos. Intenta más tarde.';
+                }
+
+                showMessage(errorMessage, 'error');
+                verifyBtn.disabled = false;
+                verifyBtn.textContent = 'Continuar';
+            }
+        });
+
+        // Copiar secret key
+        copySecretBtn.addEventListener('click', () => {
+            const secretKeyElement = document.getElementById('secret-key');
+            const text = secretKeyElement.textContent;
+
+            navigator.clipboard.writeText(text).then(() => {
+                copySecretBtn.textContent = '✅ Copiado!';
+                setTimeout(() => {
+                    copySecretBtn.textContent = '📋 Copiar código';
+                }, 2000);
+            });
+        });
+
+        // Continuar a verificación
+        continueToVerifyBtn.addEventListener('click', () => {
+            showStep(3);
+            verificationCodeInput.focus();
+        });
+
+        // Volver a QR
+        backToQrBtn.addEventListener('click', () => {
+            showStep(2);
+        });
+
+        // Finalizar setup
+        finalizeBtn.addEventListener('click', async () => {
+            const code = verificationCodeInput.value.trim();
+
+            if (!code || code.length !== 6) {
+                showMessage('Ingresa un código de 6 dígitos', 'error');
+                return;
+            }
+
+            if (!multiFactorSession) {
+                showMessage('Error: Sesión expirada. Reinicia el proceso.', 'error');
+                return;
+            }
+
+            finalizeBtn.disabled = true;
+            finalizeBtn.textContent = 'Verificando...';
+
+            try {
+                console.log('🔐 Finalizando setup 2FA...');
+
+                const user = firebase.auth().currentUser;
+
+                // Crear assertion TOTP
+                const multiFactorAssertion = firebase.auth.TotpMultiFactorGenerator.assertionForEnrollment(
+                    await firebase.auth.TotpMultiFactorGenerator.generateSecret(multiFactorSession),
+                    code
+                );
+
+                // Enrollar factor
+                await user.multiFactor.enroll(multiFactorAssertion, 'Autenticador TOTP');
+
+                console.log('✅ 2FA activado correctamente');
+
+                showStep(4);
+
+            } catch (error) {
+                console.error('❌ Error al activar 2FA:', error);
+
+                let errorMessage = 'Código incorrecto';
+
+                if (error.code === 'auth/invalid-verification-code') {
+                    errorMessage = 'Código inválido. Verifica e intenta nuevamente.';
+                } else if (error.code === 'auth/code-expired') {
+                    errorMessage = 'El código ha expirado. Usa el código actual de tu app.';
+                }
+
+                showMessage(errorMessage, 'error');
+                finalizeBtn.disabled = false;
+                finalizeBtn.textContent = 'Activar 2FA';
+                verificationCodeInput.value = '';
+                verificationCodeInput.focus();
+            }
+        });
+
+        // Auto-submit al completar 6 dígitos
+        verificationCodeInput.addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+
+            if (e.target.value.length === 6) {
+                finalizeBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>

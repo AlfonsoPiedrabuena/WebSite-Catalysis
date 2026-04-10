@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración de Contactos - Catalysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+
+        h1 {
+            color: #0f0f0f;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #fafafa;
+            border-radius: 8px;
+        }
+
+        .stat-card {
+            flex: 1;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border-left: 4px solid #0f0f0f;
+        }
+
+        .stat-card h3 {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .stat-card p {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0f0f0f;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .error {
+            background: #fee;
+            border: 1px solid #fcc;
+            color: #c33;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .success {
+            background: #efe;
+            border: 1px solid #cfc;
+            color: #3c3;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        thead {
+            background: #0f0f0f;
+            color: white;
+        }
+
+        th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e5e5e5;
+            font-size: 14px;
+        }
+
+        tbody tr:hover {
+            background: #fafafa;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-attended {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-mark {
+            background: #0f0f0f;
+            color: white;
+        }
+
+        .btn-mark:hover {
+            background: #333;
+        }
+
+        .btn-mark:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .message-preview {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .no-contacts {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .no-contacts p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .filters {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filters label {
+            font-size: 14px;
+            color: #666;
+            margin-right: 5px;
+        }
+
+        .filters select {
+            padding: 8px 12px;
+            border: 1px solid #e5e5e5;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .reload-btn {
+            margin-left: auto;
+            padding: 8px 16px;
+            background: #0f0f0f;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .reload-btn:hover {
+            background: #333;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e5e5e5;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #0f0f0f;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .user-details h3 {
+            font-size: 14px;
+            color: #0f0f0f;
+            margin-bottom: 3px;
+        }
+
+        .user-details p {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-2fa {
+            background: #00c853;
+            color: white;
+        }
+
+        .btn-2fa:hover {
+            background: #00a843;
+        }
+
+        .btn-2fa.disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-logout {
+            background: #e5e5e5;
+            color: #333;
+        }
+
+        .btn-logout:hover {
+            background: #d5d5d5;
+        }
+
+        .mfa-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #00c853;
+            color: white;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="admin-header">
+            <div>
+                <h1>📬 Gestión de Contactos</h1>
+                <p style="color: #666; margin: 5px 0 0 0;">Administra los formularios de contacto recibidos</p>
+            </div>
+            <div class="admin-actions" id="admin-actions" style="display: none;">
+                <button class="btn-small btn-2fa" id="setup-2fa-btn">
+                    🔐 Configurar 2FA
+                </button>
+                <button class="btn-small btn-logout" id="logout-btn">
+                    🚪 Cerrar Sesión
+                </button>
+            </div>
+        </div>
+
+        <div class="user-info" id="user-info" style="display: none; margin-bottom: 20px;">
+            <div class="user-avatar" id="user-avatar">U</div>
+            <div class="user-details">
+                <h3 id="user-email">Cargando...</h3>
+                <p id="user-2fa-status">Verificando 2FA...</p>
+            </div>
+        </div>
+
+        <div id="stats-container" class="stats" style="display: none;">
+            <div class="stat-card">
+                <h3>Total de Contactos</h3>
+                <p id="total-contacts">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Pendientes</h3>
+                <p id="pending-contacts">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Atendidos</h3>
+                <p id="attended-contacts">0</p>
+            </div>
+        </div>
+
+        <div id="loading" class="loading">
+            <p>⏳ Cargando contactos desde Firebase...</p>
+        </div>
+
+        <div id="error-message" style="display: none;"></div>
+
+        <div id="filters-container" class="filters" style="display: none;">
+            <label for="filter-status">Filtrar por estado:</label>
+            <select id="filter-status">
+                <option value="all">Todos</option>
+                <option value="pending">Pendientes</option>
+                <option value="attended">Atendidos</option>
+            </select>
+            <button class="reload-btn" onclick="location.reload()">🔄 Recargar</button>
+        </div>
+
+        <div id="contacts-container"></div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <!-- Firebase Config -->
+    <script src="js/firebase-config.js"></script>
+
+    <script>
+        console.log('🔍 Admin Contactos: Script iniciado');
+        let allContacts = [];
+        let currentUser = null;
+
+        // Verificar autenticación
+        firebase.auth().onAuthStateChanged(user => {
+            if (!user) {
+                console.log('❌ Usuario no autenticado, redirigiendo a login...');
+                window.location.href = 'admin-login.html';
+                return;
+            }
+
+            currentUser = user;
+            console.log('✅ Usuario autenticado:', user.email);
+
+            // Mostrar información del usuario
+            const userEmail = document.getElementById('user-email');
+            const userAvatar = document.getElementById('user-avatar');
+            const user2faStatus = document.getElementById('user-2fa-status');
+            const userInfo = document.getElementById('user-info');
+            const adminActions = document.getElementById('admin-actions');
+            const setup2faBtn = document.getElementById('setup-2fa-btn');
+
+            userEmail.textContent = user.email;
+            userAvatar.textContent = user.email.charAt(0).toUpperCase();
+            userInfo.style.display = 'flex';
+            adminActions.style.display = 'flex';
+
+            // Verificar si tiene 2FA activado
+            const has2FA = user.multiFactor.enrolledFactors.length > 0;
+
+            if (has2FA) {
+                user2faStatus.innerHTML = '2FA activado <span class="mfa-badge">✓ Protegido</span>';
+                setup2faBtn.textContent = '✓ 2FA Activado';
+                setup2faBtn.classList.add('disabled');
+                setup2faBtn.disabled = true;
+            } else {
+                user2faStatus.innerHTML = '⚠️ 2FA no activado - <a href="admin-setup-2fa.html" style="color: #0f0f0f; font-weight: 500;">Activar ahora</a>';
+                setup2faBtn.textContent = '🔐 Configurar 2FA';
+                setup2faBtn.classList.remove('disabled');
+                setup2faBtn.disabled = false;
+            }
+
+            // Cargar contactos ahora que está autenticado
+            loadContacts();
+        });
+
+        // Botón de logout
+        document.getElementById('logout-btn')?.addEventListener('click', async () => {
+            if (confirm('¿Seguro que deseas cerrar sesión?')) {
+                try {
+                    await firebase.auth().signOut();
+                    console.log('✅ Sesión cerrada');
+                    window.location.href = 'admin-login.html';
+                } catch (error) {
+                    console.error('❌ Error al cerrar sesión:', error);
+                    alert('Error al cerrar sesión');
+                }
+            }
+        });
+
+        // Botón de setup 2FA
+        document.getElementById('setup-2fa-btn')?.addEventListener('click', () => {
+            window.location.href = 'admin-setup-2fa.html';
+        });
+
+        // Verificar si Firebase está cargado
+        window.addEventListener('load', function() {
+            console.log('✅ Página cargada');
+            console.log('Firebase Auth disponible:', typeof firebase !== 'undefined' && typeof firebase.auth !== 'undefined');
+            console.log('firestoreDb disponible:', typeof window.firestoreDb !== 'undefined');
+
+            if (typeof firebase === 'undefined') {
+                console.error('❌ Firebase SDK no está cargado');
+                showError('Firebase SDK no se pudo cargar. Verifica tu conexión a internet.');
+            }
+        });
+
+        // Función para formatear fecha de forma segura
+        function formatDate(timestamp) {
+            if (!timestamp) return 'Sin fecha';
+            const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+            return date.toLocaleString('es-MX', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Función para marcar como atendido
+        async function markAsAttended(contactId, button) {
+            try {
+                button.disabled = true;
+                button.textContent = 'Guardando...';
+
+                await window.firestoreDb.collection('contactos').doc(contactId).update({
+                    atendido: true
+                });
+
+                // Recargar contactos para actualizar toda la UI
+                loadContacts();
+            } catch (error) {
+                console.error('Error al marcar como atendido:', error);
+                alert('Error al actualizar el estado. Por favor, intenta de nuevo.');
+                button.disabled = false;
+                button.textContent = 'Marcar como atendido';
+            }
+        }
+
+        // Función segura para crear elementos de tabla
+        function createTableRow(contact) {
+            const row = document.createElement('tr');
+
+            // Celda de fecha
+            const dateCell = document.createElement('td');
+            dateCell.textContent = formatDate(contact.fecha_creacion);
+            row.appendChild(dateCell);
+
+            // Celda de nombre
+            const nameCell = document.createElement('td');
+            const nameStrong = document.createElement('strong');
+            nameStrong.textContent = contact.nombre || 'Sin nombre';
+            nameCell.appendChild(nameStrong);
+            row.appendChild(nameCell);
+
+            // Celda de email
+            const emailCell = document.createElement('td');
+            emailCell.textContent = contact.email || 'Sin email';
+            row.appendChild(emailCell);
+
+            // Celda de empresa
+            const empresaCell = document.createElement('td');
+            empresaCell.textContent = contact.empresa || '-';
+            row.appendChild(empresaCell);
+
+            // Celda de teléfono
+            const telefonoCell = document.createElement('td');
+            telefonoCell.textContent = contact.telefono || '-';
+            row.appendChild(telefonoCell);
+
+            // Celda de mensaje (con preview)
+            const mensajeCell = document.createElement('td');
+            const mensajeDiv = document.createElement('div');
+            mensajeDiv.className = 'message-preview';
+            mensajeDiv.textContent = contact.mensaje || '-';
+            mensajeDiv.title = contact.mensaje || '';
+            mensajeCell.appendChild(mensajeDiv);
+            row.appendChild(mensajeCell);
+
+            // Celda de estado
+            const estadoCell = document.createElement('td');
+            const badge = document.createElement('span');
+            badge.className = contact.atendido ? 'badge badge-attended' : 'badge badge-pending';
+            badge.textContent = contact.atendido ? 'Atendido' : 'Pendiente';
+            estadoCell.appendChild(badge);
+            row.appendChild(estadoCell);
+
+            // Celda de acción
+            const accionCell = document.createElement('td');
+            if (!contact.atendido) {
+                const button = document.createElement('button');
+                button.className = 'btn btn-mark';
+                button.textContent = 'Marcar como atendido';
+                button.onclick = function() {
+                    markAsAttended(contact.id, button);
+                };
+                accionCell.appendChild(button);
+            }
+            row.appendChild(accionCell);
+
+            return row;
+        }
+
+        // Función para renderizar tabla de forma segura
+        function renderContacts(contacts) {
+            const container = document.getElementById('contacts-container');
+
+            // Limpiar contenedor
+            container.textContent = '';
+
+            if (contacts.length === 0) {
+                const noContactsDiv = document.createElement('div');
+                noContactsDiv.className = 'no-contacts';
+
+                const p = document.createElement('p');
+                p.textContent = '📭 No hay contactos que mostrar';
+                noContactsDiv.appendChild(p);
+
+                const small = document.createElement('small');
+                small.style.color = '#999';
+                small.textContent = 'Los formularios enviados desde el sitio web aparecerán aquí';
+                noContactsDiv.appendChild(small);
+
+                container.appendChild(noContactsDiv);
+                return;
+            }
+
+            // Crear tabla
+            const table = document.createElement('table');
+
+            // Crear thead
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+            const headers = ['Fecha', 'Nombre', 'Email', 'Empresa', 'Teléfono', 'Mensaje', 'Estado', 'Acción'];
+
+            headers.forEach(headerText => {
+                const th = document.createElement('th');
+                th.textContent = headerText;
+                headerRow.appendChild(th);
+            });
+
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            // Crear tbody
+            const tbody = document.createElement('tbody');
+            contacts.forEach(contact => {
+                tbody.appendChild(createTableRow(contact));
+            });
+
+            table.appendChild(tbody);
+            container.appendChild(table);
+        }
+
+        // Función para actualizar estadísticas de forma segura
+        function updateStats(contacts) {
+            const total = contacts.length;
+            const attended = contacts.filter(c => c.atendido).length;
+            const pending = total - attended;
+
+            document.getElementById('total-contacts').textContent = total.toString();
+            document.getElementById('attended-contacts').textContent = attended.toString();
+            document.getElementById('pending-contacts').textContent = pending.toString();
+        }
+
+        // Función para filtrar contactos
+        function filterContacts() {
+            const filterValue = document.getElementById('filter-status').value;
+            let filtered = [...allContacts];
+
+            if (filterValue === 'pending') {
+                filtered = filtered.filter(c => !c.atendido);
+            } else if (filterValue === 'attended') {
+                filtered = filtered.filter(c => c.atendido);
+            }
+
+            renderContacts(filtered);
+        }
+
+        // Función para mostrar error de forma segura
+        function showError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.style.display = 'block';
+            errorDiv.className = 'error';
+            errorDiv.textContent = '';
+
+            const strong = document.createElement('strong');
+            strong.textContent = '❌ Error al cargar contactos';
+            errorDiv.appendChild(strong);
+
+            errorDiv.appendChild(document.createElement('br'));
+            errorDiv.appendChild(document.createTextNode(message));
+
+            errorDiv.appendChild(document.createElement('br'));
+            const small = document.createElement('small');
+            small.textContent = 'Verifica que Firebase esté correctamente configurado y que tengas permisos de lectura.';
+            errorDiv.appendChild(small);
+        }
+
+        // Función principal para cargar contactos
+        async function loadContacts() {
+            console.log('🔄 Iniciando carga de contactos...');
+            try {
+                const loading = document.getElementById('loading');
+                const errorMessage = document.getElementById('error-message');
+                const statsContainer = document.getElementById('stats-container');
+                const filtersContainer = document.getElementById('filters-container');
+
+                loading.style.display = 'block';
+                errorMessage.style.display = 'none';
+                statsContainer.style.display = 'none';
+                filtersContainer.style.display = 'none';
+
+                console.log('🔍 Verificando Firebase...');
+                console.log('window.firestoreDb:', window.firestoreDb);
+
+                // Verificar que Firebase esté inicializado
+                if (!window.firestoreDb) {
+                    console.error('❌ Firebase no inicializado');
+                    throw new Error('Firebase no está inicializado. Verifica la configuración en js/firebase-config.js');
+                }
+
+                console.log('✅ Firebase inicializado, consultando Firestore...');
+
+                // Obtener todos los contactos ordenados por fecha (más reciente primero)
+                const snapshot = await window.firestoreDb
+                    .collection('contactos')
+                    .orderBy('fecha_creacion', 'desc')
+                    .get();
+
+                console.log('📊 Snapshot obtenido, documentos encontrados:', snapshot.size);
+
+                allContacts = [];
+                snapshot.forEach(doc => {
+                    allContacts.push({
+                        id: doc.id,
+                        ...doc.data()
+                    });
+                });
+
+                console.log('✅ Contactos cargados:', allContacts.length);
+                console.log('Datos de ejemplo:', allContacts[0]);
+
+                loading.style.display = 'none';
+                statsContainer.style.display = 'flex';
+                filtersContainer.style.display = 'flex';
+
+                updateStats(allContacts);
+                filterContacts(); // Usa el filtro actual
+
+                console.log('✅ UI actualizada correctamente');
+
+            } catch (error) {
+                console.error('Error al cargar contactos:', error);
+
+                const loading = document.getElementById('loading');
+                loading.style.display = 'none';
+                showError(error.message);
+            }
+        }
+
+        // Event listener para filtro
+        document.getElementById('filter-status')?.addEventListener('change', filterContacts);
+
+        // Cargar contactos cuando la página esté lista
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadContacts);
+        } else {
+            loadContacts();
+        }
+    </script>
+</body>
+</html>
