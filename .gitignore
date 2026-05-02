@@ -54,3 +54,6 @@ node_modules/
 # Project specific
 context.md
 website_ambiente_virtual.rtf
+
+# Local Netlify folder
+.netlify

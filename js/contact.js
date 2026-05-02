@@ -1,245 +1,142 @@
 /* ====================================
-   CONTACT FORM - SAVE TO FIRESTORE
+   CONTACT FORM - SEND TO HUBSPOT
+   Envía los datos a la Netlify Function
+   /.netlify/functions/hubspot-register
    ==================================== */
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Handle main contact form
+const HUBSPOT_ENDPOINT = '/.netlify/functions/hubspot-register';
+
+document.addEventListener('DOMContentLoaded', function () {
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
-        contactForm.addEventListener('submit', handleContactSubmit);
-        // Add phone validation
+        contactForm.addEventListener('submit', (e) =>
+            handleSubmit(e, getMainFormData, 'form-message')
+        );
         const telefono = document.getElementById('telefono');
-        if (telefono) {
-            telefono.addEventListener('input', validatePhone);
-        }
+        if (telefono) telefono.addEventListener('input', validatePhone);
     }
 
-    // Handle quick contact form (from homepage)
     const quickContactForm = document.getElementById('quick-contact-form');
     if (quickContactForm) {
-        quickContactForm.addEventListener('submit', handleQuickContactSubmit);
-        // Add phone validation
+        quickContactForm.addEventListener('submit', (e) =>
+            handleSubmit(e, getQuickFormData, 'quick-form-message')
+        );
         const quickTelefono = document.getElementById('quick-telefono');
-        if (quickTelefono) {
-            quickTelefono.addEventListener('input', validatePhone);
-        }
+        if (quickTelefono) quickTelefono.addEventListener('input', validatePhone);
     }
 
-    // Character counter for problema field
-    const problemaField = document.getElementById('problema');
-    const charCount = document.getElementById('char-count');
-    if (problemaField && charCount) {
-        problemaField.addEventListener('input', function() {
-            charCount.textContent = this.value.length;
-        });
-    }
-
-    // Character counter for quick-problema field
-    const quickProblemaField = document.getElementById('quick-problema');
-    const quickCharCount = document.getElementById('quick-char-count');
-    if (quickProblemaField && quickCharCount) {
-        quickProblemaField.addEventListener('input', function() {
-            quickCharCount.textContent = this.value.length;
-        });
-    }
+    setupCharCounter('problema', 'char-count');
+    setupCharCounter('quick-problema', 'quick-char-count');
 });
 
-/**
- * Validate phone field - only allow numbers, +, -, spaces, and parentheses
- * @param {Event} e - Input event
- */
+function setupCharCounter(fieldId, counterId) {
+    const field = document.getElementById(fieldId);
+    const counter = document.getElementById(counterId);
+    if (field && counter) {
+        field.addEventListener('input', function () {
+            counter.textContent = this.value.length;
+        });
+    }
+}
+
 function validatePhone(e) {
-    const input = e.target;
-    const value = input.value;
-
-    // Remove any characters that are not numbers, +, -, spaces, or parentheses
-    const cleanedValue = value.replace(/[^0-9+\s\-()]/g, '');
-
-    // Update input if value was changed
-    if (value !== cleanedValue) {
-        input.value = cleanedValue;
-    }
+    const cleaned = e.target.value.replace(/[^0-9+\s\-()]/g, '');
+    if (e.target.value !== cleaned) e.target.value = cleaned;
 }
 
-/**
- * Validate form data before submission
- * @param {Object} formData - Form data object
- * @returns {Object} - {valid: boolean, error: string}
- */
-function validateFormData(formData) {
-    // Validate nombre (max 100 characters)
-    if (formData.nombre.length > 100) {
-        return { valid: false, error: 'El nombre no puede exceder 100 caracteres' };
-    }
+function getMainFormData() {
+    return {
+        firstname: document.getElementById('nombre').value.trim(),
+        lastname: document.getElementById('apellido').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        phone: document.getElementById('telefono').value.trim(),
+        company: document.getElementById('empresa').value.trim(),
+        industry: document.getElementById('sector').value,
+        nivel_de_madurez: document.getElementById('nivel-madurez').value,
+        message: document.getElementById('problema').value.trim(),
+        acepto_recibir_mensajes_de_whatsapp: document.getElementById('whatsapp').checked,
+        acuerdodeprivacidad: document.getElementById('privacidad').checked,
+    };
+}
 
-    // Validate apellido (max 100 characters)
-    if (formData.apellido.length > 100) {
-        return { valid: false, error: 'El apellido no puede exceder 100 caracteres' };
-    }
+function getQuickFormData() {
+    return {
+        firstname: document.getElementById('quick-nombre').value.trim(),
+        lastname: document.getElementById('quick-apellido').value.trim(),
+        email: document.getElementById('quick-email').value.trim(),
+        phone: document.getElementById('quick-telefono').value.trim(),
+        company: document.getElementById('quick-empresa').value.trim(),
+        industry: document.getElementById('quick-sector').value,
+        nivel_de_madurez: document.getElementById('quick-nivel-madurez').value,
+        message: document.getElementById('quick-problema').value.trim(),
+        acepto_recibir_mensajes_de_whatsapp: document.getElementById('quick-whatsapp').checked,
+        acuerdodeprivacidad: document.getElementById('quick-privacidad').checked,
+    };
+}
 
-    // Validate email format
+function validateFormData(data) {
+    if (data.firstname.length > 100) return 'El nombre no puede exceder 100 caracteres';
+    if (data.lastname.length > 100) return 'El apellido no puede exceder 100 caracteres';
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-        return { valid: false, error: 'Por favor ingresa un correo electrónico válido' };
-    }
+    if (!emailRegex.test(data.email)) return 'Por favor ingresa un correo electrónico válido';
 
-    // Validate telefono (max 30 characters, only numbers and allowed characters)
-    if (formData.telefono.length > 30) {
-        return { valid: false, error: 'El teléfono no puede exceder 30 caracteres' };
-    }
+    if (data.phone.length > 30) return 'El teléfono no puede exceder 30 caracteres';
     const phoneRegex = /^[0-9+\s\-()]{7,30}$/;
-    if (!phoneRegex.test(formData.telefono)) {
-        return { valid: false, error: 'El teléfono debe contener entre 7 y 30 caracteres válidos (números, +, -, espacios, paréntesis)' };
-    }
+    if (!phoneRegex.test(data.phone))
+        return 'El teléfono debe contener entre 7 y 30 caracteres válidos (números, +, -, espacios, paréntesis)';
 
-    // Validate empresa (max 50 characters)
-    if (formData.empresa.length > 50) {
-        return { valid: false, error: 'El nombre de la empresa no puede exceder 50 caracteres' };
-    }
+    if (data.company.length > 50) return 'El nombre de la empresa no puede exceder 50 caracteres';
+    if (data.message.length > 500) return 'El problema o duda no puede exceder 500 caracteres';
+    if (!data.acuerdodeprivacidad)
+        return 'Debes aceptar las políticas de privacidad para continuar';
 
-    // Validate problema (max 500 characters)
-    if (formData.problema.length > 500) {
-        return { valid: false, error: 'El problema o duda no puede exceder 500 caracteres' };
-    }
-
-    // Validate privacidad_aceptada
-    if (!formData.privacidad_aceptada) {
-        return { valid: false, error: 'Debes aceptar las políticas de privacidad para continuar' };
-    }
-
-    return { valid: true, error: null };
+    return null;
 }
 
-/**
- * Handle contact form submission
- * @param {Event} e - Form submit event
- */
-async function handleContactSubmit(e) {
+async function handleSubmit(e, getData, messageElementId) {
     e.preventDefault();
 
-    const formMessage = document.getElementById('form-message');
+    const formMessage = document.getElementById(messageElementId);
     const submitButton = e.target.querySelector('button[type="submit"]');
 
-    // Disable submit button
     submitButton.disabled = true;
     submitButton.textContent = 'Enviando...';
+    if (formMessage) formMessage.style.display = 'none';
 
     try {
-        // Check if Firebase is initialized
-        if (!window.firestoreDb) {
-            throw new Error('Firebase not initialized');
+        const data = getData();
+        const validationError = validateFormData(data);
+        if (validationError) throw new Error(validationError);
+
+        const res = await fetch(HUBSPOT_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+        });
+
+        if (!res.ok) {
+            const errorData = await res.json().catch(() => ({}));
+            throw new Error(errorData.error || 'No se pudo enviar la solicitud');
         }
 
-        // Get form data
-        const formData = {
-            nombre: document.getElementById('nombre').value.trim(),
-            apellido: document.getElementById('apellido').value.trim(),
-            email: document.getElementById('email').value.trim(),
-            telefono: document.getElementById('telefono').value.trim(),
-            empresa: document.getElementById('empresa').value.trim(),
-            sector: document.getElementById('sector').value,
-            nivel_madurez: document.getElementById('nivel-madurez').value,
-            problema: document.getElementById('problema').value.trim(),
-            whatsapp: document.getElementById('whatsapp').checked,
-            privacidad_aceptada: document.getElementById('privacidad').checked,
-            fecha_creacion: firebase.firestore.FieldValue.serverTimestamp(),
-            atendido: false
-        };
-
-        // Validate form data
-        const validation = validateFormData(formData);
-        if (!validation.valid) {
-            throw new Error(validation.error);
+        if (formMessage) {
+            formMessage.style.display = 'block';
+            formMessage.style.color = 'green';
+            formMessage.textContent =
+                '¡Gracias por tu mensaje! Nos pondremos en contacto contigo pronto.';
         }
 
-        // Save to Firestore
-        await window.firestoreDb.collection('contactos').add(formData);
-
-        // Show success message
-        formMessage.style.display = 'block';
-        formMessage.style.color = 'green';
-        formMessage.textContent = '¡Gracias por tu mensaje! Nos pondremos en contacto contigo pronto.';
-
-        // Reset form
         e.target.reset();
-
     } catch (error) {
-        console.error('Error submitting contact form:', error);
-
-        // Show error message
-        formMessage.style.display = 'block';
-        formMessage.style.color = 'red';
-        formMessage.textContent = 'Hubo un error al enviar tu mensaje. Por favor, intenta nuevamente.';
-    } finally {
-        // Re-enable submit button
-        submitButton.disabled = false;
-        submitButton.textContent = 'Enviar consulta';
-    }
-}
-
-/**
- * Handle quick contact form submission (from homepage)
- * @param {Event} e - Form submit event
- */
-async function handleQuickContactSubmit(e) {
-    e.preventDefault();
-
-    const formMessage = document.getElementById('quick-form-message');
-    const submitButton = e.target.querySelector('button[type="submit"]');
-
-    // Disable submit button
-    submitButton.disabled = true;
-    submitButton.textContent = 'Enviando...';
-
-    try {
-        // Check if Firebase is initialized
-        if (!window.firestoreDb) {
-            throw new Error('Firebase not initialized');
+        console.error('Error submitting form:', error);
+        if (formMessage) {
+            formMessage.style.display = 'block';
+            formMessage.style.color = 'red';
+            formMessage.textContent =
+                error.message || 'Hubo un error al enviar tu mensaje. Por favor, intenta nuevamente.';
         }
-
-        // Get form data
-        const formData = {
-            nombre: document.getElementById('quick-nombre').value.trim(),
-            apellido: document.getElementById('quick-apellido').value.trim(),
-            email: document.getElementById('quick-email').value.trim(),
-            telefono: document.getElementById('quick-telefono').value.trim(),
-            empresa: document.getElementById('quick-empresa').value.trim(),
-            sector: document.getElementById('quick-sector').value,
-            nivel_madurez: document.getElementById('quick-nivel-madurez').value,
-            problema: document.getElementById('quick-problema').value.trim(),
-            whatsapp: document.getElementById('quick-whatsapp').checked,
-            privacidad_aceptada: document.getElementById('quick-privacidad').checked,
-            tipo_solicitud: 'Consulta gratuita desde homepage',
-            fecha_creacion: firebase.firestore.FieldValue.serverTimestamp(),
-            atendido: false
-        };
-
-        // Validate form data
-        const validation = validateFormData(formData);
-        if (!validation.valid) {
-            throw new Error(validation.error);
-        }
-
-        // Save to Firestore
-        await window.firestoreDb.collection('contactos').add(formData);
-
-        // Show success message
-        formMessage.style.display = 'block';
-        formMessage.style.color = 'green';
-        formMessage.textContent = '¡Gracias! Hemos recibido tu solicitud y nos pondremos en contacto contigo pronto.';
-
-        // Reset form
-        e.target.reset();
-
-    } catch (error) {
-        console.error('Error submitting quick contact form:', error);
-
-        // Show error message
-        formMessage.style.display = 'block';
-        formMessage.style.color = 'red';
-        formMessage.textContent = 'Hubo un error al enviar tu solicitud. Por favor, intenta nuevamente.';
     } finally {
-        // Re-enable submit button
         submitButton.disabled = false;
         submitButton.textContent = 'Enviar consulta';
     }
