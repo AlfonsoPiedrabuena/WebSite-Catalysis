@@ -5,6 +5,7 @@
    ============================================================ */
 
 const HS_BASE = 'https://api.hubapi.com';
+const TURNSTILE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -12,8 +13,13 @@ exports.handler = async (event) => {
   }
 
   const HS_TOKEN = process.env.HUBSPOT_PRIVATE_APP_TOKEN;
+  const TURNSTILE_SECRET = process.env.TURNSTILE_SECRET_KEY;
   if (!HS_TOKEN) {
     console.error('HUBSPOT_PRIVATE_APP_TOKEN no configurado en Netlify');
+    return resp(500, { error: 'Configuración del servidor incompleta' });
+  }
+  if (!TURNSTILE_SECRET) {
+    console.error('TURNSTILE_SECRET_KEY no configurado en Netlify');
     return resp(500, { error: 'Configuración del servidor incompleta' });
   }
 
@@ -34,7 +40,27 @@ exports.handler = async (event) => {
     nivel_de_madurez = '',
     acepto_recibir_mensajes_de_whatsapp = false,
     acuerdodeprivacidad = false,
+    turnstileToken,
   } = body;
+
+  // Verificar Turnstile ANTES de tocar HubSpot
+  if (!turnstileToken) {
+    return resp(403, { error: 'Verificación de seguridad faltante' });
+  }
+  const verifyRes = await fetch(TURNSTILE_VERIFY_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      secret: TURNSTILE_SECRET,
+      response: turnstileToken,
+      remoteip: event.headers['x-nf-client-connection-ip'] || event.headers['client-ip'] || '',
+    }),
+  });
+  const verifyData = await verifyRes.json();
+  if (!verifyData.success) {
+    console.error('Turnstile verify failed:', verifyData);
+    return resp(403, { error: 'Verificación de seguridad fallida. Recarga la página e intenta de nuevo.' });
+  }
 
   if (!firstname || !email || !company) {
     return resp(400, { error: 'Faltan campos requeridos: nombre, email y empresa' });

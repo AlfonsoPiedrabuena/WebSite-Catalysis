@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contacto - Catalysis</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -256,6 +257,13 @@
                             <span style="color: var(--text); font-size: 0.95rem;">Acepto las <a href="aviso-privacidad.html" style="color: var(--primary); text-decoration: underline;">políticas de privacidad</a> *</span>
                         </label>
                     </div>
+
+                    <div class="cf-turnstile" style="margin-top: 1.5rem;"
+                         data-sitekey="0x4AAAAAADHWxARy0r_0MZ3b"
+                         data-callback="onTurnstileSuccess"
+                         data-error-callback="onTurnstileError"
+                         data-expired-callback="onTurnstileExpired"
+                         data-theme="light"></div>
 
                     <button type="submit" class="cta-button" style="margin-top: 1.5rem;">Enviar consulta</button>
                 </form>

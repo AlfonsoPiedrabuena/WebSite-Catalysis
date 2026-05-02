@@ -6,6 +6,19 @@
 
 const HUBSPOT_ENDPOINT = '/.netlify/functions/hubspot-register';
 
+// Token de Cloudflare Turnstile — lo emite el widget vía callback
+let turnstileToken = null;
+
+window.onTurnstileSuccess = function (token) {
+    turnstileToken = token;
+};
+window.onTurnstileError = function () {
+    turnstileToken = null;
+};
+window.onTurnstileExpired = function () {
+    turnstileToken = null;
+};
+
 document.addEventListener('DOMContentLoaded', function () {
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
@@ -93,10 +106,14 @@ async function handleSubmit(e, getData, messageElementId) {
         const validationError = validateFormData(data);
         if (validationError) throw new Error(validationError);
 
+        if (!turnstileToken) {
+            throw new Error('Verificación de seguridad pendiente. Espera un segundo e intenta de nuevo.');
+        }
+
         const res = await fetch(HUBSPOT_ENDPOINT, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
+            body: JSON.stringify({ ...data, turnstileToken }),
         });
 
         if (!res.ok) {
@@ -112,6 +129,11 @@ async function handleSubmit(e, getData, messageElementId) {
         }
 
         e.target.reset();
+        // Token de Turnstile es de un solo uso — resetear widget para emitir uno nuevo
+        if (window.turnstile) {
+            turnstileToken = null;
+            window.turnstile.reset();
+        }
     } catch (error) {
         console.error('Error submitting form:', error);
         if (formMessage) {
@@ -119,6 +141,11 @@ async function handleSubmit(e, getData, messageElementId) {
             formMessage.style.color = 'red';
             formMessage.textContent =
                 error.message || 'Hubo un error al enviar tu mensaje. Por favor, intenta nuevamente.';
+        }
+        // Si el envío falló, el token ya se "consumió" en el server (o no existe). Resetear.
+        if (window.turnstile) {
+            turnstileToken = null;
+            window.turnstile.reset();
         }
     } finally {
         submitButton.disabled = false;
