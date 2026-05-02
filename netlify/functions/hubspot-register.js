@@ -32,7 +32,6 @@ exports.handler = async (event) => {
     company,
     industry = '',
     nivel_de_madurez = '',
-    message = '',
     acepto_recibir_mensajes_de_whatsapp = false,
     acuerdodeprivacidad = false,
   } = body;
@@ -56,7 +55,6 @@ exports.handler = async (event) => {
     phone,
     industry,
     nivel_de_madurez,
-    message,
     acepto_recibir_mensajes_de_whatsapp: !!acepto_recibir_mensajes_de_whatsapp,
     acuerdodeprivacidad: true,
     unidaddenegocio: 'Catalysis',
