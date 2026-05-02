@@ -54,7 +54,6 @@ exports.handler = async (event) => {
     email,
     phone,
     industry,
-    nivel_de_madurez,
     acepto_recibir_mensajes_de_whatsapp: !!acepto_recibir_mensajes_de_whatsapp,
     acuerdodeprivacidad: true,
     unidaddenegocio: 'Catalysis',
@@ -73,6 +72,7 @@ exports.handler = async (event) => {
         properties: {
           name: company,
           industry,
+          nivel_de_madurez,
         },
       }),
     });
@@ -119,7 +119,7 @@ exports.handler = async (event) => {
     return resp(201, { success: true, contactId, companyId });
   } catch (err) {
     console.error('[hubspot-register] Error:', err);
-    return resp(500, { error: 'Error interno del servidor' });
+    return resp(500, { error: err.message || 'Error interno del servidor' });
   }
 };
 
@@ -163,7 +163,12 @@ async function upsertContact(headers, email, properties) {
 
   const errText = await createRes.text();
   console.error('Error creando contacto:', createRes.status, errText);
-  throw new Error('No se pudo crear el contacto en HubSpot');
+  let detail = 'No se pudo crear el contacto en HubSpot';
+  try {
+    const parsed = JSON.parse(errText);
+    if (parsed.message) detail = `HubSpot: ${parsed.message}`;
+  } catch {}
+  throw new Error(detail);
 }
 
 function resp(statusCode, body) {

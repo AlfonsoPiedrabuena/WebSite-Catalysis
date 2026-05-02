@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function validatePhone(e) {
-    const cleaned = e.target.value.replace(/[^0-9+\s\-()]/g, '');
+    const cleaned = e.target.value.replace(/[^0-9 +\-]/g, '');
     if (e.target.value !== cleaned) e.target.value = cleaned;
 }
 
@@ -67,9 +67,9 @@ function validateFormData(data) {
     if (!emailRegex.test(data.email)) return 'Por favor ingresa un correo electrónico válido';
 
     if (data.phone.length > 30) return 'El teléfono no puede exceder 30 caracteres';
-    const phoneRegex = /^[0-9+\s\-()]{7,30}$/;
+    const phoneRegex = /^[0-9 +\-]{7,30}$/;
     if (!phoneRegex.test(data.phone))
-        return 'El teléfono debe contener entre 7 y 30 caracteres válidos (números, +, -, espacios, paréntesis)';
+        return 'El teléfono debe contener entre 7 y 30 caracteres válidos (números, +, -, espacios)';
 
     if (data.company.length > 50) return 'El nombre de la empresa no puede exceder 50 caracteres';
     if (!data.acuerdodeprivacidad)
