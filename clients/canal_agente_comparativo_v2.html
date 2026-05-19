@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Comparativa de canales — Agente conversacional</title>
+  <meta name="description" content="Comparativa de canales (WhatsApp, Telegram, Teams, Slack) para agente conversacional con 1,000 asesores.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.10.0/dist/tabler-icons.min.css">
+
+  <style>
+    :root {
+      --color-text-primary: #181818;
+      --color-text-secondary: #5C5C5C;
+      --color-text-tertiary: #919191;
+      --color-border-tertiary: #E6E6E5;
+      --color-background-primary: #FFFFFF;
+      --color-background-secondary: #FAF9F7;
+      --border-radius-md: 8px;
+      --border-radius-lg: 12px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--color-background-primary);
+      color: var(--color-text-primary);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 24px 64px;
+    }
+
+    .page-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin: 0 0 4px;
+      letter-spacing: -0.01em;
+    }
+
+    .page-subtitle {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      margin: 0 0 24px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 900px) {
+      .cards { grid-template-columns: repeat(2, 1fr) !important; }
+      .rec-steps { flex-direction: column !important; }
+    }
+
+    @media (max-width: 560px) {
+      .cards { grid-template-columns: 1fr !important; }
+      .pcons { grid-template-columns: 1fr !important; }
+      .pc-cols { grid-template-columns: 1fr !important; }
+      .pc-col:first-child { border-right: none !important; border-bottom: 0.5px solid var(--color-border-tertiary); }
+      .cost-table { font-size: 11px; }
+      .cost-table th, .cost-table td { padding: 6px 6px; }
+      .page { padding: 20px 16px 48px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <h1 class="page-title">Comparativa de canales — Agente conversacional</h1>
+    <p class="page-subtitle">Análisis de canales para 1,000 asesores · WhatsApp · Telegram · Microsoft Teams · Slack</p>
+
+
+<h2 class="sr-only">Comparativa de canales para agente conversacional con 1,000 usuarios — versión actualizada con Telegram</h2>
+<style>
+  .cmp { padding: 1.5rem 0; font-size: 14px; }
+  .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+  .card { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overflow: hidden; }
+  .card.winner { border: 2px solid #1D9E75; }
+  .card.runner { border: 2px solid #7F77DD; }
+  .card-head { padding: 14px 14px 10px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .card-icon { font-size: 20px; margin-bottom: 6px; }
+  .card-name { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+  .card-sub { font-size: 11px; color: var(--color-text-secondary); margin-top: 1px; }
+  .winner-badge { display: inline-block; font-size: 10px; font-weight: 500; background: #E1F5EE; color: #0F6E56; padding: 2px 8px; border-radius: 99px; margin-top: 4px; }
+  .runner-badge { display: inline-block; font-size: 10px; font-weight: 500; background: #EEEDFE; color: #3C3489; padding: 2px 8px; border-radius: 99px; margin-top: 4px; }
+  .card-cost { padding: 10px 14px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .cost-label { font-size: 10px; color: var(--color-text-secondary); letter-spacing: 0.05em; font-weight: 500; }
+  .cost-val { font-size: 18px; font-weight: 500; color: var(--color-text-primary); margin-top: 1px; }
+  .cost-note { font-size: 10px; color: var(--color-text-tertiary); }
+  .card-rows { padding: 10px 14px; display: flex; flex-direction: column; gap: 6px; }
+  .row { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; font-size: 11px; }
+  .row-label { color: var(--color-text-secondary); flex-shrink: 0; }
+  .yes { color: #0F6E56; font-weight: 500; }
+  .no  { color: #993C1D; font-weight: 500; }
+  .med { color: #854F0B; font-weight: 500; }
+  .section-label { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.06em; margin-bottom: 10px; }
+  .cost-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 1.5rem; }
+  .cost-table th { font-size: 10px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.05em; text-align: left; padding: 6px 10px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .cost-table td { padding: 8px 10px; border-bottom: 0.5px solid var(--color-border-tertiary); color: var(--color-text-primary); vertical-align: top; }
+  .cost-table tr:last-child td { border-bottom: none; }
+  .cost-table .hl-green td { background: #E1F5EE; color: #085041; font-weight: 500; }
+  .cost-table .hl-purple td { background: #EEEDFE; color: #26215C; font-weight: 500; }
+  .pill { display: inline-block; padding: 1px 8px; border-radius: 99px; font-size: 10px; font-weight: 500; }
+  .pill-green  { background: #E1F5EE; color: #0F6E56; }
+  .pill-red    { background: #FAECE7; color: #993C1D; }
+  .pill-amber  { background: #FAEEDA; color: #854F0B; }
+  .pill-purple { background: #EEEDFE; color: #3C3489; }
+  .pcons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.5rem; }
+  .pc-card { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overflow: hidden; }
+  .pc-head { padding: 12px 14px; border-bottom: 0.5px solid var(--color-border-tertiary); display: flex; align-items: center; gap: 8px; }
+  .pc-name { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+  .pc-cols { display: grid; grid-template-columns: 1fr 1fr; }
+  .pc-col { padding: 10px 14px; }
+  .pc-col:first-child { border-right: 0.5px solid var(--color-border-tertiary); }
+  .pc-col-title { font-size: 10px; font-weight: 500; letter-spacing: 0.05em; margin-bottom: 8px; }
+  .pro-title { color: #0F6E56; }
+  .con-title { color: #993C1D; }
+  .pc-item { font-size: 11px; color: var(--color-text-secondary); padding: 3px 0; display: flex; align-items: flex-start; gap: 5px; line-height: 1.5; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .pc-item:last-child { border-bottom: none; }
+  .pc-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+  .dot-pro { background: #1D9E75; }
+  .dot-con { background: #D85A30; }
+  .alert { border: 0.5px solid var(--color-border-tertiary); border-left: 3px solid #EF9F27; border-radius: var(--border-radius-md); padding: 12px 14px; margin-bottom: 1.5rem; display: flex; gap: 10px; align-items: flex-start; }
+  .alert-icon { color: #BA7517; font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .alert-title { font-size: 12px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 3px; }
+  .alert-text { font-size: 11px; color: var(--color-text-secondary); line-height: 1.6; }
+  .rec-box { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 16px; background: var(--color-background-secondary); margin-bottom: 1.5rem; }
+  .rec-title { font-size: 12px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .rec-steps { display: flex; gap: 8px; }
+  .rec-step { flex: 1; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 10px 12px; background: var(--color-background-primary); }
+  .step-num { font-size: 10px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 3px; }
+  .step-label { font-size: 12px; font-weight: 500; color: var(--color-text-primary); }
+  .step-sub { font-size: 10px; color: var(--color-text-secondary); margin-top: 2px; line-height: 1.4; }
+  .step-pill { display: inline-block; margin-top: 5px; font-size: 10px; font-weight: 500; padding: 1px 7px; border-radius: 99px; }
+</style>
+
+<div class="cmp">
+
+  <div class="section-label" style="margin-bottom:12px;">Costo mensual estimado — 1,000 asesores</div>
+  <div class="cards">
+
+    <div class="card winner">
+      <div class="card-head">
+        <div class="card-icon">💬</div>
+        <div class="card-name">WhatsApp</div>
+        <div class="card-sub">Meta Business Cloud API</div>
+        <div class="winner-badge">Mejor adopción — México</div>
+      </div>
+      <div class="card-cost">
+        <div class="cost-label">COSTO APROX. / MES</div>
+        <div class="cost-val">$50–$200</div>
+        <div class="cost-note">por volumen de conversaciones</div>
+      </div>
+      <div class="card-rows">
+        <div class="row"><span class="row-label">Instalación para el asesor</span><span class="yes">Cero — ya lo tienen</span></div>
+        <div class="row"><span class="row-label">API de agentes</span><span class="yes">Sí, oficial</span></div>
+        <div class="row"><span class="row-label">Archivos adjuntos</span><span class="yes">Sí</span></div>
+        <div class="row"><span class="row-label">Botones interactivos</span><span class="med">Máx. 3 por mensaje</span></div>
+        <div class="row"><span class="row-label">Adopción en México</span><span class="yes">95%+ usuarios</span></div>
+        <div class="row"><span class="row-label">Complejidad técnica</span><span class="med">Media</span></div>
+        <div class="row"><span class="row-label">Tiempo para arrancar</span><span class="med">2–3 semanas (Meta)</span></div>
+      </div>
+    </div>
+
+    <div class="card runner">
+      <div class="card-head">
+        <div class="card-icon">✈️</div>
+        <div class="card-name">Telegram</div>
+        <div class="card-sub">Bot API oficial</div>
+        <div class="runner-badge">Mejor opción técnica</div>
+      </div>
+      <div class="card-cost">
+        <div class="cost-label">COSTO APROX. / MES</div>
+        <div class="cost-val">$0</div>
+        <div class="cost-note">API completamente gratuita</div>
+      </div>
+      <div class="card-rows">
+        <div class="row"><span class="row-label">Instalación para el asesor</span><span class="no">App nueva a descargar</span></div>
+        <div class="row"><span class="row-label">API de agentes</span><span class="yes">Sí, sin restricciones</span></div>
+        <div class="row"><span class="row-label">Archivos adjuntos</span><span class="yes">Hasta 2GB</span></div>
+        <div class="row"><span class="row-label">Botones interactivos</span><span class="yes">Ilimitados</span></div>
+        <div class="row"><span class="row-label">Adopción en México</span><span class="no">Baja en ventas campo</span></div>
+        <div class="row"><span class="row-label">Complejidad técnica</span><span class="yes">Baja — más simple</span></div>
+        <div class="row"><span class="row-label">Tiempo para arrancar</span><span class="yes">Horas, sin aprobación</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon">🔵</div>
+        <div class="card-name">Microsoft Teams</div>
+        <div class="card-sub">Si ya tienen M365</div>
+      </div>
+      <div class="card-cost">
+        <div class="cost-label">COSTO APROX. / MES</div>
+        <div class="cost-val">$0</div>
+        <div class="cost-note">incluido en M365 Business Basic</div>
+      </div>
+      <div class="card-rows">
+        <div class="row"><span class="row-label">Instalación para el asesor</span><span class="yes">Ya instalado</span></div>
+        <div class="row"><span class="row-label">API de agentes</span><span class="yes">Bot Framework SDK</span></div>
+        <div class="row"><span class="row-label">Archivos adjuntos</span><span class="yes">Sí</span></div>
+        <div class="row"><span class="row-label">Botones interactivos</span><span class="yes">Adaptive Cards</span></div>
+        <div class="row"><span class="row-label">Adopción en México</span><span class="med">Depende de empresa</span></div>
+        <div class="row"><span class="row-label">Complejidad técnica</span><span class="med">Media</span></div>
+        <div class="row"><span class="row-label">Tiempo para arrancar</span><span class="med">1–2 semanas</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon">💜</div>
+        <div class="card-name">Slack</div>
+        <div class="card-sub">Referencia descartada</div>
+      </div>
+      <div class="card-cost">
+        <div class="cost-label">COSTO APROX. / MES</div>
+        <div class="cost-val">$7,250+</div>
+        <div class="cost-note">$7.25 USD/usuario × 1,000</div>
+      </div>
+      <div class="card-rows">
+        <div class="row"><span class="row-label">Instalación para el asesor</span><span class="no">App nueva a adoptar</span></div>
+        <div class="row"><span class="row-label">API de agentes</span><span class="yes">Excelente (Bolt)</span></div>
+        <div class="row"><span class="row-label">Archivos adjuntos</span><span class="yes">Sí</span></div>
+        <div class="row"><span class="row-label">Botones interactivos</span><span class="yes">Block Kit</span></div>
+        <div class="row"><span class="row-label">Adopción en México</span><span class="no">Baja en ventas</span></div>
+        <div class="row"><span class="row-label">Complejidad técnica</span><span class="yes">Más simple</span></div>
+        <div class="row"><span class="row-label">Tiempo para arrancar</span><span class="med">1 semana</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-label">Comparativa de costos anuales</div>
+  <table class="cost-table">
+    <thead>
+      <tr>
+        <th>Canal</th>
+        <th>Costo mensual</th>
+        <th>Costo anual</th>
+        <th>Costo por asesor/mes</th>
+        <th>Tiempo de aprobación</th>
+        <th>Veredicto</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="hl-green">
+        <td>WhatsApp Business API</td>
+        <td>~$100 USD</td>
+        <td>~$1,200 USD</td>
+        <td>$0.10 USD</td>
+        <td>2–3 semanas (Meta)</td>
+        <td><span class="pill pill-green">Producción</span></td>
+      </tr>
+      <tr class="hl-purple">
+        <td>Telegram Bot API</td>
+        <td>$0</td>
+        <td>$0</td>
+        <td>$0</td>
+        <td>Inmediato</td>
+        <td><span class="pill pill-purple">Piloto / validación</span></td>
+      </tr>
+      <tr>
+        <td>Microsoft Teams</td>
+        <td>$0 (con M365)</td>
+        <td>$0</td>
+        <td>$0</td>
+        <td>1–2 semanas</td>
+        <td><span class="pill pill-amber">Si ya usan M365</span></td>
+      </tr>
+      <tr>
+        <td>Slack Pro</td>
+        <td>$7,250 USD</td>
+        <td>$87,000 USD</td>
+        <td>$7.25 USD</td>
+        <td>Inmediato</td>
+        <td><span class="pill pill-red">Inviable</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-label">Pros y contras — canales recomendados</div>
+  <div class="pcons">
+
+    <div class="pc-card">
+      <div class="pc-head">
+        <span style="font-size:18px;">💬</span>
+        <div>
+          <div class="pc-name">WhatsApp Business API</div>
+          <span class="pill pill-green" style="font-size:10px;">Recomendado para producción</span>
+        </div>
+      </div>
+      <div class="pc-cols">
+        <div class="pc-col">
+          <div class="pc-col-title pro-title">VENTAJAS</div>
+          <div class="pc-item"><span class="pc-dot dot-pro"></span>Los 1,000 asesores ya lo usan — cero fricción</div>
+          <div class="pc-item"><span class="pc-dot dot-pro"></span>Canal de ventas natural en México</div>
+          <div class="pc-item"><span class="pc-dot dot-pro"></span>Soporte oficial de Meta para empresas</div>
+          <div class="pc-item"><span class="pc-dot dot-pro"></span>Costo por conversación, no por usuario</div>
+          <div class="pc-item"><span class="pc-dot dot-pro"></span>Confianza del usuario final (cliente del asesor)</div>
+        </div>
+        <div class="pc-col">
+          <div class="pc-col-title con-title">LIMITACIONES</div>
+          <div class="pc-item"><span class="pc-dot dot-con"></span>Máximo 3 botones por mensaje</div>
+          <div class="pc-item"><span class="pc-dot dot-con"></span>Ventana de 24h para conversaciones activas</div>
+          <div class="pc-item"><span class="pc-dot dot-con"></span>Templates deben ser aprobados por Meta</div>
+          <div class="pc-item"><span class="pc-dot dot-con"></span>Mesa de Control requiere panel web adicional</div>
+          <div class="pc-item"><span class="pc-dot dot-con"></span>2–3 semanas para aprobación de cuenta Business</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pc-card">
+      <div class="pc-head">
+        <span style="font-size:18px;">✈️</span>
+        <div>
+          <div class="pc-name">Telegram Bot API</div>
+          <span class="pill pill-purple" style="font-size:10px;">Recomendado para piloto</span>
+        </div>
+      </div>
+      <div class="pc-cols">
+        <div class="pc-col">
+          <div class="pc-col-title pro-title">VENTAJAS</div>
+          <div class="pc-item"><span class="pc-dot dot-pro"></span>API gratuita sin límite de usuarios</div>
+          <div class="pc-item"><span class="pc-dot dot-pro"></span>Sin proceso de aprobación — arranca en horas</div>
+          <div class="pc-item"><span class="pc-dot dot-pro"></span>Botones ilimitados, sin regla de 24h</div>
+          <div class="pc-item"><span class="pc-dot dot-pro"></span>Archivos hasta 2GB por envío</div>
+          <div class="pc-item"><span class="pc-dot dot-pro"></span>Implementación técnica más simple y rápida</div>
+        </div>
+        <div class="pc-col">
+          <div class="pc-col-title con-title">LIMITACIONES</div>
+          <div class="pc-item"><span class="pc-dot dot-con"></span>Baja adopción en fuerzas de ventas de campo</div>
+          <div class="pc-item"><span class="pc-dot dot-con"></span>Requiere descargar app nueva y crear cuenta</div>
+          <div class="pc-item"><span class="pc-dot dot-con"></span>Onboarding de 1,000 personas — riesgo de resistencia</div>
+          <div class="pc-item"><span class="pc-dot dot-con"></span>Percepción de informalidad vs. WhatsApp Business</div>
+          <div class="pc-item"><span class="pc-dot dot-con"></span>Soporte corporativo menos maduro que Meta</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="alert">
+    <i class="ti ti-alert-triangle alert-icon" aria-hidden="true"></i>
+    <div>
+      <div class="alert-title">El riesgo real de Telegram en una fuerza de ventas de campo</div>
+      <div class="alert-text">Un asesor financiero que trabaja en campo y usa su celular personal tiene WhatsApp como su herramienta de trabajo principal. Pedirle que descargue Telegram, cree una cuenta y cambie su flujo operativo diario es suficiente fricción para que el proyecto fracase por adopción — no por tecnología. En una base de 1,000 personas, incluso un 20% de rechazo inicial genera un problema de change management significativo que impacta el ROI del proyecto.</div>
+    </div>
+  </div>
+
+  <div class="section-label">Estrategia recomendada en dos fases</div>
+  <div class="rec-box">
+    <div class="rec-title"><i class="ti ti-route" aria-hidden="true" style="font-size:15px;"></i>La arquitectura del agente es idéntica en ambos canales — solo cambia el adaptador</div>
+    <div class="rec-steps">
+      <div class="rec-step">
+        <div class="step-num">FASE 1 — SEMANAS 1–5</div>
+        <div class="step-label">Piloto con Telegram</div>
+        <div class="step-sub">Validar el flujo completo con 20–30 asesores internos. Sin costos, sin esperar aprobaciones de Meta.</div>
+        <div><span class="step-pill" style="background:#EEEDFE; color:#3C3489;">$0 costo de canal</span></div>
+      </div>
+      <div class="rec-step">
+        <div class="step-num">PARALELO — SEMANAS 2–4</div>
+        <div class="step-label">Gestión Meta Business</div>
+        <div class="step-sub">Iniciar el proceso de aprobación de cuenta WhatsApp Business mientras corre el piloto de Telegram.</div>
+        <div><span class="step-pill" style="background:#FAEEDA; color:#854F0B;">En paralelo, no bloquea</span></div>
+      </div>
+      <div class="rec-step">
+        <div class="step-num">FASE 2 — SEMANA 6+</div>
+        <div class="step-label">Producción con WhatsApp</div>
+        <div class="step-sub">Activar el adaptador de WhatsApp con el flujo ya validado. Rollout a los 1,000 asesores sin cambios en el core.</div>
+        <div><span class="step-pill" style="background:#E1F5EE; color:#0F6E56;">~$100 USD/mes</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+  </main>
+</body>
+</html>

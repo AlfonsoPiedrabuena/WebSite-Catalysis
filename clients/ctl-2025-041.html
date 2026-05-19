@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Cotización #CTL-2025-041 — Catalysis</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary:   #0f0f0f;
+      --secondary: #ffffff;
+      --text:      #666666;
+      --light-bg:  #fafafa;
+      --border:    #e5e5e5;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.8;
+      color: var(--text);
+      background: var(--secondary);
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 80px 60px 100px;
+    }
+
+    /* ── HEADER ── */
+    .doc-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: end;
+      padding-bottom: 60px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 60px;
+    }
+
+    .logo {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--primary);
+      letter-spacing: 1px;
+      text-transform: lowercase;
+    }
+
+    .doc-id { text-align: right; }
+
+    .doc-label {
+      font-size: 0.75rem;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      font-weight: 400;
+    }
+
+    .doc-number {
+      font-size: 1rem;
+      color: var(--primary);
+      font-weight: 400;
+      letter-spacing: 0.5px;
+    }
+
+    .doc-date {
+      font-size: 0.875rem;
+      color: var(--text);
+    }
+
+    /* ── TITLE ── */
+    .doc-title { margin-bottom: 60px; }
+
+    .doc-title h1 {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 300;
+      color: var(--primary);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    .doc-title h1 em { font-style: italic; }
+
+    .doc-title p {
+      font-size: 1.05rem;
+      color: var(--text);
+      max-width: 560px;
+      line-height: 1.8;
+    }
+
+    /* ── PARTIES ── */
+    .parties {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-bottom: 80px;
+    }
+
+    .party {
+      background: var(--secondary);
+      padding: 2.5rem;
+    }
+
+    .party-label {
+      font-size: 0.75rem;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      font-weight: 400;
+    }
+
+    .party-name {
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.3px;
+    }
+
+    .party-detail {
+      font-size: 0.875rem;
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    .party-placeholder {
+      font-size: 0.875rem;
+      color: var(--text);
+      opacity: 0.4;
+      line-height: 1.8;
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--text);
+      font-weight: 400;
+      margin-bottom: 2rem;
+    }
+
+    /* ── SCOPE ── */
+    .scope {
+      margin-bottom: 80px;
+      padding-bottom: 80px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .scope p {
+      font-size: 1.05rem;
+      color: var(--text);
+      line-height: 1.9;
+      max-width: 700px;
+    }
+
+    /* ── PHASES ── */
+    .phases-section { margin-bottom: 80px; }
+
+    .phase {
+      display: grid;
+      grid-template-columns: 48px 1fr 130px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .phase:first-of-type { border-top: 1px solid var(--border); }
+
+    .phase-num {
+      padding: 3rem 0;
+      font-size: 0.75rem;
+      color: var(--text);
+      letter-spacing: 1px;
+    }
+
+    .phase-body {
+      padding: 3rem 2.5rem;
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+    }
+
+    .phase-name {
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      line-height: 1.3;
+      letter-spacing: -0.3px;
+    }
+
+    .phase-desc {
+      font-size: 0.9rem;
+      color: var(--text);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .deliverables { border-top: 1px solid var(--border); padding-top: 1.25rem; }
+
+    .deliverables-label {
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text);
+      opacity: 0.6;
+      margin-bottom: 0.75rem;
+    }
+
+    .deliverables ul { list-style: none; }
+
+    .deliverables ul li {
+      font-size: 0.875rem;
+      color: var(--text);
+      padding: 0.4rem 0 0.4rem 1.25rem;
+      position: relative;
+      line-height: 1.6;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .deliverables ul li:last-child { border-bottom: none; }
+
+    .deliverables ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+    }
+
+    .phase-hours {
+      padding: 3rem 0 3rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .hours-number {
+      font-size: 3.5rem;
+      font-weight: 300;
+      color: var(--primary);
+      letter-spacing: -2px;
+      line-height: 1;
+    }
+
+    .hours-unit {
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-top: 0.5rem;
+    }
+
+    /* ── PRICING ── */
+    .pricing-section { margin-bottom: 80px; }
+
+    .pricing-rows { border: 1px solid var(--border); }
+
+    .pricing-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pricing-row:last-child { border-bottom: none; }
+
+    .pricing-row-label { font-size: 0.9rem; color: var(--text); }
+    .pricing-row-value { font-size: 0.9rem; color: var(--primary); }
+
+    .pricing-row.total {
+      background: var(--light-bg);
+      padding: 2rem;
+    }
+
+    .pricing-row.total .pricing-row-label {
+      font-size: 0.875rem;
+      color: var(--primary);
+      letter-spacing: 0.5px;
+    }
+
+    .pricing-row.total .pricing-row-value {
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: var(--primary);
+      letter-spacing: -1.5px;
+    }
+
+    .pricing-footnote {
+      font-size: 0.8rem;
+      color: var(--text);
+      opacity: 0.6;
+      padding: 1.25rem 2rem;
+      border: 1px solid var(--border);
+      border-top: none;
+      background: var(--light-bg);
+      line-height: 1.7;
+    }
+
+    /* ── INFRA NOTE ── */
+    .infra-note {
+      margin-bottom: 80px;
+      padding: 2.5rem;
+      border: 1px solid var(--border);
+      background: var(--light-bg);
+    }
+
+    .infra-note p { font-size: 0.9rem; color: var(--text); line-height: 1.8; }
+    .infra-note strong { color: var(--primary); font-weight: 500; }
+
+    /* ── TERMS ── */
+    .terms-section {
+      margin-bottom: 80px;
+      padding-bottom: 80px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .terms-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .term {
+      background: var(--secondary);
+      padding: 2rem;
+    }
+
+    .term-key {
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text);
+      opacity: 0.6;
+      margin-bottom: 0.75rem;
+    }
+
+    .term-val { font-size: 0.9rem; color: var(--text); line-height: 1.7; }
+
+    /* ── SIGNATURE ── */
+    .signature-section { margin-bottom: 80px; }
+
+    .signature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .sig-block {
+      background: var(--secondary);
+      padding: 2.5rem;
+    }
+
+    .sig-label {
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text);
+      opacity: 0.6;
+      margin-bottom: 3.5rem;
+    }
+
+    .sig-line {
+      border-bottom: 1px solid var(--primary);
+      margin-bottom: 0.75rem;
+    }
+
+    .sig-name { font-size: 0.8rem; color: var(--text); }
+
+    /* ── FOOTER ── */
+    .doc-footer {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text);
+      opacity: 0.5;
+      letter-spacing: 0.5px;
+    }
+
+    @media print {
+      .page { padding: 40px; }
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="doc-header">
+    <div class="logo">catalysis</div>
+    <div class="doc-id">
+      <div class="doc-label">Cotización</div>
+      <div class="doc-number">#CTL-2025-041</div>
+      <div class="doc-date">18 de mayo de 2025 &nbsp;·&nbsp; Vigencia 30 días</div>
+    </div>
+  </div>
+
+  <!-- TITLE -->
+  <div class="doc-title">
+    <h1>Sistema de <em>automatización</em><br>para presentar cotizaciones</h1>
+    <p>Levantamiento de procesos, desarrollo del sistema y pruebas internas previas a presentación con cliente.</p>
+  </div>
+
+  <!-- PARTIES -->
+  <div class="parties">
+    <div class="party">
+      <div class="party-label">Proveedor</div>
+      <div class="party-name">Catalysis</div>
+      <div class="party-detail">
+        catalysis.com.mx<br>
+        contacto@catalysis.com.mx<br>
+        México
+      </div>
+    </div>
+    <div class="party">
+      <div class="party-label">Cliente</div>
+      <div class="party-name">Mario Gutiérrez</div>
+      <div class="party-detail">
+        El Asesor<br>
+        mario.gutierrez@tu-asesor.com.mx<br>
+        México
+      </div>
+    </div>
+  </div>
+
+  <!-- SCOPE -->
+  <div class="scope">
+    <div class="section-label">Descripción del proyecto</div>
+    <p>
+      Desarrollo de un sistema web que permite al asesor capturar datos del cliente y montos
+      en un formulario digital, aplicar una fórmula de desglose automático, y generar de forma
+      automática un archivo HTML de respaldo y un PDF enviado por correo electrónico al
+      destinatario definido. Todos los registros se almacenan en base de datos para auditoría.
+      La infraestructura en la nube se cotiza por separado.
+    </p>
+  </div>
+
+  <!-- PHASES -->
+  <div class="phases-section">
+    <div class="section-label">Desglose de fases</div>
+
+    <div class="phase">
+      <div class="phase-num">01</div>
+      <div class="phase-body">
+        <div class="phase-name">Levantamiento de procesos y entendimiento</div>
+        <div class="phase-desc">
+          Sesión de descubrimiento con el cliente para documentar el proceso actual (as-is)
+          y diseñar el proceso futuro (to-be). Definición de reglas de negocio, campos del
+          formulario y lógica de la fórmula de cálculo.
+        </div>
+        <div class="deliverables">
+          <div class="deliverables-label">Entregables</div>
+          <ul>
+            <li>Diagrama de proceso actual (as-is)</li>
+            <li>Diagrama de proceso futuro (to-be)</li>
+            <li>Historias de usuario</li>
+          </ul>
+        </div>
+      </div>
+      <div class="phase-hours">
+        <div class="hours-number">2</div>
+        <div class="hours-unit">horas</div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-num">02</div>
+      <div class="phase-body">
+        <div class="phase-name">Desarrollo y pruebas internas</div>
+        <div class="phase-desc">
+          Implementación completa del sistema: formulario web, API de procesamiento, persistencia
+          para auditoría, motor de cálculo con la fórmula de desglose, generación de HTML y PDF,
+          e integración con el servicio de envío de correo electrónico. Pruebas funcionales internas
+          antes de entrega al cliente.
+        </div>
+        <div class="deliverables">
+          <div class="deliverables-label">Entregables</div>
+          <ul>
+            <li>Formulario web funcional</li>
+            <li>Motor de cálculo con la fórmula acordada</li>
+            <li>Generación automática de HTML y PDF</li>
+            <li>Envío de correo electrónico con adjunto</li>
+            <li>Registro de auditoría en base de datos</li>
+          </ul>
+        </div>
+      </div>
+      <div class="phase-hours">
+        <div class="hours-number">25</div>
+        <div class="hours-unit">horas</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PRICING -->
+  <div class="pricing-section">
+    <div class="section-label">Resumen económico</div>
+    <div class="pricing-rows">
+      <div class="pricing-row">
+        <span class="pricing-row-label">Total de horas del proyecto</span>
+        <span class="pricing-row-value">27 horas</span>
+      </div>
+      <div class="pricing-row">
+        <span class="pricing-row-label">Fase 01 — Levantamiento &nbsp; (2 hrs × $650.00)</span>
+        <span class="pricing-row-value">$1,300.00 MXN</span>
+      </div>
+      <div class="pricing-row">
+        <span class="pricing-row-label">Fase 02 — Desarrollo y pruebas &nbsp; (25 hrs × $650.00)</span>
+        <span class="pricing-row-value">$16,250.00 MXN</span>
+      </div>
+      <div class="pricing-row total">
+        <span class="pricing-row-label">Total del proyecto</span>
+        <span class="pricing-row-value">$17,550.00 MXN</span>
+      </div>
+    </div>
+    <div class="pricing-footnote">
+      * Precios en pesos mexicanos (MXN). No incluye IVA. &nbsp;·&nbsp;
+      Infraestructura Firebase cotizada por separado. &nbsp;·&nbsp;
+      Tarifa base: $650.00 MXN por hora.
+    </div>
+  </div>
+
+  <!-- INFRA NOTE -->
+  <div class="infra-note">
+    <p>
+      <strong>Nota sobre infraestructura:</strong> &nbsp;El costo de cómputo en la nube
+      (Firebase — Firestore, Cloud Functions, Hosting) se presentará en un documento independiente.
+      Para el volumen esperado de un sistema de consultoría, el costo operativo mensual estimado
+      es mínimo bajo el plan Firebase Blaze (pago por uso).
+    </p>
+  </div>
+
+  <!-- TERMS -->
+  <div class="terms-section">
+    <div class="section-label">Condiciones comerciales</div>
+    <div class="terms-grid">
+      <div class="term">
+        <div class="term-key">Forma de pago</div>
+        <div class="term-val">50% al inicio · 50% a la entrega final</div>
+      </div>
+      <div class="term">
+        <div class="term-key">Tiempo de entrega</div>
+        <div class="term-val">2–3 semanas desde aprobación y primer pago</div>
+      </div>
+      <div class="term">
+        <div class="term-key">Vigencia</div>
+        <div class="term-val">30 días calendario desde la fecha de emisión</div>
+      </div>
+      <div class="term">
+        <div class="term-key">Cambios de alcance</div>
+        <div class="term-val">Funcionalidades adicionales se cotizarán por separado</div>
+      </div>
+      <div class="term">
+        <div class="term-key">Soporte post-entrega</div>
+        <div class="term-val">15 días de correcciones sobre lo acordado en las historias de usuario</div>
+      </div>
+      <div class="term">
+        <div class="term-key">Entregables</div>
+        <div class="term-val">Código fuente, documentación técnica y acceso al repositorio</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="signature-section">
+    <div class="section-label">Aprobación</div>
+    <div class="signature-grid">
+      <div class="sig-block">
+        <div class="sig-label">Proveedor — Catalysis</div>
+        <div class="sig-line"></div>
+        <div class="sig-name">Nombre y firma</div>
+      </div>
+      <div class="sig-block">
+        <div class="sig-label">Cliente — El Asesor</div>
+        <div class="sig-line"></div>
+        <div class="sig-name">Nombre, firma y fecha</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="doc-footer">
+    <span>catalysis — democratizando la transformación digital con ia</span>
+    <span>#CTL-2025-041 · 18 mayo 2025</span>
+  </div>
+
+</div>
+</body>
+</html>
