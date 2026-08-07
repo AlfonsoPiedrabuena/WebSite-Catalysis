@@ -134,8 +134,9 @@ O por integración Git (push a la rama configurada en Netlify). Configuración m
 | `admin-login.html`, `admin-setup-2fa.html` | 🔒 | — | Firebase Auth + 2FA |
 | `admin-contactos.html` | 🔒 | — | Firebase Auth + Firestore `contactos` |
 | `verificar-configuracion.html` | 🔧 | — | Diagnóstico — útil al onboarding |
+| `clients/*.html` (cotizaciones/propuestas por cliente) | 🔗 | — | Nada — estáticas, `noindex,nofollow` |
 
-Las páginas admin/diagnóstico quedan fuera de Google Analytics a propósito, para no mezclar el uso interno del equipo con las métricas de tráfico de visitantes.
+Las páginas admin/diagnóstico quedan fuera de Google Analytics a propósito, para no mezclar el uso interno del equipo con las métricas de tráfico de visitantes. Las páginas de `clients/` tampoco llevan GA4 a propósito (decisión 2026-08-06): son propuestas para un cliente puntual, no tráfico del sitio que se quiera medir — a diferencia de `eventsync-sv-onepager.html`, que sí es pública/indexable.
 
 ## Servicios y Metodología (contenido)
 
