@@ -4,7 +4,7 @@ Guía para Claude Code al trabajar en este repositorio.
 
 ## Project Overview
 
-Catalysis es un sitio web de consultoría en transformación digital. Stack híbrido: HTML estático + Firebase (blog y panel admin) + Netlify Functions (formularios → HubSpot CRM) + Cloudflare Turnstile (anti-bot).
+Catalysis es un sitio web de consultoría en transformación digital. Stack híbrido: HTML estático + Firebase (blog y panel admin) + Netlify Functions (formularios → HubSpot CRM) + Cloudflare Turnstile (anti-bot) + Google Analytics (GA4, medición de tráfico).
 
 ## Estructura Real
 
@@ -81,6 +81,7 @@ Ver `WebSite/.env.example` para los scopes requeridos en HubSpot.
 - **Datos:** Firebase Firestore (blog + contactos legacy), HubSpot CRM (contactos nuevos).
 - **Auth:** Firebase Authentication con 2FA para panel admin.
 - **Anti-bot:** Cloudflare Turnstile (cliente + verificación server-side).
+- **Analítica:** Google Analytics 4 (`gtag.js`), ID de medición `G-19DQMK1HYD`. Snippet inline en el `<head>` de cada página pública (no hay archivo compartido — al agregar una página pública nueva, copiar el snippet de `index.html`).
 - **Hosting:** Netlify (`netlify.toml` con `publish = "."`).
 
 ## Colecciones Firestore
@@ -127,14 +128,17 @@ O por integración Git (push a la rama configurada en Netlify). Configuración m
 
 ## Páginas
 
-| Página | Pública | Depende de |
-|---|---|---|
-| `index.html`, `servicios.html`, `aviso-privacidad.html` | ✅ | — |
-| `contacto.html` | ✅ | Netlify Function + Turnstile + HubSpot |
-| `blog.html`, `blog-post.html` | ✅ | Firestore (lectura) |
-| `admin-login.html`, `admin-setup-2fa.html` | 🔒 | Firebase Auth + 2FA |
-| `admin-contactos.html` | 🔒 | Firebase Auth + Firestore `contactos` |
-| `verificar-configuracion.html` | 🔧 | Diagnóstico — útil al onboarding |
+| Página | Pública | GA4 | Depende de |
+|---|---|---|---|
+| `index.html`, `servicios.html`, `aviso-privacidad.html` | ✅ | ✅ | — |
+| `contacto.html` | ✅ | ✅ | Netlify Function + Turnstile + HubSpot |
+| `blog.html`, `blog-post.html` | ✅ | ✅ | Firestore (lectura) |
+| `eventsync-sv-onepager.html` | ✅ | ✅ | — (one-pager estático de propuesta) |
+| `admin-login.html`, `admin-setup-2fa.html` | 🔒 | — | Firebase Auth + 2FA |
+| `admin-contactos.html` | 🔒 | — | Firebase Auth + Firestore `contactos` |
+| `verificar-configuracion.html` | 🔧 | — | Diagnóstico — útil al onboarding |
+
+Las páginas admin/diagnóstico quedan fuera de Google Analytics a propósito, para no mezclar el uso interno del equipo con las métricas de tráfico de visitantes.
 
 ## Servicios y Metodología (contenido)
 
@@ -178,5 +182,5 @@ O por integración Git (push a la rama configurada en Netlify). Configuración m
 - Documentos históricos (privacidad, framework): `archive/`
 
 ---
-**Versión:** 3.0 (Híbrido Netlify + Firebase + HubSpot)
-**Última actualización:** 2026-05-02
+**Versión:** 3.1 (Híbrido Netlify + Firebase + HubSpot + Google Analytics)
+**Última actualización:** 2026-08-01
