@@ -8,40 +8,40 @@ Catalysis es un sitio web de consultoría en transformación digital. Stack híb
 
 ## Estructura Real
 
+La raíz de este repositorio **es** el sitio de producción servido por Netlify (no hay subcarpeta `WebSite/` dentro del repo — todas las rutas de este documento son relativas a la raíz del repo).
+
 ```
-/
-├── WebSite/                       # 🎯 Sitio de producción (servido por Netlify)
-│   ├── index.html                 # Homepage con formulario quick-contact
-│   ├── servicios.html             # Catálogo de servicios
-│   ├── contacto.html              # Formulario completo
-│   ├── blog.html                  # Listado de posts (Firestore)
-│   ├── blog-post.html             # Vista individual ?id=POST_ID
-│   ├── aviso-privacidad.html      # Aviso legal
-│   ├── admin-login.html           # Login admin (Firebase Auth)
-│   ├── admin-setup-2fa.html       # Configuración 2FA
-│   ├── admin-contactos.html       # Panel: ver contactos en Firestore
-│   ├── verificar-configuracion.html  # Diagnóstico Firebase Auth/2FA
-│   ├── eventsync-sv-onepager.html    # One-pager de propuesta (estática)
-│   ├── css/style.css
-│   ├── js/
-│   │   ├── main.js                # Navbar, smooth scroll, año footer
-│   │   ├── firebase-config.js     # Init Firebase (window.firestoreDb)
-│   │   ├── blog.js                # Lista posts publicados
-│   │   ├── blog-post.js           # Render post + incrementa vistas
-│   │   └── contact.js             # Submit → Netlify Function (HubSpot)
-│   ├── netlify/functions/
-│   │   └── hubspot-register.js    # POST → verifica Turnstile → crea Contact + Company en HubSpot
-│   ├── netlify.toml               # publish=".", functions="netlify/functions"
-│   ├── firebase.json              # Hosting opcional + reglas Firestore
-│   ├── firestore.rules
-│   ├── firestore.indexes.json
-│   ├── .env.example               # HUBSPOT_PRIVATE_APP_TOKEN, TURNSTILE_SECRET_KEY
-│   └── README.md                  # Setup detallado de Firebase
-├── archive/                       # Docs históricos de referencia
-│   ├── aviso-privacidad-instruction.md
-│   └── digital-transformation-framework.md
-├── reqs/                          # Placeholder (vacío)
-├── POSTS_PARA_FIREBASE.txt        # Posts pre-redactados para cargar en Firestore
+./                                  # 🎯 raíz del repo = raíz del sitio
+├── index.html                     # Homepage con formulario quick-contact
+├── servicios.html                 # Catálogo de servicios
+├── contacto.html                  # Formulario completo
+├── blog.html                      # Listado de posts (Firestore)
+├── blog-post.html                 # Vista individual ?id=POST_ID
+├── aviso-privacidad.html          # Aviso legal
+├── admin-login.html               # Login admin (Firebase Auth)
+├── admin-setup-2fa.html           # Configuración 2FA
+├── admin-contactos.html           # Panel: ver contactos en Firestore
+├── verificar-configuracion.html   # Diagnóstico Firebase Auth/2FA
+├── eventsync-sv-onepager.html     # One-pager de propuesta (estática)
+├── clients/                       # Cotizaciones/propuestas para clientes puntuales (noindex, sin GA4)
+│   ├── ctl-2025-041.html
+│   └── canal_agente_comparativo_v2.html
+├── css/style.css
+├── js/
+│   ├── main.js                    # Navbar, smooth scroll, año footer
+│   ├── firebase-config.js         # Init Firebase (window.firestoreDb)
+│   ├── blog.js                    # Lista posts publicados
+│   ├── blog-post.js               # Render post + incrementa vistas
+│   └── contact.js                 # Submit → Netlify Function (HubSpot)
+├── netlify/functions/
+│   └── hubspot-register.js        # POST → verifica Turnstile → crea Contact + Company en HubSpot
+├── netlify.toml                   # publish=".", functions="netlify/functions"
+├── firebase.json                  # Reglas de Firestore (no se usa para hosting)
+├── .firebaserc                    # Proyecto Firebase target ("catalysis-blog")
+├── firestore.rules
+├── firestore.indexes.json
+├── .env.example                   # HUBSPOT_PRIVATE_APP_TOKEN, TURNSTILE_SECRET_KEY
+├── README.md                      # Setup detallado de Firebase
 └── CLAUDE.md
 ```
 
@@ -72,7 +72,7 @@ Configurar en **Netlify → Site settings → Environment variables**:
 | `HUBSPOT_PRIVATE_APP_TOKEN` | HubSpot Private App | Auth a HubSpot CRM API v3 |
 | `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile | Verificación server-side del token |
 
-Ver `WebSite/.env.example` para los scopes requeridos en HubSpot.
+Ver `.env.example` para los scopes requeridos en HubSpot.
 
 ## Stack Tecnológico
 
@@ -98,18 +98,16 @@ vistas (auto-increment)
 nombre, email, empresa, telefono, mensaje, fecha_creacion, atendido (bool)
 ```
 
-Reglas completas en `WebSite/firestore.rules`.
+Reglas completas en `firestore.rules`.
 
 ## Desarrollo Local
 
 ```bash
 # Opción recomendada (Netlify CLI ejecuta funciones localmente)
-cd WebSite
 npm install -g netlify-cli
 netlify dev          # http://localhost:8888
 
 # Alternativa solo-frontend (sin Netlify Functions)
-cd WebSite
 python3 -m http.server 8000
 ```
 
@@ -120,7 +118,6 @@ Para que el formulario de contacto funcione localmente: usar `netlify dev` y car
 **Netlify** es el destino de producción.
 
 ```bash
-cd WebSite
 netlify deploy --prod
 ```
 
@@ -148,10 +145,10 @@ Las páginas admin/diagnóstico quedan fuera de Google Analytics a propósito, p
 
 ## Archivos sensibles — leer antes de modificar
 
-- `WebSite/js/firebase-config.js` — credenciales públicas de Firebase (no son secretas, pero reemplazarlas rompe todo).
-- `WebSite/netlify/functions/hubspot-register.js` — flujo de validación + creación en HubSpot. Cambios aquí afectan la integración CRM.
-- `WebSite/js/contact.js` — orquesta Turnstile + submit; el orden de inicialización del widget importa.
-- `WebSite/firestore.rules` — un cambio incorrecto puede exponer la colección `contactos`.
+- `js/firebase-config.js` — credenciales públicas de Firebase (no son secretas, pero reemplazarlas rompe todo).
+- `netlify/functions/hubspot-register.js` — flujo de validación + creación en HubSpot. Cambios aquí afectan la integración CRM.
+- `js/contact.js` — orquesta Turnstile + submit; el orden de inicialización del widget importa.
+- `firestore.rules` — un cambio incorrecto puede exponer la colección `contactos`.
 
 ## Gestión de Contenido
 
@@ -176,11 +173,11 @@ Las páginas admin/diagnóstico quedan fuera de Google Analytics a propósito, p
 
 ## Referencias
 
-- Setup detallado de Firebase: `WebSite/README.md`
-- Variables de entorno y scopes de HubSpot: `WebSite/.env.example`
-- Reglas de seguridad: `WebSite/firestore.rules`
-- Documentos históricos (privacidad, framework): `archive/`
+- Setup detallado de Firebase: `README.md`
+- Variables de entorno y scopes de HubSpot: `.env.example`
+- Reglas de seguridad: `firestore.rules`
+- Documentos históricos (privacidad, framework): fuera de este repo, en `../archive/` (carpeta hermana de `WebSite/`, no versionada aquí)
 
 ---
-**Versión:** 3.1 (Híbrido Netlify + Firebase + HubSpot + Google Analytics)
-**Última actualización:** 2026-08-01
+**Versión:** 3.2 (Corrección de estructura: la raíz del repo es el sitio, sin subcarpeta `WebSite/`)
+**Última actualización:** 2026-08-06

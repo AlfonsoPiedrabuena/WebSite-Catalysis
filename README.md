@@ -4,22 +4,28 @@ Sitio web estático de Catalysis Consultoría con integración de Firebase para 
 
 ## Estructura del Proyecto
 
+Este README cubre solo la parte de Firebase (blog + Firestore). Para la
+arquitectura completa del sitio (Netlify Functions, HubSpot, Turnstile,
+Google Analytics) ver [`CLAUDE.md`](./CLAUDE.md), que es la referencia
+actualizada.
+
 ```
-site/
-├── index.html           # Página principal
-├── servicios.html       # Página de servicios
-├── contacto.html        # Página de contacto
-├── blog.html           # Listado de artículos del blog
-├── blog-post.html      # Página individual de artículo
+./                        # raíz del repo = raíz del sitio (sin subcarpeta site/)
+├── index.html
+├── servicios.html
+├── contacto.html
+├── blog.html
+├── blog-post.html
 ├── css/
-│   └── style.css       # Estilos del sitio
+│   └── style.css
 ├── js/
-│   ├── main.js         # JavaScript principal
-│   ├── firebase-config.js  # Configuración de Firebase
-│   ├── blog.js         # Carga de posts del blog
-│   ├── blog-post.js    # Carga de post individual
-│   └── contact.js      # Manejo de formulario de contacto
-└── images/             # Imágenes del sitio
+│   ├── main.js
+│   ├── firebase-config.js
+│   ├── blog.js
+│   ├── blog-post.js
+│   └── contact.js
+├── netlify/functions/    # formularios → HubSpot (ver CLAUDE.md)
+└── images/                # imágenes del sitio (agregar assets aquí)
 ```
 
 ## Configuración de Firebase
@@ -76,7 +82,7 @@ service cloud.firestore {
 
 ### 5. Configurar el Sitio Web
 
-1. Abre el archivo `site/js/firebase-config.js`
+1. Abre el archivo `js/firebase-config.js`
 2. Reemplaza las credenciales con las de tu proyecto:
 
 ```javascript
@@ -129,9 +135,12 @@ Cada documento de blog debe tener la siguiente estructura:
 }
 ```
 
-### Colección: `contactos`
+### Colección: `contactos` (legacy)
 
-Los formularios de contacto guardan documentos con esta estructura:
+El formulario público ya no escribe aquí directo desde el navegador — pasa
+por una Netlify Function que valida Turnstile y persiste en HubSpot CRM
+(ver `CLAUDE.md`). Esta colección queda como respaldo/legado del panel
+admin, con esta estructura de documentos:
 
 ```javascript
 {
@@ -206,53 +215,27 @@ addBlogPost();
 
 ## Despliegue
 
-### Opción 1: Firebase Hosting (Recomendado)
+**Netlify es el destino de producción** — no usar `firebase deploy` para
+hosting. `firebase.json` en este repo solo se usa para desplegar las
+reglas de Firestore (`firebase deploy --only firestore:rules`). Detalle
+completo de variables de entorno y `netlify.toml` en `CLAUDE.md`.
 
 ```bash
-# Instalar Firebase CLI
-npm install -g firebase-tools
-
-# Login a Firebase
-firebase login
-
-# Inicializar Firebase en el proyecto
-cd site
-firebase init hosting
-
-# Seleccionar tu proyecto de Firebase
-# Public directory: . (directorio actual)
-# Configure as SPA: No
-# Set up automatic builds: No
-
-# Desplegar
-firebase deploy
+netlify deploy --prod
+# o por integración Git: push a la rama configurada en Netlify
 ```
 
-### Opción 2: Hosting Estático (Netlify, Vercel, etc.)
-
-1. Sube la carpeta `site/` a tu servicio de hosting preferido
-2. Asegúrate de que `firebase-config.js` tiene las credenciales correctas
-3. El sitio funcionará automáticamente
-
-### Opción 3: Servidor Web Local
-
-Para desarrollo local, usa cualquier servidor HTTP estático:
+### Servidor Web Local
 
 ```bash
-# Opción 1: Python
-cd site
+# Recomendado: Netlify CLI (ejecuta también las Netlify Functions)
+netlify dev          # http://localhost:8888
+
+# Alternativa solo-frontend (sin Netlify Functions)
 python3 -m http.server 8000
-
-# Opción 2: Node.js (http-server)
-npm install -g http-server
-cd site
-http-server -p 8000
-
-# Opción 3: VS Code Live Server
-# Instala la extensión "Live Server" y haz clic derecho > "Open with Live Server"
 ```
 
-Luego abre http://localhost:8000 en tu navegador.
+No abrir los HTML con `file://` — Firebase y las Netlify Functions requieren un servidor HTTP.
 
 ## Funcionalidades
 
