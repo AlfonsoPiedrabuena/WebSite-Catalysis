@@ -85,7 +85,7 @@ Configurar en **Netlify → Site settings → Environment variables**:
 |---|---|---|
 | `HUBSPOT_PRIVATE_APP_TOKEN` | HubSpot Private App | Auth a HubSpot CRM API v3 |
 | `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile | Verificación server-side del token |
-| `CRM_LEADS_ENDPOINT` | fijo: `https://crm.catalysis.com.mx/api/external/v1/leads` | Destino del alta en Catalysis CRM |
+| `CRM_LEADS_ENDPOINT` | dominio del CRM interno + `/api/external/v1/leads` (ver `.env.example`) | Destino del alta en Catalysis CRM |
 | `CRM_API_KEY` | `scripts/create-api-key.mjs` en el repo `catalysis-crm` (scope `leads:create`) | Auth machine-to-machine contra Catalysis CRM |
 
 Ver `.env.example` para los scopes requeridos en HubSpot.
