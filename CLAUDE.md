@@ -35,6 +35,7 @@ La raíz de este repositorio **es** el sitio de producción servido por Netlify 
 │   └── contact.js                 # Submit → Netlify Function (HubSpot)
 ├── netlify/functions/
 │   └── hubspot-register.js        # POST → verifica Turnstile → crea Contact + Company en HubSpot
+│                                   #        + alta best-effort en Catalysis CRM (leads externos)
 ├── netlify.toml                   # publish=".", functions="netlify/functions"
 ├── firebase.json                  # Reglas de Firestore (no se usa para hosting)
 ├── .firebaserc                    # Proyecto Firebase target ("catalysis-blog")
@@ -57,11 +58,24 @@ La raíz de este repositorio **es** el sitio de producción servido por Netlify 
 │  Form de    ──POST─▶  Netlify Function (hubspot-register)       │
 │  contacto              │                                         │
 │                        ├─▶ Cloudflare Turnstile (verify token)  │
-│                        └─▶ HubSpot CRM v3 (Contact + Company)   │
+│                        ├─▶ HubSpot CRM v3 (Contact + Company)   │
+│                        └─▶ Catalysis CRM (POST /api/external/   │
+│                             v1/leads, best-effort)               │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 **Decisión clave:** los contactos del formulario público **ya no se escriben directo a Firestore** desde el navegador — pasan por la Netlify Function para validar Turnstile del lado servidor y persistirlos en HubSpot. La colección `contactos` en Firestore queda como respaldo/legado del panel admin.
+
+**Alta en Catalysis CRM:** además de HubSpot, `hubspot-register.js` da de alta el mismo lead
+(empresa + contacto) en Catalysis CRM (`crm.catalysis.com.mx`, repo `catalysis-crm`), vía su
+endpoint machine-to-machine `app/api/external/v1/leads` (auth por header `X-Api-Key`, scope
+`leads:create` — el mismo mecanismo que usa la integración de WhatsApp Flows). Es **best-effort**:
+si falla o faltan las env vars, se loguea con `console.error` pero la respuesta al navegador y el
+alta en HubSpot (fuente primaria de este formulario) no se ven afectadas. Sector y nivel de madurez
+no tienen campo propio en el CRM — se concatenan como texto libre en `contacto.notas`. Consentimiento
+de WhatsApp y aceptación de política de privacidad sí son campos propios del `Contact`
+(`aceptaWhatsapp`, `aceptaPrivacidad`) — la fecha de aceptación de privacidad la calcula el propio
+CRM al recibir el lead, no viaja desde el sitio.
 
 ## Variables de Entorno
 
@@ -71,6 +85,8 @@ Configurar en **Netlify → Site settings → Environment variables**:
 |---|---|---|
 | `HUBSPOT_PRIVATE_APP_TOKEN` | HubSpot Private App | Auth a HubSpot CRM API v3 |
 | `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile | Verificación server-side del token |
+| `CRM_LEADS_ENDPOINT` | fijo: `https://crm.catalysis.com.mx/api/external/v1/leads` | Destino del alta en Catalysis CRM |
+| `CRM_API_KEY` | `scripts/create-api-key.mjs` en el repo `catalysis-crm` (scope `leads:create`) | Auth machine-to-machine contra Catalysis CRM |
 
 Ver `.env.example` para los scopes requeridos en HubSpot.
 
