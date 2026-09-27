@@ -69,6 +69,13 @@ nav.static {
     text-transform: lowercase;
 }
 
+.logo img {
+    display: block;
+    height: 56px;
+    width: auto;
+    margin: -10px 0;
+}
+
 .nav-links {
     display: flex;
     gap: 3.5rem;
