@@ -23,17 +23,15 @@ document.addEventListener('DOMContentLoaded', async function() {
             throw new Error('Firebase not initialized');
         }
 
-        // Get post from Firestore
-        const postDoc = await window.firestoreDb
-            .collection('blog_posts')
-            .doc(postId)
-            .get();
+        // Resolve post: by slug (new URLs) or by document ID (legacy URLs)
+        const postDoc = await findPostDoc(postId);
 
-        if (!postDoc.exists) {
+        if (!postDoc) {
             throw new Error('Post not found');
         }
 
         const post = postDoc.data();
+        const docId = postDoc.id;
 
         // Check if post is published
         if (!post.publicado) {
@@ -45,10 +43,10 @@ document.addEventListener('DOMContentLoaded', async function() {
         postContent.style.display = 'block';
 
         // Populate post data
-        populatePost(post, postId);
+        populatePost(post, docId);
 
         // Increment view count
-        incrementViewCount(postId);
+        incrementViewCount(docId);
 
     } catch (error) {
         console.error('Error loading blog post:', error);
@@ -56,6 +54,29 @@ document.addEventListener('DOMContentLoaded', async function() {
         postNotFound.style.display = 'block';
     }
 });
+
+/**
+ * Find a post document from the ?id= URL value.
+ * Order: legacy document ID → `slug` field → slug derived from the title.
+ * @param {string} idOrSlug - Value of the ?id= parameter
+ * @returns {Promise<firebase.firestore.DocumentSnapshot|null>}
+ */
+async function findPostDoc(idOrSlug) {
+    const posts = window.firestoreDb.collection('blog_posts');
+
+    // 1. Legacy links (Firestore auto-generated ID)
+    const byId = await posts.doc(idOrSlug).get();
+    if (byId.exists) return byId;
+
+    // 2. Posts that store an explicit `slug` field
+    const target = slugify(idOrSlug);
+    const bySlug = await posts.where('slug', '==', idOrSlug).limit(1).get();
+    if (!bySlug.empty) return bySlug.docs[0];
+
+    // 3. Slug derived from the title (same 50-post window the blog list uses)
+    const recent = await posts.orderBy('fecha_publicacion', 'desc').limit(50).get();
+    return recent.docs.find(doc => getPostSlug(doc.data()) === target) || null;
+}
 
 /**
  * Populate post content in the page

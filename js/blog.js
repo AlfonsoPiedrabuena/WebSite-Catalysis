@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async function() {
  */
 function createPostCard(post, postId) {
     const card = document.createElement('a');
-    card.href = `blog-post.html?id=${postId}`;
+    card.href = `blog-post.html?id=${encodeURIComponent(getPostSlug(post) || postId)}`;
     card.className = 'service-card';
     card.style.textDecoration = 'none';
     card.style.color = 'inherit';
