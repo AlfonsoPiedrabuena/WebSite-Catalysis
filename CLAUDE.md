@@ -36,6 +36,9 @@ La raíz de este repositorio **es** el sitio de producción servido por Netlify 
 ├── netlify/functions/
 │   └── hubspot-register.js        # POST → verifica Turnstile → crea Contact + Company en HubSpot
 │                                   #        + alta best-effort en Catalysis CRM (leads externos)
+├── netlify/edge-functions/
+│   └── blog-og.ts                 # Inyecta Open Graph tags en blog-post.html SOLO para crawlers (UA);
+│                                   #  humanos reciben el HTML sin modificar. Ver reqs/og-tags-blog-post.md
 ├── netlify.toml                   # publish=".", functions="netlify/functions"
 ├── firebase.json                  # Reglas de Firestore (no se usa para hosting)
 ├── .firebaserc                    # Proyecto Firebase target ("catalysis-blog")
