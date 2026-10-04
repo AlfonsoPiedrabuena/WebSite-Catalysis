@@ -1,6 +1,6 @@
 # Requerimiento: Open Graph tags server-side para `blog-post.html`
 
-**Estado:** URLs con slug ya confirmadas funcionando (commit `347e7ed`, verificado en navegador real el 2026-10-03 en múltiples posts — carga correcta de título, contenido y meta). Este documento cubre lo que falta: la vista previa del link en redes sociales.
+**Estado: IMPLEMENTADO (2026-10-03, commit `9799ebd`, `netlify/edge-functions/blog-og.ts`; verificado con `curl` en producción; falta solo validar en el Facebook Sharing Debugger).** URLs con slug ya confirmadas funcionando (commit `347e7ed`, verificado en navegador real el 2026-10-03 en múltiples posts — carga correcta de título, contenido y meta). Este documento cubre lo que falta: la vista previa del link en redes sociales.
 
 ## Problema
 

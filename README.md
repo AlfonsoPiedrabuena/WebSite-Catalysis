@@ -121,7 +121,7 @@ Cada documento de blog debe tener la siguiente estructura:
 ```javascript
 {
   titulo: "Título del artículo",
-  slug: "titulo-del-articulo",  // URL-friendly (opcional)
+  slug: "titulo_del_articulo",  // Parte de la URL (?id=). Minúsculas, sin acentos, "_" (opcional: si falta se deriva del título)
   resumen: "Breve resumen del artículo...",
   contenido: "<p>Contenido HTML del artículo...</p>",
   autor: "Nombre del Autor",

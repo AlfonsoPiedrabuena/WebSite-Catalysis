@@ -16,7 +16,7 @@ La raíz de este repositorio **es** el sitio de producción servido por Netlify 
 ├── servicios.html                 # Catálogo de servicios
 ├── contacto.html                  # Formulario completo
 ├── blog.html                      # Listado de posts (Firestore)
-├── blog-post.html                 # Vista individual ?id=POST_ID
+├── blog-post.html                 # Vista individual ?id=<slug> (o ID de Firestore, legado)
 ├── aviso-privacidad.html          # Aviso legal
 ├── admin-login.html               # Login admin (Firebase Auth)
 ├── admin-setup-2fa.html           # Configuración 2FA
@@ -30,8 +30,9 @@ La raíz de este repositorio **es** el sitio de producción servido por Netlify 
 ├── js/
 │   ├── main.js                    # Navbar, smooth scroll, año footer
 │   ├── firebase-config.js         # Init Firebase (window.firestoreDb)
-│   ├── blog.js                    # Lista posts publicados
-│   ├── blog-post.js               # Render post + incrementa vistas
+│   ├── blog-utils.js              # slugify()/getPostSlug() — slug de la URL a partir del título
+│   ├── blog.js                    # Lista posts publicados (tarjetas enlazan por slug)
+│   ├── blog-post.js               # Resuelve post (ID legado → slug → título), render + vistas
 │   └── contact.js                 # Submit → Netlify Function (HubSpot)
 ├── netlify/functions/
 │   └── hubspot-register.js        # POST → verifica Turnstile → crea Contact + Company en HubSpot
@@ -112,6 +113,28 @@ categoria, tags[], publicado (bool), fecha_publicacion, fecha_creacion,
 vistas (auto-increment)
 ```
 
+**Slug / URLs del blog:** la URL pública es `blog-post.html?id=<slug>` (ej.
+`como_automatizar_procesos_con_business_intelligence_crm`: minúsculas, sin
+acentos, todo lo no alfanumérico → `_`; el `+` se descarta porque en un query
+string se leería como espacio). `blog-post.js` resuelve en este orden: ID de
+documento (enlaces legados) → campo `slug` → slug derivado del `titulo` (solo
+dentro de los 50 posts más recientes). `slugify()` vive en `js/blog-utils.js` y
+**debe mantenerse idéntica** a `slugifyTitle()` de `lib/blogSlug.ts` en
+`catalysis-crm` y a `slugify()` de `netlify/edge-functions/blog-og.ts`. El campo
+`slug` lo guardan `crear_post_blog`/`actualizar_post_blog` (MCP del CRM) y no
+cambia al editar el título; los posts cargados a mano en la consola de Firebase
+no lo tienen hasta que se editan una vez con `actualizar_post_blog`.
+
+**Open Graph para redes sociales:** los crawlers no ejecutan JS, así que
+`netlify/edge-functions/blog-og.ts` intercepta `/blog-post.html` y, solo si el
+User-Agent es de un crawler, inyecta `og:*`, `twitter:card` y `canonical` en el
+`<head>` (post resuelto vía API REST pública de Firestore; fallback de imagen:
+`images/catalysis_logo.png`). Humanos reciben el HTML sin cambios y cualquier
+fallo sirve el HTML original. Probar con
+`curl -A "facebookexternalhit/1.1" "https://catalysis.com.mx/blog-post.html?id=<slug>"`.
+Spec: `reqs/og-tags-blog-post.md`. Si Facebook ya cacheó un link, usar "Scrape
+Again" en el Sharing Debugger.
+
 **`contactos`** — solo lectura/edición autenticada; `create` público (legacy)
 ```
 nombre, email, empresa, telefono, mensaje, fecha_creacion, atendido (bool)
@@ -190,7 +213,7 @@ Las páginas admin/diagnóstico quedan fuera de Google Analytics a propósito, p
 
 ## Gestión de Contenido
 
-**Crear post de blog:** Firebase Console → Firestore → colección `blog_posts` → agregar documento con los campos listados arriba (`publicado: true` para que aparezca). El campo `contenido` acepta HTML completo.
+**Crear post de blog:** preferir el tool MCP `crear_post_blog` del CRM (sanitiza el HTML y guarda `slug` único automáticamente). Alternativa manual: Firebase Console → Firestore → colección `blog_posts` → agregar documento con los campos listados arriba (`publicado: true` para que aparezca; el campo `contenido` acepta HTML completo). Un post manual no tiene `slug` hasta editarlo una vez con `actualizar_post_blog`.
 
 **Ver contactos nuevos:** HubSpot CRM → Contacts (filtro por fecha de creación). Los contactos legacy en Firestore se ven desde `admin-contactos.html`.
 
