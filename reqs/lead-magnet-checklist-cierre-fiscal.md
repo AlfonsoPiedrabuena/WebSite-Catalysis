@@ -8,7 +8,7 @@ El artículo "Checklist de cierre fiscal digital para PyMEs" (pieza 3 del plan d
 
 ## Objetivo
 
-Una página de aterrizaje con formulario corto que entregue el PDF al instante y registre al lead (HubSpot + Catalysis CRM) con su atribución, reutilizando la infraestructura existente.
+Una página de aterrizaje con formulario corto que entregue el PDF al instante y registre al lead en el Catalysis CRM con su atribución, reutilizando la infraestructura existente.
 
 ## Enfoque sugerido
 
@@ -25,8 +25,9 @@ Una página de aterrizaje con formulario corto que entregue el PDF al instante y
 - `hubspot-register.js`:
   - Aceptar `lead_magnet` (string, lista blanca: solo `'checklist-cierre-fiscal'`; cualquier otro valor se ignora).
   - **CRM**: agregar a `notas` la línea `Descargó: Checklist de cierre fiscal digital`.
-  - **HubSpot**: en el PATCH best-effort posterior al upsert (el mismo de la spec de medición), incluir `catalysis_lead_magnet = checklist-cierre-fiscal`. Si la propiedad no existe, el lead se crea igual.
-  - Si el formulario llega sin `industry`/`nivel_de_madurez`, no escribir valores vacíos que pisen datos de un contacto existente (hoy el `PATCH` de duplicados envía todas las propiedades; con este formulario corto, enviar solo las que vengan con valor).
+  - **HubSpot**: no se agrega nada. Esta spec no depende de HubSpot; si `reqs/crm-destino-principal.md` se aprueba, ese paso desaparece.
+  - **Duplicados**: el CRM hoy **no deduplica por correo** (cada envío crea empresa y contacto nuevos). Una persona que descargue el checklist y luego pida diagnóstico, o un cliente existente, aparecerá duplicado. Es un riesgo conocido; la solución vive en `catalysis-crm/reqs/atribucion-leads-y-dedupe.md`. Mientras tanto, la línea `Descargó: …` en `notas` permite distinguir estos leads al revisarlos.
+  - Si el formulario llega sin `industry`/`nivel_de_madurez`, no escribir líneas vacías en `notas` (omitir "Sector:" / "Nivel de madurez:" cuando no vengan).
   - `company` sigue siendo requerida (la función ya lo exige).
 - Al éxito (`res.ok`): ocultar el formulario, mostrar "¡Listo! Descarga tu checklist" con un botón al PDF, y disparar `gtag('event','generate_lead', {lead_source:'lead_magnet', lead_magnet_id:'checklist-cierre-fiscal', blog_slug})`. El botón de descarga también dispara `file_download` (nativo de GA4 si Enhanced Measurement está activo; si no, `cta_click` con `cta_id: 'checklist_pdf'`).
 
@@ -45,23 +46,22 @@ Una vez desplegada la landing (orden importa):
 
 ## Criterios de aceptación
 
-- Enviar el formulario con datos válidos: respuesta 201, el lead aparece en HubSpot (con `catalysis_lead_magnet`) y en Catalysis CRM (con `Descargó: …` en `notas`), se muestra el botón de descarga y el PDF abre.
+- Enviar el formulario con datos válidos: respuesta 201, el lead aparece en Catalysis CRM con `Descargó: …` en `notas` (y la notificación de Telegram lo muestra), se muestra el botón de descarga y el PDF abre.
 - Un envío con Turnstile inválido o sin aceptar privacidad **no** muestra el PDF ni dispara `generate_lead`.
 - `generate_lead` llega a GA4 con `lead_source=lead_magnet`; el evento incluye `blog_slug`/UTMs de la sesión sin datos personales.
-- Un contacto existente que usa el formulario corto no pierde su `industry` ni `nivel_de_madurez`.
+- El formulario corto no escribe líneas vacías de Sector / Nivel de madurez en `notas`.
 - La página es usable en móvil y pasa el mismo flujo de Turnstile que `contacto.html`.
 - `/downloads/checklist-cierre-fiscal-digital-pymes.pdf` responde `200` con `Content-Type: application/pdf` y `X-Robots-Tag: noindex`.
 
 ## Acciones manuales
 
-- HubSpot: crear la propiedad de contacto `catalysis_lead_magnet` (texto de una línea), junto con las de la spec de medición.
 - Revisión del contenido del PDF por un contador antes de publicar: el checklist evita fechas y montos regulatorios a propósito, pero conviene validar redacción fiscal.
 
 ## Fuera de alcance
 
-- Envío del PDF por correo y secuencia de nurturing (fase 2: workflow de HubSpot o Brevo).
+- Envío del PDF por correo y secuencia de nurturing (fase 2; la herramienta se decide después, no HubSpot por defecto).
 - Lead magnet de la pieza 6 (plantilla de prompts): mismo patrón, se reutilizará esta página y función con otro `lead_magnet`.
-- Cualquier cambio en `catalysis-crm`.
+- Cualquier cambio en `catalysis-crm` (dedupe y campos de fuente están en su propia spec).
 
 ## Documentación
 
