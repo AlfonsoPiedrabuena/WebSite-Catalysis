@@ -51,7 +51,7 @@ Incluir antes de `contact.js`, en `index.html`, `contacto.html`, `blog.html`, `b
   - Sanear `attribution`: lista blanca de claves (`first`, `last`, `blog_slug`; y dentro, solo los UTMs y `referrer`/`landing`), cada valor como string de máximo 200 caracteres. Ignorar todo lo demás. Nunca fallar el envío por una atribución mal formada.
   - **CRM**: extender `notas` en `pushToCrm` con líneas como `Fuente: <utm_source>/<utm_medium>`, `Campaña: <utm_campaign>`, `Pieza: <utm_content>`, `Artículo de origen: <blog_slug>`, `Primer contacto: <first.utm_source|referrer>`. Mismo patrón que hoy para Sector y Nivel de madurez; **no requiere cambios en `catalysis-crm`**.
   - **Límite de `notas`**: el CRM acota el campo; el bloque de atribución debe quedar ≤ 1000 caracteres en total y **no** puede introducir claves nuevas en el payload (el endpoint del CRM rechaza con 400 cualquier clave fuera de su lista permitida, y el alta se perdería en silencio por ser best-effort).
-  - **HubSpot: no se toca.** No se agrega ningún PATCH ni propiedad personalizada. La función conserva su paso a HubSpot tal como está hasta que se decida `reqs/crm-destino-principal.md`.
+  - **HubSpot: no se toca.** No se agrega ningún PATCH ni propiedad personalizada. HubSpot se retira por completo en `reqs/crm-destino-principal.md` (aprobada): implementar **esa spec primero**; esta se aplica sobre `netlify/functions/lead-register.js`.
   - **Fase 2 (campos estructurados en el CRM)**: ver `catalysis-crm/reqs/atribucion-leads-y-dedupe.md`. Cuando el CRM despliegue ese cambio, la función enviará un objeto `fuente` en vez de texto en `notas`. **Orden obligatorio: primero se despliega el CRM, después el sitio.**
 
 ### Acciones manuales previas (no son código)
@@ -61,7 +61,7 @@ Incluir antes de `contact.js`, en `index.html`, `contacto.html`, `blog.html`, `b
 
 ### Higiene de conversión (misma entrega)
 
-- `index.html:525` "Habla con nuestro agente" tiene `href="#"`: es un botón muerto en la sección que usamos como destino de campañas. **Decisión de Poncho:** ocultarlo hasta que exista el agente, o apuntarlo a su destino real. Por defecto, ocultarlo.
+- `index.html:525` "Habla con nuestro agente" tiene `href="#"`: es un botón muerto en la sección que usamos como destino de campañas. **Decisión de Poncho (2026-10-13): ocultarlo por ahora** (`hidden`, sin borrar el markup, con un comentario HTML que indique que se reactiva cuando exista el agente).
 
 ## Criterios de aceptación
 

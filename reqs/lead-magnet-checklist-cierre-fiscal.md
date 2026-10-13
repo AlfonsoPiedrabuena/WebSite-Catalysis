@@ -19,13 +19,13 @@ Una página de aterrizaje con formulario corto que entregue el PDF al instante y
 - Formulario corto: **nombre, correo, empresa, aceptación de privacidad** + widget Turnstile (mismo `data-sitekey` que `contacto.html`). Sin teléfono ni sector, para reducir fricción. El selector de nivel de madurez va como opcional.
 - `<title>`, `meta description`, `og:*` propios, `canonical`. Indexable.
 
-### 2. Envío: reutilizar `hubspot-register` (no crear endpoint nuevo, ver CLAUDE.md)
+### 2. Envío: reutilizar la función de alta de leads (`lead-register`, antes `hubspot-register`; no crear endpoint nuevo, ver CLAUDE.md)
 
-- Nuevo archivo `js/lead-magnet.js`: valida (mismas reglas de nombre/correo/empresa que `contact.js`; extraer `validateFormData` a una función compartida o duplicarla de forma explícita), exige token de Turnstile y hace POST a `/.netlify/functions/hubspot-register` con `{firstname, email, company, acuerdodeprivacidad, turnstileToken, lead_magnet: 'checklist-cierre-fiscal', attribution}`. `phone` y `lastname` ya son opcionales en la función.
-- `hubspot-register.js`:
+- Nuevo archivo `js/lead-magnet.js`: valida (mismas reglas de nombre/correo/empresa que `contact.js`; extraer `validateFormData` a una función compartida o duplicarla de forma explícita), exige token de Turnstile y hace POST a `/.netlify/functions/lead-register` con `{firstname, email, company, acuerdodeprivacidad, turnstileToken, lead_magnet: 'checklist-cierre-fiscal', attribution}`. `phone` y `lastname` ya son opcionales en la función.
+- `lead-register.js`:
   - Aceptar `lead_magnet` (string, lista blanca: solo `'checklist-cierre-fiscal'`; cualquier otro valor se ignora).
   - **CRM**: agregar a `notas` la línea `Descargó: Checklist de cierre fiscal digital`.
-  - **HubSpot**: no se agrega nada. Esta spec no depende de HubSpot; si `reqs/crm-destino-principal.md` se aprueba, ese paso desaparece.
+  - **HubSpot**: ya no forma parte del flujo (`reqs/crm-destino-principal.md`, aprobada). Implementar sobre `lead-register.js`; si se construye antes de esa spec, no agregar nada de HubSpot.
   - **Duplicados**: el CRM hoy **no deduplica por correo** (cada envío crea empresa y contacto nuevos). Una persona que descargue el checklist y luego pida diagnóstico, o un cliente existente, aparecerá duplicado. Es un riesgo conocido; la solución vive en `catalysis-crm/reqs/atribucion-leads-y-dedupe.md`. Mientras tanto, la línea `Descargó: …` en `notas` permite distinguir estos leads al revisarlos.
   - Si el formulario llega sin `industry`/`nivel_de_madurez`, no escribir líneas vacías en `notas` (omitir "Sector:" / "Nivel de madurez:" cuando no vengan).
   - `company` sigue siendo requerida (la función ya lo exige).

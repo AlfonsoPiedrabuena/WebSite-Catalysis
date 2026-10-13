@@ -1,6 +1,6 @@
 # Requerimiento: Catalysis CRM como destino principal de leads del sitio (retirar HubSpot)
 
-**Estado: PROPUESTA — requiere confirmación de Poncho antes de implementar (spec escrita 2026-10-13).**
+**Estado: APROBADA por Poncho el 2026-10-13 — lista para implementar, y es la PRIMERA de las specs de leads del sitio** (las de medición y lead magnet se construyen sobre `lead-register.js`). Decisiones: se retira todo lo relacionado con HubSpot; el respaldo ante falla del CRM es Telegram **y** Firestore `contactos`.
 
 ## Contexto y problema
 
@@ -28,11 +28,22 @@ Que el CRM interno sea el único destino del formulario, con falla visible y rei
 5. **Documentación**: actualizar `CLAUDE.md` (resumen, diagrama de arquitectura, tabla de variables, "Páginas", "Ver contactos nuevos": ahora CRM; `contactos` de Firestore sigue como legado) y el comentario de cabecera de la función.
 6. **Aviso de privacidad (`aviso-privacidad.html`, líneas ~409 y ~771)**: hoy nombra HubSpot/Salesforce como plataformas/encargados del tratamiento. Al cambiar los encargados, el texto debe reflejarlo. **No editar sin revisión legal**: dejar el cambio propuesto en el PR para que Poncho lo valide.
 
-## Decisiones que necesito de Poncho
+## Decisiones tomadas (2026-10-13)
 
-1. ¿Confirmas que HubSpot ya no se usa para nada del sitio (ni portal compartido con Tec u otra cuenta)? Si hay datos históricos que importar al CRM, es un trabajo aparte.
-2. ¿El token de HubSpot de Netlify sigue válido? (Si no, hoy el formulario ya está fallando para visitantes, y esta spec pasa de "limpieza" a **corrección urgente**.)
-3. Respaldo ante falla del CRM: ¿solo aviso a Telegram, o también guardar el lead en Firestore `contactos`?
+1. **HubSpot se retira por completo** del sitio: código, variables, documentación y textos. Datos históricos de HubSpot: fuera de alcance.
+2. **Respaldo ante falla definitiva del CRM: ambos** — aviso a Telegram con los datos del lead **y** guardado en Firestore `contactos` (colección legada, `create` público) como cola de reintento manual. El guardado en Firestore no debe bloquear la respuesta: si también falla, se loguea y se responde `502`.
+3. **Pendiente de verificar por Poncho (no se puede desde aquí):** si el `HUBSPOT_PRIVATE_APP_TOKEN` de Netlify sigue vigente. Si ya no lo está, el formulario hoy responde error al visitante aunque el CRM recibe el lead: revisar Netlify → Functions → logs de `hubspot-register`. En ese caso esta spec es corrección urgente.
+
+## Alcance de la limpieza de HubSpot (checklist)
+
+- `netlify/functions/hubspot-register.js` → `lead-register.js` sin llamadas a `api.hubapi.com`.
+- `js/contact.js`: cabecera "SEND TO HUBSPOT", constante `HUBSPOT_ENDPOINT` y URL del endpoint.
+- `.env.example`: quitar `HUBSPOT_PRIVATE_APP_TOKEN` y sus scopes.
+- Netlify: eliminar la variable `HUBSPOT_PRIVATE_APP_TOKEN` (acción manual, después del deploy).
+- `CLAUDE.md` y `README.md` (líneas ~8, ~27 y ~141 mencionan HubSpot como destino).
+- `reqs/og-tags-blog-post.md` línea ~31 (referencia al nombre antiguo de la función): actualizar al nuevo nombre.
+- `aviso-privacidad.html` (~409, ~771): propuesta de redacción en el PR, **sin publicar sin revisión legal**.
+- Se conserva el contenido editorial sobre HubSpot (artículo "HubSpot vs. SFMC", textos de servicios).
 
 ## Orden de implementación
 
