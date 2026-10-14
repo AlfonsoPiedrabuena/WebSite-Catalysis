@@ -28,7 +28,7 @@ Los visitantes humanos deben seguir viendo el sitio exactamente igual que hoy (S
 
 ## Enfoque sugerido
 
-El sitio ya usa Netlify Functions (`netlify/functions/hubspot-register.js`), así que el patrón más consistente con la arquitectura actual es:
+El sitio ya usa Netlify Functions (`netlify/functions/lead-register.js`), así que el patrón más consistente con la arquitectura actual es:
 
 1. **Netlify Edge Function** (o Function regular si Edge no está habilitado en el plan) que intercepta requests a `/blog-post.html`:
    - Lee el parámetro `id` de la URL.

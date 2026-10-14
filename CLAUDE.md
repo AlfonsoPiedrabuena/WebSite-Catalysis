@@ -4,7 +4,7 @@ Guía para Claude Code al trabajar en este repositorio.
 
 ## Project Overview
 
-Catalysis es un sitio web de consultoría en transformación digital. Stack híbrido: HTML estático + Firebase (blog y panel admin) + Netlify Functions (formularios → HubSpot CRM) + Cloudflare Turnstile (anti-bot) + Google Analytics (GA4, medición de tráfico).
+Catalysis es un sitio web de consultoría en transformación digital. Stack híbrido: HTML estático + Firebase (blog y panel admin) + Netlify Functions (formularios → Catalysis CRM) + Cloudflare Turnstile (anti-bot) + Google Analytics (GA4, medición de tráfico).
 
 ## Estructura Real
 
@@ -33,10 +33,10 @@ La raíz de este repositorio **es** el sitio de producción servido por Netlify 
 │   ├── blog-utils.js              # slugify()/getPostSlug() — slug de la URL a partir del título
 │   ├── blog.js                    # Lista posts publicados (tarjetas enlazan por slug)
 │   ├── blog-post.js               # Resuelve post (ID legado → slug → título), render + vistas
-│   └── contact.js                 # Submit → Netlify Function (HubSpot)
+│   ├── attribution.js             # UTM/referrer/artículo de origen en localStorage → window.getFuente(canal)
+│   └── contact.js                 # Submit → Netlify Function (lead-register)
 ├── netlify/functions/
-│   └── hubspot-register.js        # POST → verifica Turnstile → crea Contact + Company en HubSpot
-│                                   #        + alta best-effort en Catalysis CRM (leads externos)
+│   └── lead-register.js           # POST → verifica Turnstile → alta (empresa + contacto + fuente) en Catalysis CRM
 ├── netlify/edge-functions/
 │   └── blog-og.ts                 # Inyecta Open Graph tags en blog-post.html SOLO para crawlers (UA);
 │                                   #  humanos reciben el HTML sin modificar. Ver reqs/og-tags-blog-post.md
@@ -45,7 +45,7 @@ La raíz de este repositorio **es** el sitio de producción servido por Netlify 
 ├── .firebaserc                    # Proyecto Firebase target ("catalysis-blog")
 ├── firestore.rules
 ├── firestore.indexes.json
-├── .env.example                   # HUBSPOT_PRIVATE_APP_TOKEN, TURNSTILE_SECRET_KEY
+├── .env.example                   # TURNSTILE_SECRET_KEY, CRM_LEADS_ENDPOINT, CRM_API_KEY
 ├── README.md                      # Setup detallado de Firebase
 └── CLAUDE.md
 ```
@@ -59,27 +59,30 @@ La raíz de este repositorio **es** el sitio de producción servido por Netlify 
 │  Admin      ──auth─▶  Firebase Auth + 2FA                       │
 │  Admin      ──lee──▶  Firestore (contactos, requiere auth)      │
 │                                                                 │
-│  Form de    ──POST─▶  Netlify Function (hubspot-register)       │
+│  Form de    ──POST─▶  Netlify Function (lead-register)         │
 │  contacto              │                                         │
 │                        ├─▶ Cloudflare Turnstile (verify token)  │
-│                        ├─▶ HubSpot CRM v3 (Contact + Company)   │
 │                        └─▶ Catalysis CRM (POST /api/external/   │
-│                             v1/leads, best-effort)               │
+│                             v1/leads, destino principal)         │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-**Decisión clave:** los contactos del formulario público **ya no se escriben directo a Firestore** desde el navegador — pasan por la Netlify Function para validar Turnstile del lado servidor y persistirlos en HubSpot. La colección `contactos` en Firestore queda como respaldo/legado del panel admin.
+**Decisión clave:** los contactos del formulario público **no se escriben directo a Firestore** desde el navegador — pasan por la Netlify Function, que valida Turnstile del lado servidor y los da de alta en **Catalysis CRM**, el único destino (no hay otro CRM en la infraestructura). La colección `contactos` en Firestore queda como respaldo/legado del panel admin.
 
-**Alta en Catalysis CRM:** además de HubSpot, `hubspot-register.js` da de alta el mismo lead
-(empresa + contacto) en Catalysis CRM (`crm.catalysis.com.mx`, repo `catalysis-crm`), vía su
-endpoint machine-to-machine `app/api/external/v1/leads` (auth por header `X-Api-Key`, scope
-`leads:create` — el mismo mecanismo que usa la integración de WhatsApp Flows). Es **best-effort**:
-si falla o faltan las env vars, se loguea con `console.error` pero la respuesta al navegador y el
-alta en HubSpot (fuente primaria de este formulario) no se ven afectadas. Sector y nivel de madurez
-no tienen campo propio en el CRM — se concatenan como texto libre en `contacto.notas`. Consentimiento
-de WhatsApp y aceptación de política de privacidad sí son campos propios del `Contact`
-(`aceptaWhatsapp`, `aceptaPrivacidad`) — la fecha de aceptación de privacidad la calcula el propio
-CRM al recibir el lead, no viaja desde el sitio.
+**Alta en Catalysis CRM:** `lead-register.js` crea empresa + contacto en `crm.catalysis.com.mx`
+(repo `catalysis-crm`) vía su endpoint machine-to-machine `app/api/external/v1/leads` (auth por header
+`X-Api-Key`, scope `leads:create`). Es el destino principal: si el CRM falla tras los reintentos
+(2, a 500 ms y 1.5 s, ante `429`/`5xx`/red, con la misma `Idempotency-Key`) la función responde `502` y el
+visitante ve un error — nunca un éxito falso. `4xx` no se reintenta; `401/403` se loguea como alerta.
+Un `200` con `duplicated: true` (correo ya existente) es éxito para el visitante. La `Idempotency-Key`
+la genera el navegador por envío (`contact.js`). Sector y nivel de madurez van como texto libre en
+`contacto.notas`; consentimiento de WhatsApp y privacidad son campos propios (`aceptaWhatsapp`,
+`aceptaPrivacidad`).
+
+**Atribución (`fuente`):** `js/attribution.js` guarda `{first, last, blog_slug}` en `localStorage` y
+`window.getFuente(canal)` arma `contacto.fuente`; la función filtra con lista blanca (el CRM responde
+`400` ante cualquier clave desconocida). Contrato completo: `reqs/crm-fuente-contrato.md`. **Orden de
+despliegue: primero el CRM, después el sitio.**
 
 ## Variables de Entorno
 
@@ -87,18 +90,16 @@ Configurar en **Netlify → Site settings → Environment variables**:
 
 | Variable | Origen | Uso |
 |---|---|---|
-| `HUBSPOT_PRIVATE_APP_TOKEN` | HubSpot Private App | Auth a HubSpot CRM API v3 |
 | `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile | Verificación server-side del token |
 | `CRM_LEADS_ENDPOINT` | dominio del CRM interno + `/api/external/v1/leads` (ver `.env.example`) | Destino del alta en Catalysis CRM |
 | `CRM_API_KEY` | `scripts/create-api-key.mjs` en el repo `catalysis-crm` (scope `leads:create`) | Auth machine-to-machine contra Catalysis CRM |
 
-Ver `.env.example` para los scopes requeridos en HubSpot.
 
 ## Stack Tecnológico
 
 - **Frontend:** HTML5, CSS3 (custom properties), Vanilla JS (ES6+). Sin frameworks.
 - **Backend serverless:** Netlify Functions (Node, esbuild).
-- **Datos:** Firebase Firestore (blog + contactos legacy), HubSpot CRM (contactos nuevos).
+- **Datos:** Firebase Firestore (blog + contactos legacy), Catalysis CRM (contactos nuevos).
 - **Auth:** Firebase Authentication con 2FA para panel admin.
 - **Anti-bot:** Cloudflare Turnstile (cliente + verificación server-side).
 - **Analítica:** Google Analytics 4 (`gtag.js`), ID de medición `G-19DQMK1HYD`. Snippet inline en el `<head>` de cada página pública (no hay archivo compartido — al agregar una página pública nueva, copiar el snippet de `index.html`).
@@ -188,7 +189,7 @@ describirlo sin el string completo.
 | Página | Pública | GA4 | Depende de |
 |---|---|---|---|
 | `index.html`, `servicios.html`, `aviso-privacidad.html` | ✅ | ✅ | — |
-| `contacto.html` | ✅ | ✅ | Netlify Function + Turnstile + HubSpot |
+| `contacto.html` | ✅ | ✅ | Netlify Function + Turnstile + Catalysis CRM |
 | `blog.html`, `blog-post.html` | ✅ | ✅ | Firestore (lectura) |
 | `eventsync-sv-onepager.html` | ✅ | ✅ | — (one-pager estático de propuesta) |
 | `admin-login.html`, `admin-setup-2fa.html` | 🔒 | — | Firebase Auth + 2FA |
@@ -207,7 +208,8 @@ Las páginas admin/diagnóstico quedan fuera de Google Analytics a propósito, p
 ## Archivos sensibles — leer antes de modificar
 
 - `js/firebase-config.js` — credenciales públicas de Firebase (no son secretas, pero reemplazarlas rompe todo).
-- `netlify/functions/hubspot-register.js` — flujo de validación + creación en HubSpot. Cambios aquí afectan la integración CRM.
+- `netlify/functions/lead-register.js` — validación + alta en Catalysis CRM (reintentos, idempotencia, lista blanca de `fuente`).
+- `js/attribution.js` — captura de UTM/artículo; debe cargarse antes de `contact.js`.
 - `js/contact.js` — orquesta Turnstile + submit; el orden de inicialización del widget importa.
 - `firestore.rules` — un cambio incorrecto puede exponer la colección `contactos`.
 
@@ -215,7 +217,7 @@ Las páginas admin/diagnóstico quedan fuera de Google Analytics a propósito, p
 
 **Crear post de blog:** preferir el tool MCP `crear_post_blog` del CRM (sanitiza el HTML y guarda `slug` único automáticamente). Alternativa manual: Firebase Console → Firestore → colección `blog_posts` → agregar documento con los campos listados arriba (`publicado: true` para que aparezca; el campo `contenido` acepta HTML completo). Un post manual no tiene `slug` hasta editarlo una vez con `actualizar_post_blog`.
 
-**Ver contactos nuevos:** HubSpot CRM → Contacts (filtro por fecha de creación). Los contactos legacy en Firestore se ven desde `admin-contactos.html`.
+**Ver contactos nuevos:** Catalysis CRM (`crm.catalysis.com.mx`). Los contactos legacy en Firestore se ven desde `admin-contactos.html`.
 
 ## Convenciones de Código
 
@@ -228,14 +230,14 @@ Las páginas admin/diagnóstico quedan fuera de Google Analytics a propósito, p
 ## Troubleshooting
 
 - **Posts no cargan:** consola del navegador → revisar credenciales de `firebase-config.js`, reglas de Firestore, y `publicado: true`.
-- **Formulario falla:** revisar Network tab → status del POST a `/.netlify/functions/hubspot-register`. 403 = Turnstile rechazó. 500 = falta env var en Netlify.
+- **Formulario falla:** revisar Network tab → status del POST a `/.netlify/functions/lead-register`. 403 = Turnstile rechazó. 500 = falta env var en Netlify. 502 = el CRM no aceptó el lead (ver logs `[crm-lead]` en Netlify).
 - **CORS en local:** no abrir HTML con `file://`; usar `netlify dev` o servidor HTTP.
 - **2FA admin no funciona:** abrir `verificar-configuracion.html` para diagnóstico paso a paso.
 
 ## Referencias
 
 - Setup detallado de Firebase: `README.md`
-- Variables de entorno y scopes de HubSpot: `.env.example`
+- Variables de entorno: `.env.example`
 - Reglas de seguridad: `firestore.rules`
 - Documentos históricos (privacidad, framework): fuera de este repo, en `../archive/` (carpeta hermana de `WebSite/`, no versionada aquí)
 

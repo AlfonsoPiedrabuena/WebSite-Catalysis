@@ -1,10 +1,10 @@
 /* ====================================
-   CONTACT FORM - SEND TO HUBSPOT
+   CONTACT FORM - SEND TO CATALYSIS CRM
    Envía los datos a la Netlify Function
-   /.netlify/functions/hubspot-register
+   /.netlify/functions/lead-register
    ==================================== */
 
-const HUBSPOT_ENDPOINT = '/.netlify/functions/hubspot-register';
+const LEAD_ENDPOINT = '/.netlify/functions/lead-register';
 
 // Token de Cloudflare Turnstile — lo emite el widget vía callback
 let turnstileToken = null;
@@ -44,6 +44,22 @@ function validatePhone(e) {
     if (e.target.value !== cleaned) e.target.value = cleaned;
 }
 
+function buildFuente(canal) {
+    return typeof window.getFuente === 'function' ? window.getFuente(canal) : { canal };
+}
+
+// Clave de idempotencia estable por envío: se reutiliza si el visitante reintenta
+// el mismo contenido tras un fallo, y cambia si modifica los datos.
+let pendingSubmission = null;
+
+function getIdempotencyKey(data) {
+    const fingerprint = JSON.stringify(data);
+    if (!pendingSubmission || pendingSubmission.fingerprint !== fingerprint) {
+        pendingSubmission = { fingerprint, key: crypto.randomUUID() };
+    }
+    return pendingSubmission.key;
+}
+
 function getMainFormData() {
     return {
         firstname: document.getElementById('nombre').value.trim(),
@@ -55,6 +71,7 @@ function getMainFormData() {
         nivel_de_madurez: document.getElementById('nivel-madurez').value,
         acepto_recibir_mensajes_de_whatsapp: document.getElementById('whatsapp').checked,
         acuerdodeprivacidad: document.getElementById('privacidad').checked,
+        fuente: buildFuente('sitio-contacto'),
     };
 }
 
@@ -69,6 +86,7 @@ function getQuickFormData() {
         nivel_de_madurez: document.getElementById('quick-nivel-madurez').value,
         acepto_recibir_mensajes_de_whatsapp: document.getElementById('quick-whatsapp').checked,
         acuerdodeprivacidad: document.getElementById('quick-privacidad').checked,
+        fuente: buildFuente('sitio-home'),
     };
 }
 
@@ -110,10 +128,10 @@ async function handleSubmit(e, getData, messageElementId) {
             throw new Error('Verificación de seguridad pendiente. Espera un segundo e intenta de nuevo.');
         }
 
-        const res = await fetch(HUBSPOT_ENDPOINT, {
+        const res = await fetch(LEAD_ENDPOINT, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ ...data, turnstileToken }),
+            body: JSON.stringify({ ...data, idempotencyKey: getIdempotencyKey(data), turnstileToken }),
         });
 
         if (!res.ok) {
@@ -128,6 +146,7 @@ async function handleSubmit(e, getData, messageElementId) {
                 '¡Gracias por tu mensaje! Nos pondremos en contacto contigo pronto.';
         }
 
+        pendingSubmission = null;
         e.target.reset();
         // Token de Turnstile es de un solo uso — resetear widget para emitir uno nuevo
         if (window.turnstile) {

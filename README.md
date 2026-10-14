@@ -5,7 +5,7 @@ Sitio web estático de Catalysis Consultoría con integración de Firebase para 
 ## Estructura del Proyecto
 
 Este README cubre solo la parte de Firebase (blog + Firestore). Para la
-arquitectura completa del sitio (Netlify Functions, HubSpot, Turnstile,
+arquitectura completa del sitio (Netlify Functions, Catalysis CRM, Turnstile,
 Google Analytics) ver [`CLAUDE.md`](./CLAUDE.md), que es la referencia
 actualizada.
 
@@ -24,7 +24,7 @@ actualizada.
 │   ├── blog.js
 │   ├── blog-post.js
 │   └── contact.js
-├── netlify/functions/    # formularios → HubSpot (ver CLAUDE.md)
+├── netlify/functions/    # formularios → Catalysis CRM (ver CLAUDE.md)
 └── images/                # imágenes del sitio (agregar assets aquí)
 ```
 
@@ -138,7 +138,7 @@ Cada documento de blog debe tener la siguiente estructura:
 ### Colección: `contactos` (legacy)
 
 El formulario público ya no escribe aquí directo desde el navegador — pasa
-por una Netlify Function que valida Turnstile y persiste en HubSpot CRM
+por una Netlify Function que valida Turnstile y da de alta el lead en Catalysis CRM
 (ver `CLAUDE.md`). Esta colección queda como respaldo/legado del panel
 admin, con esta estructura de documentos:
 
