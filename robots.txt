@@ -1,0 +1,15 @@
+# Política de bots: edita SOLO este archivo para cambiarla (única fuente).
+# Bots generales y de IA comparten un mismo grupo: un bot con grupo propio ignora el grupo "*",
+# así que las reglas Disallow deben vivir junto a todos los User-agent.
+User-agent: *
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: PerplexityBot
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin-
+Disallow: /clients/
+Disallow: /verificar-configuracion.html
+Disallow: /.netlify/
+
+Sitemap: https://catalysis.com.mx/sitemap.xml
