@@ -282,3 +282,7 @@ Si estás probando localmente con `file://`, Firebase no funcionará. Usa un ser
 ## Soporte
 
 Para problemas o preguntas, consulta la documentación de Firebase o contacta al equipo de desarrollo.
+
+## Blog para agentes de IA
+
+Cada post tiene versión markdown (`/blog/<slug>.md`), además de `/llms.txt`, `/sitemap.xml`, `/blog/feed.xml` y JSON-LD; ver `docs/agent-friendly.md`.

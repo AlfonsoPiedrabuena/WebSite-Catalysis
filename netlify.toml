@@ -4,3 +4,4 @@
 
 [functions]
   node_bundler = "esbuild"
+  deno_import_map = "./netlify/import_map.json"

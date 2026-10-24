@@ -38,8 +38,11 @@ La raíz de este repositorio **es** el sitio de producción servido por Netlify 
 ├── netlify/functions/
 │   └── lead-register.js           # POST → verifica Turnstile → alta (empresa + contacto + fuente) en Catalysis CRM
 ├── netlify/edge-functions/
-│   └── blog-og.ts                 # Inyecta Open Graph tags en blog-post.html SOLO para crawlers (UA);
-│                                   #  humanos reciben el HTML sin modificar. Ver reqs/og-tags-blog-post.md
+│   ├── blog-og.ts                 # blog-post.html: OG, canonical, JSON-LD y cuerpo en el HTML inicial (todos los UA)
+│   ├── blog-md.ts                 # /blog/<slug>.md → post en markdown
+│   └── llms-txt.ts, sitemap.ts, blog-feed.ts   # /llms.txt, /sitemap.xml, /blog/feed.xml (dinámicos)
+├── netlify/edge-lib/              # Lógica compartida de las edge functions (testeada con vitest en tests/)
+├── robots.txt                     # Política de bots (única fuente)
 ├── netlify.toml                   # publish=".", functions="netlify/functions"
 ├── firebase.json                  # Reglas de Firestore (no se usa para hosting)
 ├── .firebaserc                    # Proyecto Firebase target ("catalysis-blog")
@@ -126,15 +129,20 @@ dentro de los 50 posts más recientes). `slugify()` vive en `js/blog-utils.js` y
 cambia al editar el título; los posts cargados a mano en la consola de Firebase
 no lo tienen hasta que se editan una vez con `actualizar_post_blog`.
 
-**Open Graph para redes sociales:** los crawlers no ejecutan JS, así que
-`netlify/edge-functions/blog-og.ts` intercepta `/blog-post.html` y, solo si el
-User-Agent es de un crawler, inyecta `og:*`, `twitter:card` y `canonical` en el
-`<head>` (post resuelto vía API REST pública de Firestore; fallback de imagen:
-`images/catalysis_logo.png`). Humanos reciben el HTML sin cambios y cualquier
-fallo sirve el HTML original. Probar con
+**Open Graph y agent-friendly:** `blog-og.ts` intercepta `/blog-post.html` y, para
+**todos** los UA, inyecta `og:*`, `canonical`, JSON-LD `BlogPosting`, `<link rel="alternate"
+type="text/markdown">` y el cuerpo del post (`js/blog-post.js` lo reemplaza luego con el mismo
+contenido). Cualquier fallo sirve el HTML original. Probar con
 `curl -A "facebookexternalhit/1.1" "https://catalysis.com.mx/blog-post.html?id=<slug>"`.
-Spec: `reqs/og-tags-blog-post.md`. Si Facebook ya cacheó un link, usar "Scrape
-Again" en el Sharing Debugger.
+Specs: `reqs/og-tags-blog-post.md`, `reqs/agent-friendly-web.md`. Si Facebook ya cacheó un
+link, usar "Scrape Again" en el Sharing Debugger.
+
+**Versión markdown para agentes:** `/blog/<slug>.md` y `Accept: text/markdown` sobre la URL
+actual devuelven el post en markdown (HTML→MD al vuelo desde Firestore, caché CDN 5 min; un post
+nuevo aparece solo en `.md`, `/llms.txt`, sitemap y RSS sin deploy). Las URLs canónicas siguen
+siendo `blog-post.html?id=<slug>`. **Al agregar un tipo de contenido nuevo, exponer su versión
+markdown y registrarlo en `llms.txt`.** Detalle y política de bots: `docs/agent-friendly.md`.
+Pruebas: `cd tests && npm install && npm test`.
 
 **`contactos`** — solo lectura/edición autenticada; `create` público (legacy)
 ```
