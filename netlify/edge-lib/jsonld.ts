@@ -2,9 +2,10 @@ import { type Post, postImage, postUrl } from "./post.ts";
 import { SITE, SITE_NAME } from "./site.ts";
 
 export function buildBlogPosting(post: Post): Record<string, unknown> {
-  const author = post.autor && post.autor !== SITE_NAME
+  // "Catalysis" / "Equipo Catalysis" son la organización, no una persona; con url cumple el campo opcional de Google.
+  const author = post.autor && !/catalysis/i.test(post.autor)
     ? { "@type": "Person", name: post.autor }
-    : { "@type": "Organization", name: SITE_NAME, url: SITE };
+    : { "@type": "Organization", name: post.autor || SITE_NAME, url: SITE };
   return {
     "@context": "https://schema.org",
     "@type": "BlogPosting",

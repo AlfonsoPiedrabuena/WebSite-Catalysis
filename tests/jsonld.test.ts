@@ -13,6 +13,12 @@ describe("JSON-LD", () => {
     expect(j["@type"]).toBe("BlogPosting");
   });
 
+  it("autor del equipo es Organization con url; autor individual es Person", () => {
+    expect(buildBlogPosting(post({ autor: "Equipo Catalysis" })).author).toEqual({ "@type": "Organization", name: "Equipo Catalysis", url: "https://catalysis.com.mx" });
+    expect(buildBlogPosting(post({ autor: "" })).author).toMatchObject({ "@type": "Organization", name: "Catalysis" });
+    expect(buildBlogPosting(post({ autor: "Ana" })).author).toEqual({ "@type": "Person", name: "Ana" });
+  });
+
   it("no puede cerrar el <script> con contenido hostil", () => {
     const s = jsonLdScript({ headline: "</script><script>alert(1)</script>" });
     expect(s.match(/<\/script>/g)).toHaveLength(1);
