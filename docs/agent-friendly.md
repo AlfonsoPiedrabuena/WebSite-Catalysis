@@ -33,7 +33,7 @@ Un post nuevo o editado se refleja en ≤ ~5 min. No hay endpoint de revalidaci�
 
 ## Convertidor HTML → markdown
 
-`turndown` vía import map de Deno (`netlify/import_map.json`, referenciado en `netlify.toml`). Los tests en Node lo
+`turndown` vía import map de Deno, por URL de esm.sh porque el bundler de producción no acepta `npm:` (`netlify/import_map.json`, referenciado en `netlify.toml`). Los tests en Node lo
 resuelven desde `tests/node_modules` (alias en `tests/vitest.config.ts`).
 
 ## Mantener sincronizado
