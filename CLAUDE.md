@@ -250,5 +250,5 @@ Las páginas admin/diagnóstico quedan fuera de Google Analytics a propósito, p
 - Documentos históricos (privacidad, framework): fuera de este repo, en `../archive/` (carpeta hermana de `WebSite/`, no versionada aquí)
 
 ---
-**Versión:** 3.3 (HubSpot eliminado; Catalysis CRM como único destino de leads; atribución `fuente`)
-**Última actualización:** 2026-10-13
+**Versión:** 3.4 (blog agent-friendly: `.md`, llms.txt, sitemap, RSS, JSON-LD)
+**Última actualización:** 2026-10-23

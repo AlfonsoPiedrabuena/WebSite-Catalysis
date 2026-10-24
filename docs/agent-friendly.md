@@ -39,3 +39,25 @@ resuelven desde `tests/node_modules` (alias en `tests/vitest.config.ts`).
 ## Mantener sincronizado
 
 `slugify()` existe en `js/blog-utils.js`, `netlify/edge-lib/slug.ts` y en `catalysis-crm`; deben ser idénticas.
+
+## Estado (2026-10-23)
+
+Fase 1 en producción; criterios de aceptación 1-9 cumplidos (Lighthouse SEO del post 91 → 100; JSON-LD validado en
+Rich Results Test; post nuevo del CRM visible en `llms.txt`, sitemap, RSS y `.md` sin deploy).
+
+Limitación conocida: las Edge Functions no se cachean en el CDN (una invocación por petición). Aceptado por tráfico bajo;
+si crece, mover `.md`, `llms.txt`, sitemap y feed a Netlify Functions con `Netlify-CDN-Cache-Control` (caché durable).
+
+## Pendientes / backlog
+
+- Enviar `https://catalysis.com.mx/sitemap.xml` a Google Search Console.
+- Contenido en inglés: posts como documentos aparte con `lang: en` (el `.md` ya respeta el campo `lang`); falta enlazar
+  traducciones (alternates/hreflang) en frontmatter, `llms.txt` y HTML.
+- `updated`/`dateModified`: hoy repiten la fecha de publicación; requiere que el CRM guarde fecha de modificación.
+- Fase 2 (spec): versión markdown de páginas institucionales; `/llms-full.txt` y analítica de bots siguen fuera.
+
+## Despliegue
+
+Rama de deploy: `production` (no `main`). Tras fusionar el PR a `main`: `git push origin main:production`.
+Si el bundler falla con `npm:`, usar URLs (esm.sh) en `netlify/import_map.json`.
+
