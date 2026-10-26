@@ -21,15 +21,20 @@ Cuándo leerlo: antes de cambiar algo que parezca arbitrario del rediseño; aqu�
 | 2026-10-26 | `design/`, `reqs/`, `tests/`, `scripts/` y `shell/` responden 404 en producción (`netlify.toml`) | La raíz del repo es el directorio publicado |
 | 2026-10-26 | `netlify.toml` omite el build si solo cambió documentación, specs, diseño, pruebas o herramientas | Créditos de build limitados |
 
-## Abiertos (necesitan a Poncho)
+## Respuestas de Poncho (2026-10-26)
 
-1. **Logo** en SVG o PNG transparente: hoy hay un wordmark provisional (`data-slot="logo"` en `shell/*.html`).
-2. **Preguntas de la evaluación** (`content/evaluacion.mjs`): son una propuesta; validar redacción y niveles.
-3. **Canales nuevos en el CRM** (`sitio-flotante`, `agente`, `evaluacion`) y que `contacto.primerApellido` sea opcional: el repo `catalysis-crm` no estaba disponible al desarrollar. **Deben estar en producción antes de desplegar el sitio.**
-4. **Teléfono del aviso de privacidad** (`+52 55 1234 5678`) distinto del resto del sitio (`+52 55 3933 7086`): texto legal, no se cambió sin revisión.
-5. **Texto del marco de madurez**: el prototipo reescribió algunos ítems de `index.html` (p. ej. "Excel/papel" → "Excel o papel"); se usó el del prototipo.
-6. **Lista de sectores**: el prototipo traía dos entradas espurias ("Nivel 1", "Nivel 2"); se usó la lista del sitio (148).
-7. **Destacado del blog**: el del prototipo ("CRM a la medida vs. licencia") no está publicado; en el sitio es el publicado más reciente.
-8. **GA4 (acciones manuales)**: marcar `generate_lead` como key event y registrar las dimensiones `lead_source`, `cta_id`, `cta_location`, `blog_slug`, `lead_magnet_id`.
-9. **Checklist fiscal**: revisión del PDF por un contador y, después del deploy, actualizar el post con `actualizar_post_blog` (enlace a `/recursos/checklist-cierre-fiscal.html`). Fecha límite: 24 de noviembre.
-10. **Repo público con `clients/`**: confirmar si es intencional (las cotizaciones están `noindex` pero son legibles en GitHub).
+| # | Tema | Resolución |
+|---|---|---|
+| 1 | Logo | Se mantiene el wordmark provisional hasta tener el archivo definitivo |
+| 3 | Canales nuevos del CRM | Documentado para el agente del CRM en `docs/crm-canales-rediseno.md`; **sigue bloqueando el deploy a producción** |
+| 4 | Teléfono del aviso de privacidad | Se unificó a `+52 55 3933 7086` (el del resto del sitio) |
+| 5, 6, 7 | Texto del marco, sectores, destacado del blog | Aprobado como quedó |
+| 10 | Repo público con `clients/` | Las cotizaciones se mantienen como estaban |
+
+## Abiertos
+
+1. **Preguntas de la evaluación** (`content/evaluacion.mjs`): propuesta a revisar con Poncho; no bloquea el preview, sí el lanzamiento.
+2. **Canales nuevos y `primerApellido` opcional en el CRM**: especificado en `docs/crm-canales-rediseno.md`. **Deben estar en producción antes de desplegar el sitio.**
+3. **GA4 (acciones manuales)**: marcar `generate_lead` como key event y registrar las dimensiones `lead_source`, `cta_id`, `cta_location`, `blog_slug`, `lead_magnet_id` (Admin → Definiciones personalizadas).
+4. **Checklist fiscal**: Poncho revisa el PDF (`downloads/checklist-cierre-fiscal-digital-pymes.pdf`); después del deploy, actualizar el post con `actualizar_post_blog` (enlace a `/recursos/checklist-cierre-fiscal.html`). Fecha límite: 24 de noviembre.
+5. **Revisión visual y Lighthouse ≥ 90** en el preview de `sandbox` (escritorio, tablet, móvil, teclado).
