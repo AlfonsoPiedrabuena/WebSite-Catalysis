@@ -1,164 +1,103 @@
 /* ====================================
-   BLOG POST - LOAD SINGLE POST FROM FIRESTORE
+   BLOG POST: UN ARTÍCULO DESDE FIRESTORE
+   Resuelve ?id= (ID legado → campo slug → slug derivado del título), pinta cabecera, cuerpo,
+   tags y el cierre (evaluación o recurso descargable según content/recursos.mjs) y suma una
+   vista. blog-og.ts ya incrusta el mismo cuerpo en el HTML inicial; aquí se reemplaza
+   (innerHTML) sin duplicar. El cuerpo viene sanitizado desde el CRM.
    ==================================== */
+import { recursoDePost } from '/content/recursos.mjs';
+import { formatearFecha } from '/js/lib/blog-data.mjs';
 
-document.addEventListener('DOMContentLoaded', async function() {
-    const loadingPost = document.getElementById('loading-post');
-    const postNotFound = document.getElementById('post-not-found');
-    const postContent = document.getElementById('post-content');
+const $ = (id) => document.getElementById(id);
 
-    // Get post ID from URL parameter
-    const urlParams = new URLSearchParams(window.location.search);
-    const postId = urlParams.get('id');
+async function init() {
+  const cargando = $('loading-post');
+  const noEncontrado = $('post-not-found');
+  const contenido = $('post-content');
+  const id = new URLSearchParams(location.search).get('id');
 
-    if (!postId) {
-        loadingPost.style.display = 'none';
-        postNotFound.style.display = 'block';
-        return;
-    }
+  const fallo = () => { cargando.hidden = true; noEncontrado.hidden = false; document.title = 'Artículo no encontrado - Catalysis'; };
+  if (!id) { fallo(); return; }
 
-    try {
-        // Check if Firebase is initialized
-        if (!window.firestoreDb) {
-            throw new Error('Firebase not initialized');
-        }
+  try {
+    if (!window.firestoreDb) throw new Error('Firebase no inicializado');
+    const doc = await buscarPost(id);
+    if (!doc) throw new Error('Post no encontrado');
+    const post = doc.data();
+    if (!post.publicado) throw new Error('Post no publicado');
 
-        // Resolve post: by slug (new URLs) or by document ID (legacy URLs)
-        const postDoc = await findPostDoc(postId);
-
-        if (!postDoc) {
-            throw new Error('Post not found');
-        }
-
-        const post = postDoc.data();
-        const docId = postDoc.id;
-
-        // Check if post is published
-        if (!post.publicado) {
-            throw new Error('Post not published');
-        }
-
-        // Hide loading, show content
-        loadingPost.style.display = 'none';
-        postContent.style.display = 'block';
-
-        // Populate post data
-        populatePost(post, docId);
-
-        // Increment view count
-        incrementViewCount(docId);
-
-    } catch (error) {
-        console.error('Error loading blog post:', error);
-        loadingPost.style.display = 'none';
-        postNotFound.style.display = 'block';
-    }
-});
-
-/**
- * Find a post document from the ?id= URL value.
- * Order: legacy document ID → `slug` field → slug derived from the title.
- * @param {string} idOrSlug - Value of the ?id= parameter
- * @returns {Promise<firebase.firestore.DocumentSnapshot|null>}
- */
-async function findPostDoc(idOrSlug) {
-    const posts = window.firestoreDb.collection('blog_posts');
-
-    // 1. Legacy links (Firestore auto-generated ID)
-    const byId = await posts.doc(idOrSlug).get();
-    if (byId.exists) return byId;
-
-    // 2. Posts that store an explicit `slug` field
-    const target = slugify(idOrSlug);
-    const bySlug = await posts.where('slug', '==', idOrSlug).limit(1).get();
-    if (!bySlug.empty) return bySlug.docs[0];
-
-    // 3. Slug derived from the title (same 50-post window the blog list uses)
-    const recent = await posts.orderBy('fecha_publicacion', 'desc').limit(50).get();
-    return recent.docs.find(doc => getPostSlug(doc.data()) === target) || null;
+    cargando.hidden = true;
+    contenido.hidden = false;
+    pintar(post);
+    sumarVista(doc.id);
+  } catch (error) {
+    console.error('Error al cargar el artículo:', error);
+    fallo();
+  }
 }
 
-/**
- * Populate post content in the page
- * @param {Object} post - Post data from Firestore
- * @param {string} postId - Document ID
- */
-function populatePost(post, postId) {
-    // Update page title
-    document.getElementById('post-title').textContent = `${post.titulo} - Catalysis`;
-    document.title = `${post.titulo} - Catalysis`;
+/** ID de documento (enlaces legados) → campo `slug` → slug derivado del título (50 más recientes). */
+async function buscarPost(idOSlug) {
+  const posts = window.firestoreDb.collection('blog_posts');
+  const porId = await posts.doc(idOSlug).get();
+  if (porId.exists) return porId;
 
-    // Update category
-    const categoryEl = document.getElementById('post-category');
-    categoryEl.textContent = post.categoria || 'BLOG';
+  const objetivo = window.slugify(idOSlug);
+  const porSlug = await posts.where('slug', '==', idOSlug).limit(1).get();
+  if (!porSlug.empty) return porSlug.docs[0];
 
-    // Update heading
-    const headingEl = document.getElementById('post-heading');
-    headingEl.textContent = post.titulo;
-
-    // Update meta info
-    const metaEl = document.getElementById('post-meta');
-    let formattedDate = '';
-    if (post.fecha_publicacion) {
-        const date = post.fecha_publicacion.toDate();
-        formattedDate = date.toLocaleDateString('es-MX', {
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric'
-        });
-    }
-    metaEl.innerHTML = `
-        <span>Por ${post.autor || 'Catalysis'}</span>
-        <span>${formattedDate}</span>
-        <span>${post.vistas || 0} vistas</span>
-    `;
-
-    // Update image (if exists)
-    if (post.imagen_portada) {
-        const imageEl = document.getElementById('post-image');
-        imageEl.src = post.imagen_portada;
-        imageEl.alt = post.titulo;
-        imageEl.style.display = 'block';
-    }
-
-    // Update post body
-    const bodyEl = document.getElementById('post-body');
-    bodyEl.innerHTML = post.contenido || '';
-
-    // Update tags (if exists)
-    if (post.tags && post.tags.length > 0) {
-        const tagsContainer = document.getElementById('post-tags');
-        const tagsList = document.getElementById('tags-list');
-
-        const tagsArray = Array.isArray(post.tags) ? post.tags : post.tags.split(',');
-        const tagsHTML = tagsArray.map(tag => `
-            <span style="display: inline-block; padding: 0.4rem 1rem; background: var(--secondary);
-                         border: 1px solid var(--border); margin-right: 0.5rem; margin-bottom: 0.5rem;
-                         font-size: 0.85rem;">
-                ${tag.trim()}
-            </span>
-        `).join('');
-
-        tagsList.innerHTML = tagsHTML;
-        tagsContainer.style.display = 'block';
-    }
+  const recientes = await posts.orderBy('fecha_publicacion', 'desc').limit(50).get();
+  return recientes.docs.find((d) => window.getPostSlug(d.data()) === objetivo) || null;
 }
 
-/**
- * Increment view count for the post
- * @param {string} postId - Document ID
- */
-async function incrementViewCount(postId) {
-    try {
-        if (!window.firestoreDb) return;
+function pintar(post) {
+  const titulo = `${post.titulo} - Catalysis`;
+  $('post-title').textContent = titulo;
+  document.title = titulo;
+  $('post-category').textContent = post.categoria || 'BLOG';
+  $('post-heading').textContent = post.titulo;
 
-        await window.firestoreDb
-            .collection('blog_posts')
-            .doc(postId)
-            .update({
-                vistas: firebase.firestore.FieldValue.increment(1)
-            });
-    } catch (error) {
-        console.error('Error incrementing view count:', error);
-    }
+  const fecha = post.fecha_publicacion && post.fecha_publicacion.toDate ? formatearFecha(post.fecha_publicacion.toDate()) : '';
+  const meta = [`Por ${post.autor || 'Catalysis'}`, fecha, `${post.vistas || 0} vistas`].filter(Boolean);
+  $('post-meta').replaceChildren(...meta.map((t) => Object.assign(document.createElement('span'), { textContent: t })));
+
+  if (post.imagen_portada) {
+    const img = $('post-image');
+    img.src = post.imagen_portada;
+    img.alt = post.titulo;
+    img.hidden = false;
+  }
+
+  $('post-body').innerHTML = post.contenido || '';
+
+  const tags = Array.isArray(post.tags) ? post.tags : String(post.tags || '').split(',');
+  const limpias = tags.map((t) => String(t).trim()).filter(Boolean);
+  if (limpias.length) {
+    $('tags-list').replaceChildren(...limpias.map((t) => Object.assign(document.createElement('span'), { className: 'tag', textContent: t })));
+    $('post-tags').hidden = false;
+  }
+
+  const recurso = recursoDePost({ slug: window.getPostSlug(post), categoria: post.categoria });
+  if (recurso) {
+    $('cierre-etiqueta').textContent = recurso.etiqueta;
+    $('cierre-nota').textContent = recurso.nota;
+    $('cierre-titulo').textContent = recurso.titulo;
+    $('cierre-texto').textContent = recurso.texto;
+    const cta = $('cierre-cta');
+    cta.textContent = recurso.cta;
+    cta.href = recurso.href;
+    $('cierre-eval').hidden = true;
+    $('cierre-recurso').hidden = false;
+  }
 }
+
+async function sumarVista(docId) {
+  try {
+    await window.firestoreDb.collection('blog_posts').doc(docId)
+      .update({ vistas: window.firebase.firestore.FieldValue.increment(1) });
+  } catch (error) {
+    console.error('Error al sumar la vista:', error);
+  }
+}
+
+init();

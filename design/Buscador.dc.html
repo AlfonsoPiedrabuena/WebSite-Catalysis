@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Catalysis: Buscador</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F2EC}
+a{text-decoration:none;color:inherit}
+button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #14171C;outline-offset:2px}
+.dk a:focus-visible,.dk button:focus-visible,.dk input:focus-visible,.dk select:focus-visible{outline-color:#F4F2EC}
+button:disabled{cursor:not-allowed;opacity:.62}
+.fx{outline:3px solid #14171C;outline-offset:2px}
+.dk .fx{outline-color:#F4F2EC}
+input:disabled,select:disabled{background:#ECE9E0 !important;color:#5A6068 !important;cursor:not-allowed}
+::placeholder{color:#5A6068;opacity:1}
+.hv-f:hover{filter:brightness(.9)}
+.hv-o:hover{background:#ECE9E0 !important}
+.hv-d:hover{background:#262B33 !important}
+.hv-c:hover{border-color:#14171C !important}
+.hv-u:hover{text-decoration:underline}
+.nv:hover{background:#1B1F26}
+.mbar{display:none}
+.toc-m{display:none}
+.prose h2{margin:44px 0 14px;font-family:'Sora',sans-serif;font-weight:600;font-size:28px;line-height:1.2;letter-spacing:-0.02em}
+.prose h3{margin:32px 0 10px;font-family:'Sora',sans-serif;font-weight:600;font-size:20px;line-height:1.3;letter-spacing:-0.01em}
+.prose p{margin:0 0 18px;font-size:17px;line-height:1.75;color:#3A3F47}
+.prose ul,.prose ol{margin:0 0 20px;padding-left:22px;font-size:17px;line-height:1.7;color:#3A3F47}
+.prose li{margin-bottom:8px}
+.prose li::marker{color:#C23E15}
+.prose strong{color:#14171C}
+.prose a{color:#8F2D0F;text-decoration:underline}
+.prose blockquote{margin:28px 0;padding:4px 0 4px 20px;border-left:3px solid #C23E15;font-family:'Sora',sans-serif;font-size:20px;line-height:1.45;color:#14171C}
+.prose h4{margin:24px 0 8px;font-family:'Sora',sans-serif;font-weight:600;font-size:16px;line-height:1.35}
+.prose .note{margin:0 0 24px;padding:18px 20px;border-radius:12px;background:color-mix(in srgb,#C23E15 12%,#ffffff)}
+.prose .note p{margin:0;font-size:15px;color:#3A3F47}
+.prose .kv{margin:0 0 24px;padding:18px 20px;border:1px solid #DAD6CB;border-radius:12px;background:#FFFFFF}
+.prose .kv p{margin:0 0 8px;font-size:15px;line-height:1.5}
+.prose .kv p:last-child{margin:0}
+.prose figure{margin:28px 0}
+.prose figure img{width:100%;display:block;border-radius:12px}
+.prose figcaption{margin-top:10px;font-size:13px;color:#5A6068}
+.tbl{overflow-x:auto;margin:0 0 24px;border:1px solid #DAD6CB;border-radius:12px;background:#FFFFFF}
+.tbl table{border-collapse:collapse;width:100%;min-width:520px;font-size:15px;line-height:1.5}
+.tbl th{text-align:left;padding:12px 16px;background:#ECE9E0;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:12px;letter-spacing:0.08em;color:#14171C}
+.tbl td{padding:12px 16px;border-top:1px solid #ECE9E0;color:#3A3F47;vertical-align:top}
+.tbl td:first-child{font-weight:600;color:#14171C}
+@keyframes sk{0%{opacity:.55}50%{opacity:1}100%{opacity:.55}}
+.sk{animation:sk 1.4s ease-in-out infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin .9s linear infinite}
+@media (prefers-reduced-motion:reduce){.sk,.spin{animation:none}}
+@media (max-width:900px){
+.side{display:none !important}
+.mbar{display:block}
+.crumb{display:none !important}
+.pad{padding-left:32px !important;padding-right:32px !important}
+.g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+.fgrid{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+.h1{font-size:44px !important}
+.h2{font-size:28px !important}
+.toc-side{display:none !important}
+.toc-m{display:block}
+}
+@media (max-width:640px){
+.pad{padding-left:20px !important;padding-right:20px !important}
+.g2,.g3,.g4,.fgrid{grid-template-columns:minmax(0,1fr) !important}
+.h1{font-size:34px !important}
+.h2{font-size:25px !important}
+.bigcard{padding:28px 22px !important}
+section.pad{padding-bottom:28px !important}
+.tt{min-height:44px !important}
+.bpad{padding-bottom:96px !important}
+.prose h2{font-size:24px}
+.prose p,.prose ul,.prose ol{font-size:16px}
+.tbl{overflow-x:visible}
+.tbl table,.tbl tbody,.tbl tr,.tbl td{display:block;min-width:0 !important}
+.tbl thead{display:none}
+.tbl tr+tr{border-top:1px solid #DAD6CB}
+.tbl td{border-top:0;padding:6px 16px}
+.tbl td:first-child{background:#ECE9E0;padding:10px 16px;font-family:'Sora',sans-serif}
+.tbl td[data-label]::before{content:attr(data-label);display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;color:#5A6068;margin-bottom:2px}
+.tbl tr td:last-child{padding-bottom:12px}
+}
+.sbk{inset:0;z-index:90;display:flex;justify-content:center;align-items:flex-start;padding:88px 16px 24px;box-sizing:border-box;background:rgba(20,23,28,0.55);font-family:'Inter',system-ui,sans-serif;color:#14171C}
+.sbox{width:640px;max-width:100%;max-height:calc(100vh - 128px);display:flex;flex-direction:column;background:#FFFFFF;border:1px solid #DAD6CB;border-radius:20px;box-shadow:0 24px 64px rgba(20,23,28,0.35);overflow:hidden}
+.sstatic{position:static !important;background:transparent !important;padding:0 !important;display:block !important}
+.sstatic .sbox{max-height:none !important;width:640px}
+.sres{overflow-y:auto}
+.ib{cursor:pointer;flex:0 0 auto;width:32px;height:32px;border-radius:50%;border:0;display:flex;align-items:center;justify-content:center}
+@media (max-width:640px){
+.sbk{padding:0}
+.sbox{width:100%;max-height:none;height:100%;border-radius:0;border:0}
+.sstatic .sbox{height:auto !important;width:100% !important;border-radius:20px !important;border:1px solid #DAD6CB !important}
+}
+</style>
+</helmet>
+<sc-if value="{{isOpen}}" hint-placeholder-val="{{ true }}">
+<div class="{{rootCls}}" style="position: {{rootPos}}">
+<div role="dialog" aria-label="Buscar en el sitio" class="sbox">
+<form onSubmit="{{submit}}" role="search" style="flex: 0 0 auto; display: flex; align-items: center; gap: 12px; padding: 14px 14px 14px 18px; border-bottom: 1px solid #ECE9E0">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5A6068" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="flex: 0 0 auto"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<label for="bus-q" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Buscar en el sitio</label>
+<input id="bus-q" type="search" value="{{q}}" onChange="{{onInput}}" onKeyDown="{{onKey}}" placeholder="Buscar páginas, artículos y servicios" autocomplete="off" style="flex: 1; min-width: 0; border: 0; outline: none; background: transparent; font-size: 17px; padding: 8px 0; color: #14171C">
+<span aria-hidden="true" style="flex: 0 0 auto; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5A6068; border: 1px solid #B9B5A9; border-radius: 6px; padding: 3px 7px">Esc</span>
+<button type="button" aria-label="Cerrar búsqueda" onClick="{{close}}" class="ib hv-o" style="background: #F4F2EC"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#14171C" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</form>
+<div class="sres" style="flex: 1 1 auto; min-height: 0; padding: 8px 8px 12px">
+<sc-if value="{{showHint}}" hint-placeholder-val="{{ false }}">
+<div style="padding: 16px 12px 8px; display: flex; flex-direction: column; gap: 12px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #5A6068">PRUEBA CON</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{sug}}" as="sg" hint-placeholder-count="4"><button type="button" onClick="{{sg.go}}" class="tt hv-o" style="cursor: pointer; font-size: 14px; font-weight: 500; padding: 9px 14px; border-radius: 999px; border: 1px solid #B9B5A9; background: #FFFFFF; color: #14171C">{{sg.t}}</button></sc-for>
+</div>
+<div style="font-size: 13px; color: #5A6068">Atajo en el sitio publicado: Ctrl K (o ⌘ K en Mac).</div>
+</div>
+</sc-if>
+<sc-if value="{{showGroups}}" hint-placeholder-val="{{ true }}">
+<div role="list" style="display: flex; flex-direction: column; gap: 6px">
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="3">
+<div role="listitem" style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #5A6068; padding: 12px 12px 6px">{{g.title}} · {{g.count}}</div>
+<sc-for list="{{g.items}}" as="it" hint-placeholder-count="3">
+<a href="{{it.h}}" class="hv-o" style="display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border-radius: 12px; min-height: 44px; box-sizing: border-box; justify-content: center">
+<span style="font-size: 15px; font-weight: 600; line-height: 1.35">{{it.t}}</span>
+<span style="font-size: 13px; line-height: 1.4; color: #5A6068; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{it.s}}</span>
+</a>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{showEmpty}}" hint-placeholder-val="{{ false }}">
+<div role="status" style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 28px 18px 24px">
+<div style="font-family: 'Sora', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.01em">Sin resultados para “{{q}}”</div>
+<div style="font-size: 14px; line-height: 1.6; color: #3A3F47">Revisa la ortografía o prueba con una palabra más corta, por ejemplo “CRM” o “madurez”.</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<button type="button" onClick="{{clear}}" class="tt hv-o" style="cursor: pointer; font-size: 14px; font-weight: 600; padding: 10px 16px; border-radius: 10px; border: 1px solid #14171C; background: #FFFFFF; color: #14171C">Limpiar búsqueda</button>
+<a href="Contacto.dc.html" class="tt hv-f" style="display: inline-flex; align-items: center; font-size: 14px; font-weight: 600; padding: 10px 16px; border-radius: 10px; background: {{accent}}; color: #FFFFFF">Escríbenos tu duda</a>
+</div>
+</div>
+</sc-if>
+</div>
+</div>
+</div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#C23E15","options":["#C23E15","#1F6F66","#2F4FD1","#14171C"]},"layout":{"editor":"enum","default":"panel","options":["float","panel"]},"scenario":{"editor":"text","default":"results"},"searchreq":{"editor":null},"$preview":{"width":720,"height":560}}'>
+const IDX = {"pages": [{"t": "Inicio", "s": "Qué hacemos y cómo empezar", "h": "Main.dc.html"}, {"t": "Servicios", "s": "Los nueve servicios de Catalysis", "h": "Servicios.dc.html"}, {"t": "Marco de madurez digital", "s": "Los cinco niveles y sus retos", "h": "Madurez.dc.html"}, {"t": "Evaluación de madurez", "s": "Seis preguntas para ubicar tu nivel", "h": "Evaluacion.dc.html"}, {"t": "Blog y recursos", "s": "Artículos y recursos descargables", "h": "Blog.dc.html"}, {"t": "Contacto", "s": "Escríbenos o agenda tu diagnóstico", "h": "Contacto.dc.html"}, {"t": "Aviso de privacidad", "s": "Cómo tratamos tus datos", "h": "Aviso.dc.html"}], "posts": [{"t": "HubSpot vs. Salesforce Marketing Cloud: cuál elegir según tu tamaño de empresa", "s": "CRM y Automatización", "h": "Articulo.dc.html"}, {"t": "Cómo automatizar procesos con business intelligence + CRM", "s": "CRM y Automatización", "h": "Articulo.dc.html"}, {"t": "Cuáles son las 4 tecnologías base de la transformación digital", "s": "CRM y Automatización", "h": "Articulo.dc.html"}, {"t": "Prompt engineering para equipos no técnicos", "s": "Inteligencia Artificial", "h": "Articulo.dc.html"}, {"t": "IA generativa vs. agentes de IA: qué necesita tu empresa", "s": "Inteligencia Artificial", "h": "Articulo.dc.html"}, {"t": "Qué son los agentes de IA y cómo los usan las empresas en México", "s": "Inteligencia Artificial", "h": "Articulo.dc.html"}, {"t": "Checklist de cierre fiscal digital para PyMEs", "s": "Facturación y Fiscal", "h": "Articulo.dc.html"}, {"t": "Facturación electrónica + CRM: cómo automatizar cobranza", "s": "Facturación y Fiscal", "h": "Articulo.dc.html"}, {"t": "Guía de facturación electrónica para PyMEs en 2026", "s": "Facturación y Fiscal", "h": "Articulo.dc.html"}, {"t": "Bienvenidos a Catalysis", "s": "Transformación Digital", "h": "Articulo.dc.html"}], "svcs": [{"t": "01  Evaluación y Estrategia Digital", "s": "Establecemos las bases de tu transformación con diagnósticos precisos y hojas de ruta personalizadas.", "h": "Servicios.dc.html#servicio-1"}, {"t": "02  Optimización de Procesos", "s": "Mejoramos la eficiencia operativa eliminando cuellos de botella y automatizando tareas repetitivas.", "h": "Servicios.dc.html#servicio-2"}, {"t": "03  Adopción de Tecnologías Cloud", "s": "Llevamos tu infraestructura a la nube con estrategias optimizadas de costos y rendimiento.", "h": "Servicios.dc.html#servicio-3"}, {"t": "04  Data & Analytics", "s": "Convertimos tus datos en insights accionables para decisiones estratégicas inteligentes.", "h": "Servicios.dc.html#servicio-4"}, {"t": "05  Experiencia del Cliente Digital", "s": "Diseñamos experiencias digitales excepcionales que tus clientes amarán usar.", "h": "Servicios.dc.html#servicio-5"}, {"t": "06  Inteligencia Artificial Generativa", "s": "Implementamos las últimas tecnologías de IA para automatizar y potenciar tu negocio.", "h": "Servicios.dc.html#servicio-6"}, {"t": "07  Agentes de IA Autónomos", "s": "Desplegamos agentes inteligentes que trabajan 24/7 para impulsar tu productividad.", "h": "Servicios.dc.html#servicio-7"}, {"t": "08  Analítica Predictiva con IA", "s": "Anticipamos el futuro con modelos predictivos que identifican oportunidades y riesgos.", "h": "Servicios.dc.html#servicio-8"}, {"t": "09  Computer Vision & NLP", "s": "Aplicamos visión artificial y procesamiento de lenguaje natural para automatizar procesos complejos.", "h": "Servicios.dc.html#servicio-9"}]};
+const SCEN = { 'closed': { open: false, q: '' }, 'open': { open: true, q: '' }, 'results': { open: true, q: 'digital' }, 'empty': { open: true, q: 'impuestos 2019' } };
+function norm(s) { return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+function find(list, q) {
+const n = norm(q).trim();
+if (n === '') { return []; }
+return list.filter((x) => norm(x.t).indexOf(n) >= 0 || norm(x.s).indexOf(n) >= 0);
+}
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+const sc = SCEN[props.scenario || 'results'] || SCEN.closed;
+this.state = { open: sc.open, q: sc.q };
+}
+componentDidUpdate(prev) {
+if (this.props.searchreq !== prev.searchreq && this.props.searchreq) { this.setState({ open: true, q: '' }); }
+}
+renderVals() {
+const a = this.props.accent ?? '#C23E15';
+const soft = 'color-mix(in srgb, ' + a + ' 12%, #ffffff)';
+const layout = this.props.layout || 'panel';
+const q = this.state.q;
+const groups = [
+{ title: 'PÁGINAS', items: find(IDX.pages, q) },
+{ title: 'ARTÍCULOS', items: find(IDX.posts, q) },
+{ title: 'SERVICIOS', items: find(IDX.svcs, q) }
+].filter((g) => g.items.length > 0).map((g) => ({ title: g.title, count: g.items.length, items: g.items.slice(0, 4) }));
+const hasQ = q.trim() !== '';
+const sug = ['Marco de madurez', 'CRM', 'Agentes de IA', 'Facturación'].map((t) => ({ t: t, go: () => this.setState({ q: t }) }));
+return {
+accent: a, accentSoft: soft,
+isOpen: this.state.open,
+q: q,
+rootCls: 'sbk' + (layout === 'panel' ? ' sstatic' : ''),
+rootPos: layout === 'panel' ? 'static' : 'fixed',
+groups: groups,
+showGroups: groups.length > 0,
+showEmpty: hasQ && groups.length === 0,
+showHint: !hasQ,
+sug: sug,
+onInput: (e) => this.setState({ q: e && e.target ? e.target.value : '' }),
+onKey: (e) => { if (e && e.key === 'Escape') { this.setState({ open: false }); } },
+clear: () => this.setState({ q: '' }),
+close: () => this.setState({ open: false }),
+submit: (e) => { if (e && e.preventDefault) { e.preventDefault(); } }
+};
+}
+}
+
+</script>
+</body>
+</html>

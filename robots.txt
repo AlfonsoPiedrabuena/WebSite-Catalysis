@@ -9,6 +9,8 @@ User-agent: Google-Extended
 Allow: /
 Disallow: /admin-
 Disallow: /clients/
+Disallow: /design/
+Disallow: /reqs/
 Disallow: /verificar-configuracion.html
 Disallow: /.netlify/
 

@@ -12,228 +12,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aviso de Privacidad - Catalysis</title>
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        .privacy-section {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 6rem 2rem 4rem;
-        }
-
-        .privacy-header {
-            text-align: center;
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .privacy-header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-
-        .privacy-header .company-name {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--text);
-        }
-
-        .privacy-header .last-updated {
-            font-size: 0.9rem;
-            color: var(--text);
-        }
-
-        .privacy-content h2 {
-            font-size: 1.8rem;
-            margin-top: 3rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 0.5rem;
-        }
-
-        .privacy-content h3 {
-            font-size: 1.3rem;
-            margin-top: 2rem;
-            margin-bottom: 0.75rem;
-            color: var(--primary);
-        }
-
-        .privacy-content h4 {
-            font-size: 1.1rem;
-            margin-top: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-
-        .privacy-content p {
-            line-height: 1.8;
-            margin-bottom: 1rem;
-            color: var(--text);
-        }
-
-        .privacy-content ul {
-            margin: 1rem 0 1.5rem 2rem;
-            line-height: 1.8;
-        }
-
-        .privacy-content ul li {
-            margin-bottom: 0.5rem;
-            color: var(--text);
-        }
-
-        .privacy-content strong {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .privacy-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            overflow-x: auto;
-            display: block;
-        }
-
-        .privacy-table table {
-            width: 100%;
-            min-width: 600px;
-        }
-
-        .privacy-table th,
-        .privacy-table td {
-            border: 1px solid var(--border);
-            padding: 1rem;
-            text-align: left;
-        }
-
-        .privacy-table th {
-            background-color: var(--primary);
-            color: var(--secondary);
-            font-weight: 600;
-        }
-
-        .privacy-table td {
-            color: var(--text);
-        }
-
-        .info-box {
-            background-color: var(--light-bg);
-            border-left: 4px solid var(--primary);
-            padding: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .info-box p {
-            margin-bottom: 0.5rem;
-        }
-
-        .contact-info {
-            background-color: var(--light-bg);
-            padding: 2rem;
-            border-radius: 8px;
-            margin: 2rem 0;
-        }
-
-        .contact-info p {
-            margin-bottom: 0.5rem;
-        }
-
-        .summary-box {
-            background-color: var(--primary);
-            color: var(--secondary);
-            padding: 2rem;
-            border-radius: 8px;
-            margin: 3rem 0;
-        }
-
-        .summary-box h3 {
-            color: var(--secondary);
-            margin-top: 1rem;
-        }
-
-        .summary-box p,
-        .summary-box li {
-            color: var(--secondary);
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 3rem;
-            padding: 0.75rem 2rem;
-            background-color: var(--primary);
-            color: var(--secondary);
-            text-decoration: none;
-            border-radius: 4px;
-            transition: opacity 0.3s;
-        }
-
-        .back-link:hover {
-            opacity: 0.8;
-        }
-
-        @media (max-width: 768px) {
-            .privacy-section {
-                padding: 4rem 1.5rem 3rem;
-            }
-
-            .privacy-header h1 {
-                font-size: 2rem;
-            }
-
-            .privacy-content h2 {
-                font-size: 1.5rem;
-            }
-
-            .privacy-content h3 {
-                font-size: 1.2rem;
-            }
-
-            .privacy-content ul {
-                margin-left: 1.5rem;
-            }
-        }
-    </style>
+    <meta name="description" content="Aviso de privacidad de Catalysis Consulting S.A. de C.V.: qué datos recopilamos, para qué los usamos y cómo ejercer tus derechos ARCO.">
+    <link rel="canonical" href="https://catalysis.com.mx/aviso-privacidad.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Catalysis">
+    <meta property="og:title" content="Aviso de Privacidad - Catalysis">
+    <meta property="og:url" content="https://catalysis.com.mx/aviso-privacidad.html">
+    <meta property="og:image" content="https://catalysis.com.mx/images/catalysis_logo.png">
+    <script>document.documentElement.classList.add('js')</script>
+    <link rel="preload" href="/fonts/sora-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/inter-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/site.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav id="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo"><img src="images/catalysis_logo.png" alt="Catalysis" width="80" height="80"></a>
-            <ul class="nav-links">
-                <li><a href="index.html#inicio">Inicio</a></li>
-                <li><a href="index.html#nosotros">Nosotros</a></li>
-                <li><a href="index.html#servicios">Servicios</a></li>
-                <li><a href="index.html#metodologia">Metodología</a></li>
-                <li><a href="index.html#marco-madurez">Sobre Madurez Digital</a></li>
-                <li><a href="blog.html">Blog</a></li>
-            </ul>
-            <a href="contacto.html" class="cta-button">Agenda tu diagnóstico</a>
+<!-- shell:start page= -->
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<div class="app">
+<aside class="side dk" aria-label="Barra lateral">
+    <a href="/" class="logo" data-slot="logo" aria-label="Catalysis, inicio">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><circle cx="13" cy="13" r="11" stroke="#F4F2EC" stroke-width="1.6"/><circle class="logo__dot" cx="13" cy="13" r="4.5"/></svg>
+        <span>catalysis</span>
+    </a>
+    <button type="button" class="side__search" data-search-open aria-haspopup="dialog">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A4A8B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <span>Buscar en el sitio</span>
+        <span class="kbd" aria-hidden="true">Ctrl K</span>
+    </button>
+    <nav class="side__nav" aria-label="Principal">
+        <div class="side__group">
+            <div class="side__label">Explorar</div>
+            <a href="/" class="nv" data-nav="inicio" data-key="i"><span>Inicio</span><span class="nv__key" aria-hidden="true">I</span></a>
+            <a href="/servicios.html" class="nv" data-nav="servicios" data-key="s"><span>Servicios</span><span class="nv__key" aria-hidden="true">S</span></a>
+            <a href="/marco-madurez.html" class="nv" data-nav="madurez" data-key="m"><span>Marco de madurez</span><span class="nv__key" aria-hidden="true">M</span></a>
+            <a href="/evaluacion.html" class="nv" data-nav="evaluacion" data-key="e"><span class="nv__main">Evaluación <span class="badge">Gratis</span></span><span class="nv__key" aria-hidden="true">E</span></a>
+        </div>
+        <div class="side__group">
+            <div class="side__label">Aprender</div>
+            <a href="/blog.html" class="nv" data-nav="blog" data-key="b"><span>Blog</span><span class="nv__key" aria-hidden="true">B</span></a>
+            <a href="/blog.html#recursos" class="nv" data-nav="recursos" data-key="r"><span>Recursos gratuitos</span><span class="nv__key" aria-hidden="true">R</span></a>
+        </div>
+        <div class="side__group">
+            <div class="side__label">Hablemos</div>
+            <a href="/contacto.html" class="nv" data-nav="contacto" data-key="c"><span>Contacto</span><span class="nv__key" aria-hidden="true">C</span></a>
         </div>
     </nav>
-
-    <!-- Privacy Policy Content -->
-    <section class="privacy-section">
-        <div class="privacy-header">
-            <h1>AVISO DE PRIVACIDAD</h1>
-            <p class="company-name">CATALYSIS CONSULTING S.A. DE C.V.</p>
-            <p class="last-updated"><strong>Última actualización:</strong> Agosto 2026</p>
+    <div class="side__foot">
+        <div class="side__cta">
+            <strong>Agenda tu diagnóstico</strong>
+            <p>Una consulta estratégica gratuita para conocer tu punto de partida.</p>
+            <a href="/contacto.html" class="btn btn--primary" data-cta="sidebar_diagnostico" data-cta-location="sidebar">Agendar</a>
         </div>
+        <button type="button" class="side__keys" data-shortcuts-toggle aria-pressed="true">Atajos de teclado: activados</button>
+    </div>
+</aside>
+<div class="col">
+<header class="mbar dk">
+    <div class="mbar__bar">
+        <a href="/" class="logo" data-slot="logo" aria-label="Catalysis, inicio">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><circle cx="13" cy="13" r="11" stroke="#F4F2EC" stroke-width="1.6"/><circle class="logo__dot" cx="13" cy="13" r="4.5"/></svg>
+            <span>catalysis</span>
+        </a>
+        <div class="mbar__actions">
+            <button type="button" class="mbar__btn" data-search-open aria-label="Buscar en el sitio" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F4F2EC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
+            <button type="button" class="mbar__btn" data-menu-toggle aria-label="Menú" aria-expanded="false" aria-controls="mbar-menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4F2EC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+        </div>
+    </div>
+    <nav class="mbar__menu" id="mbar-menu" aria-label="Principal móvil" hidden>
+        <div class="side__label">Explorar</div>
+        <a href="/" class="mbar__link" data-nav="inicio">Inicio</a>
+        <a href="/servicios.html" class="mbar__link" data-nav="servicios">Servicios</a>
+        <a href="/marco-madurez.html" class="mbar__link" data-nav="madurez">Marco de madurez</a>
+        <a href="/evaluacion.html" class="mbar__link" data-nav="evaluacion">Evaluación <span class="badge">Gratis</span></a>
+        <div class="side__label">Aprender</div>
+        <a href="/blog.html" class="mbar__link" data-nav="blog">Blog</a>
+        <a href="/blog.html#recursos" class="mbar__link" data-nav="recursos">Recursos gratuitos</a>
+        <div class="side__label">Hablemos</div>
+        <a href="/contacto.html" class="mbar__link" data-nav="contacto">Contacto</a>
+        <div class="mbar__actions2">
+            <button type="button" class="btn btn--ondark" data-chat-open>Habla con nuestro agente</button>
+            <a href="/contacto.html" class="btn btn--primary" data-cta="menu_diagnostico" data-cta-location="menu_movil">Agenda tu diagnóstico</a>
+        </div>
+    </nav>
+</header>
+<!-- shell:end -->
+    <div class="crumb pad">
+        <div class="crumb__path">catalysis.com.mx / aviso-de-privacidad</div>
+        <button type="button" class="btn btn--outline btn--sm" data-chat-open>Habla con nuestro agente</button>
+    </div>
 
-        <div class="privacy-content">
+    <main id="contenido">
+        <section class="pad sec sec--hero" style="gap:16px">
+            <div class="eyebrow">Legal</div>
+            <h1 class="h1">Aviso de privacidad</h1>
+            <div class="legal-meta"><strong style="color:var(--ink)">CATALYSIS CONSULTING S.A. DE C.V.</strong><span>Última actualización: Agosto 2026</span></div>
+        </section>
+
+        <div class="pad" style="padding-top:8px">
+            <details class="toc-m">
+                <summary>Contenido del aviso</summary>
+                <ul class="plain">
+                    <li><a href="#s0">Preámbulo</a></li>
+                    <li><a href="#s1">1. Responsable del tratamiento de datos</a></li>
+                    <li><a href="#s2">2. Datos personales que recopilamos</a></li>
+                    <li><a href="#s3">3. Finalidades del tratamiento de datos</a></li>
+                    <li><a href="#s4">4. Base legal</a></li>
+                    <li><a href="#s5">5. Destinatarios de tus datos</a></li>
+                    <li><a href="#s6">6. Limitación de uso</a></li>
+                    <li><a href="#s7">7. Derechos ARCO</a></li>
+                    <li><a href="#s8">8. Darse de baja de comunicaciones</a></li>
+                    <li><a href="#s9">9. Seguridad de tus datos</a></li>
+                    <li><a href="#s10">10. Retención de datos</a></li>
+                    <li><a href="#s11">11. Cambios en este aviso</a></li>
+                    <li><a href="#s12">12. Ejercicio de derechos y quejas</a></li>
+                    <li><a href="#s13">13. Consentimiento y aceptación</a></li>
+                    <li><a href="#s14">14. Transferencias internacionales</a></li>
+                    <li><a href="#s15">15. Menores de edad</a></li>
+                    <li><a href="#s16">16. Definiciones</a></li>
+                    <li><a href="#s17">17. Disposiciones finales</a></li>
+                    <li><a href="#s18">18. Vigencia</a></li>
+                </ul>
+            </details>
+            <div class="legal">
+                <div class="legal__main prose">
+        
             <!-- Preámbulo -->
-            <section>
+            <section id="s0">
                 <h2>PREÁMBULO</h2>
                 <p>CATALYSIS CONSULTING S.A. DE C.V. (en adelante "<strong>Catalysis</strong>"), con domicilio en Ciudad de México, México, reconoce la importancia de tu privacidad y se compromete a proteger tus datos personales de manera responsable y transparente.</p>
                 <p>Este Aviso de Privacidad te explica cómo recopilamos, usamos, protegemos y gestionamos tus datos personales en cumplimiento con la <strong>Ley Federal de Protección de Datos Personales en Posesión de Particulares (LFPDPPP)</strong> y demás normatividad aplicable.</p>
             </section>
-
+        
             <!-- 1. Responsable -->
-            <section>
+            <section id="s1">
                 <h2>1. RESPONSABLE DEL TRATAMIENTO DE DATOS</h2>
-                <div class="contact-info">
+                <div class="kv">
                     <p><strong>Nombre:</strong> CATALYSIS CONSULTING S.A. DE C.V.</p>
                     <p><strong>Domicilio:</strong> Ciudad de México, México</p>
                     <p><strong>Email de Privacidad:</strong> privacidad@catalysis.com.mx</p>
@@ -241,19 +154,19 @@
                     <p><strong>Responsable de Privacidad:</strong> Departamento de Cumplimiento Normativo</p>
                 </div>
             </section>
-
+        
             <!-- 2. Datos que recopilamos -->
-            <section>
+            <section id="s2">
                 <h2>2. DATOS PERSONALES QUE RECOPILAMOS</h2>
                 <p>Catalysis recopila los siguientes datos personales directamente de ti a través de formularios, evaluaciones, y solicitudes de servicios:</p>
-
+        
                 <h3>Datos de Identificación</h3>
                 <ul>
                     <li>Nombre completo</li>
                     <li>Documento de identidad (opcional)</li>
                     <li>Firma digital (en casos aplicables)</li>
                 </ul>
-
+        
                 <h3>Datos de Contacto</h3>
                 <ul>
                     <li>Correo electrónico</li>
@@ -261,7 +174,7 @@
                     <li>Número de teléfono fijo (opcional)</li>
                     <li>Dirección domiciliaria (opcional)</li>
                 </ul>
-
+        
                 <h3>Datos Empresariales</h3>
                 <ul>
                     <li>Nombre de la empresa</li>
@@ -271,7 +184,7 @@
                     <li>Posición/Cargo del usuario</li>
                     <li>Departamento</li>
                 </ul>
-
+        
                 <h3>Datos de Evaluación y Consultoría</h3>
                 <ul>
                     <li>Respuestas a cuestionarios de madurez digital</li>
@@ -279,14 +192,14 @@
                     <li>Intereses en servicios específicos</li>
                     <li>Historial de consultas</li>
                 </ul>
-
+        
                 <h3>Datos de Preferencia de Comunicación</h3>
                 <ul>
                     <li>Preferencia de medio de contacto (email, teléfono, WhatsApp)</li>
                     <li>Consentimiento para comunicaciones comerciales</li>
                     <li>Horarios de disponibilidad</li>
                 </ul>
-
+        
                 <h3>Datos Técnicos (Recopilados Automáticamente)</h3>
                 <ul>
                     <li>Dirección IP</li>
@@ -297,19 +210,19 @@
                     <li>Fecha y hora de acceso</li>
                     <li>Cookies (si aplica)</li>
                 </ul>
-
+        
                 <h3>Cookies de Analítica</h3>
                 <p>Utilizamos <strong>Google Analytics</strong>, un servicio de analítica web proporcionado por Google LLC, para entender cómo los visitantes usan nuestro sitio (páginas más visitadas, duración de la visita, origen del tráfico). Google Analytics utiliza cookies propias que recopilan información de forma agregada y no identifican directamente tu nombre o datos de contacto.</p>
                 <p>Puedes oponerte a este tratamiento instalando el <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">complemento de inhabilitación de Google Analytics</a> o configurando tu navegador para bloquear cookies de terceros.</p>
             </section>
-
+        
             <!-- 3. Finalidades -->
-            <section>
+            <section id="s3">
                 <h2>3. FINALIDADES DEL TRATAMIENTO DE DATOS</h2>
-
+        
                 <h3>FINALIDADES PRIMARIAS</h3>
                 <p>Las finalidades primarias son aquellas para las cuales recopilamos tus datos y representan nuestro propósito principal. Estos datos se utilizan exclusivamente para:</p>
-
+        
                 <h4>3.1 Prestación de Servicios de Consultoría</h4>
                 <ul>
                     <li>Procesar tu solicitud de evaluación de madurez digital</li>
@@ -319,7 +232,7 @@
                     <li>Ejecutar proyectos de consultoría contratados</li>
                     <li>Dar seguimiento a la implementación de soluciones</li>
                 </ul>
-
+        
                 <h4>3.2 Establecimiento de Contacto y Comunicación</h4>
                 <ul>
                     <li>Contactarte para confirmar tu evaluación o solicitud</li>
@@ -329,7 +242,7 @@
                     <li>Mantener comunicación sobre el progreso de proyectos</li>
                     <li>Enviar actualizaciones sobre servicios contratados</li>
                 </ul>
-
+        
                 <h4>3.3 Gestión de Base de Datos de Prospectos y Clientes</h4>
                 <ul>
                     <li>Registrar tus datos en nuestro sistema CRM (Customer Relationship Management)</li>
@@ -337,7 +250,7 @@
                     <li>Organizar información de contactos por sector, nivel de madurez o servicios de interés</li>
                     <li>Facilitar la gestión interna de relaciones comerciales</li>
                 </ul>
-
+        
                 <h4>3.4 Procesos de Venta y Marketing</h4>
                 <ul>
                     <li>Identificar oportunidades comerciales basadas en tu nivel de madurez digital</li>
@@ -347,7 +260,7 @@
                     <li>Invitarte a webinars, eventos, talleres o contenido educativo relacionado con transformación digital</li>
                     <li>Enviar boletines informativos y actualizaciones de tendencias en transformación digital</li>
                 </ul>
-
+        
                 <h4>3.5 Cumplimiento de Obligaciones Legales</h4>
                 <ul>
                     <li>Cumplir con obligaciones fiscales y legales</li>
@@ -355,7 +268,7 @@
                     <li>Responder a requerimientos de autoridades competentes</li>
                     <li>Prevención de fraude y delitos</li>
                 </ul>
-
+        
                 <h3>FINALIDADES SECUNDARIAS</h3>
                 <p>Además de las finalidades primarias, Catalysis podrá utilizar tus datos para:</p>
                 <ul>
@@ -366,23 +279,23 @@
                     <li>Personalización de contenido y recomendaciones</li>
                     <li>Segmentación de audiencias para análisis de mercado</li>
                 </ul>
-
-                <div class="info-box">
+        
+                <div class="note">
                     <p><strong>Importante:</strong> Aceptar las finalidades secundarias es <strong>opcional</strong>. Si no deseas que tus datos se utilicen para estos fines, puedes expresar tu oposición en cualquier momento sin que esto afecte la prestación de nuestros servicios principales.</p>
                 </div>
             </section>
-
+        
             <!-- 4. Base Legal -->
-            <section>
+            <section id="s4">
                 <h2>4. BASE LEGAL</h2>
                 <p>El tratamiento de tus datos personales se realiza bajo las siguientes bases legales:</p>
-
+        
                 <h3>Consentimiento Informado</h3>
                 <p>Tu consentimiento expresado al completar formularios, aceptar este Aviso de Privacidad, y solicitar nuestros servicios constituye la base legal principal para el tratamiento de tus datos.</p>
-
+        
                 <h3>Relación Contractual</h3>
                 <p>Cuando contratas servicios de consultoría con Catalysis, el tratamiento de datos es necesario para ejecutar el contrato y prestarte los servicios acordados.</p>
-
+        
                 <h3>Interés Legítimo</h3>
                 <p>Catalysis tiene un interés legítimo en:</p>
                 <ul>
@@ -391,18 +304,18 @@
                     <li>Mejorar continuamente sus servicios</li>
                     <li>Prevenir fraude y garantizar seguridad</li>
                 </ul>
-
+        
                 <h3>Obligación Legal</h3>
                 <p>Cierta información se retiene para cumplir con obligaciones fiscales y legales establecidas en México.</p>
             </section>
-
+        
             <!-- 5. Destinatarios -->
-            <section>
+            <section id="s5">
                 <h2>5. DESTINATARIOS DE TUS DATOS</h2>
                 <p>Catalysis se compromete a <strong>NO COMPARTIR tus datos personales con terceros</strong> excepto en los siguientes casos específicos:</p>
-
+        
                 <h3>Casos Autorizados de Compartición de Datos</h3>
-
+        
                 <h4>5.1 Proveedores de Servicios Técnicos</h4>
                 <p>Tus datos podrán ser compartidos con proveedores de servicios estrictamente necesarios para la prestación de servicios:</p>
                 <ul>
@@ -412,7 +325,7 @@
                     <li><strong>Email marketing:</strong> MailChimp, SendGrid (solo con tu consentimiento previo para comunicaciones)</li>
                     <li><strong>Hosting y servidores:</strong> Netlify, Heroku (infraestructura técnica)</li>
                 </ul>
-
+        
                 <p>Estos proveedores actúan como <strong>encargados de datos</strong> y están obligados contractualmente a:</p>
                 <ul>
                     <li>Usar los datos únicamente para los servicios contratados</li>
@@ -420,7 +333,7 @@
                     <li>No compartir datos con terceros sin autorización</li>
                     <li>Respetar tu privacidad y la ley</li>
                 </ul>
-
+        
                 <h4>5.2 Autoridades Competentes</h4>
                 <p>Catalysis compartirá datos personales cuando sea requerido por:</p>
                 <ul>
@@ -430,10 +343,10 @@
                     <li>Instituciones bancarias y financieras (en caso de transacciones)</li>
                     <li>Autoridades de protección de datos</li>
                 </ul>
-
+        
                 <h4>5.3 Situaciones de Emergencia</h4>
                 <p>En caso de amenaza a la seguridad pública, emergencias, o para proteger derechos y seguridad personal.</p>
-
+        
                 <h3>¿A QUIÉN NO COMPARTIMOS TUS DATOS?</h3>
                 <p><strong>Catalysis NO compartirá tus datos con:</strong></p>
                 <ul>
@@ -444,12 +357,12 @@
                     <li>Cualquier entidad para propósitos distintos a los declarados en este aviso</li>
                 </ul>
             </section>
-
+        
             <!-- 6. Limitación de Uso -->
-            <section>
+            <section id="s6">
                 <h2>6. LIMITACIÓN DE USO</h2>
                 <p>Catalysis utiliza tus datos <strong>ÚNICAMENTE para los fines declarados en este Aviso de Privacidad</strong> (secciones 3.1 a 3.5).</p>
-
+        
                 <h3>Se Prohíbe Expresamente:</h3>
                 <ul>
                     <li>Usar tus datos para cualquier propósito no autorizado</li>
@@ -459,17 +372,17 @@
                     <li>Usar tus datos para vigilancia no consentida</li>
                     <li>Compartir datos con terceros para fines comerciales no autorizados</li>
                 </ul>
-
-                <div class="info-box">
+        
+                <div class="note">
                     <p><strong>Si Catalysis Detecta una Violación:</strong> Nos comprometemos a informarte inmediatamente y a tomar medidas correctivas.</p>
                 </div>
             </section>
-
+        
             <!-- 7. Derechos ARCO -->
-            <section>
+            <section id="s7">
                 <h2>7. DERECHOS ARCO (Derechos del Titular de Datos)</h2>
                 <p>De conformidad con la Ley Federal de Protección de Datos Personales en Posesión de Particulares (LFPDPPP), tienes los siguientes derechos (conocidos como derechos <strong>ARCO</strong>):</p>
-
+        
                 <h3>ACCESO</h3>
                 <p>Derecho a saber qué datos personales tiene Catalysis sobre ti, cómo se utilizan y con quién se comparten.</p>
                 <p><strong>Cómo ejercerlo:</strong></p>
@@ -479,7 +392,7 @@
                     <li>Incluye: Tu nombre completo, email, y empresa</li>
                     <li>Plazo de respuesta: 20 días hábiles</li>
                 </ul>
-
+        
                 <h3>RECTIFICACIÓN</h3>
                 <p>Derecho a corregir datos inexactos, incompletos o desactualizados.</p>
                 <p><strong>Ejemplos:</strong></p>
@@ -496,10 +409,10 @@
                     <li>Especifica qué datos deseas corregir y los datos correctos</li>
                     <li>Plazo de respuesta: 15 días hábiles</li>
                 </ul>
-
+        
                 <h3>CANCELACIÓN</h3>
                 <p>Derecho a solicitar la eliminación o supresión de tus datos personales.</p>
-                <div class="info-box">
+                <div class="note">
                     <p><strong>Importante:</strong></p>
                     <ul>
                         <li>Podemos retener datos cuando sea obligatorio por ley (hasta 7 años para fines fiscales)</li>
@@ -514,7 +427,7 @@
                     <li>Especifica claramente los datos a cancelar</li>
                     <li>Plazo de respuesta: 20 días hábiles</li>
                 </ul>
-
+        
                 <h3>OPOSICIÓN</h3>
                 <p>Derecho a oponerte al tratamiento de tus datos para propósitos específicos.</p>
                 <p><strong>Ejemplos:</strong></p>
@@ -530,7 +443,7 @@
                     <li>Especifica a qué procesamiento te opones</li>
                     <li>Plazo de respuesta: 15 días hábiles</li>
                 </ul>
-
+        
                 <h3>PROCEDIMIENTO PARA EJERCER DERECHOS ARCO</h3>
                 <ol>
                     <li><strong>Envía tu solicitud</strong> a privacidad@catalysis.com.mx con:
@@ -547,27 +460,27 @@
                     <li><strong>Si no estás satisfecho:</strong> Puedes presentar una queja ante el Instituto Nacional de Transparencia, Acceso a la Información y Protección de Datos Personales (INAI)</li>
                 </ol>
             </section>
-
+        
             <!-- 8. Darse de Baja -->
-            <section>
+            <section id="s8">
                 <h2>8. DARSE DE BAJA DE COMUNICACIONES</h2>
-
+        
                 <h3>Cancelación de Comunicaciones de Marketing</h3>
                 <p>Si deseas dejar de recibir comunicaciones comerciales, boletines informativos o contenido de marketing de Catalysis:</p>
-
+        
                 <h4>Opción 1: Email</h4>
                 <ul>
                     <li>Responde a cualquier email de Catalysis con: "Deseo darme de baja de las comunicaciones"</li>
                     <li>O envía email a: privacidad@catalysis.com.mx con asunto "SOLICITUD DE BAJA - COMUNICACIONES"</li>
                 </ul>
-
+        
                 <h4>Opción 2: Enlace de Desuscripción</h4>
                 <ul>
                     <li>Cada email de marketing incluye un enlace "Darme de baja" o "Unsubscribe" al pie</li>
                     <li>Haz clic para cancelar inmediatamente</li>
                 </ul>
-
-                <div class="info-box">
+        
+                <div class="note">
                     <p><strong>Importante:</strong></p>
                     <p><strong>Comunicaciones transaccionales:</strong> Aunque te des de baja de marketing, seguiremos enviándote:</p>
                     <ul>
@@ -580,9 +493,9 @@
                     <p><strong>Tiempo de procesamiento:</strong> La solicitud de baja se procesa en máximo 10 días hábiles</p>
                 </div>
             </section>
-
+        
             <!-- 9. Seguridad -->
-            <section>
+            <section id="s9">
                 <h2>9. SEGURIDAD DE TUS DATOS</h2>
                 <p>Catalysis implementa medidas técnicas, administrativas y físicas para proteger tus datos personales contra:</p>
                 <ul>
@@ -592,9 +505,9 @@
                     <li>Pérdida accidental</li>
                     <li>Destrucción o daño</li>
                 </ul>
-
+        
                 <h3>Medidas de Seguridad Implementadas</h3>
-
+        
                 <h4>Seguridad Técnica</h4>
                 <ul>
                     <li>Encriptación SSL/TLS en tránsito de datos (HTTPS)</li>
@@ -604,7 +517,7 @@
                     <li>Backups automáticos y recuperación de desastres</li>
                     <li>Certificados de seguridad (SOC 2 Type II)</li>
                 </ul>
-
+        
                 <h4>Medidas Administrativas</h4>
                 <ul>
                     <li>Políticas de acceso basadas en necesidad (principio de mínimo privilegio)</li>
@@ -614,27 +527,27 @@
                     <li>Auditorías de seguridad internas y externas</li>
                     <li>Incidente response plan</li>
                 </ul>
-
+        
                 <h4>Medidas Físicas</h4>
                 <ul>
                     <li>Acceso restringido a servidores</li>
                     <li>Vigilancia y monitoreo</li>
                     <li>Control de identidad para empleados</li>
                 </ul>
-
-                <div class="info-box">
+        
+                <div class="note">
                     <p><strong>Limitaciones de Seguridad:</strong> A pesar de nuestros esfuerzos, <strong>no existe sistema 100% seguro</strong>. Aunque Catalysis implementa medidas robustas, no podemos garantizar protección absoluta contra ataques cibernéticos sofisticados, violaciones internas maliciosas, robo de credenciales o ingeniería social.</p>
                     <p>Si identificas un riesgo de seguridad, por favor notifica inmediatamente a: privacidad@catalysis.com.mx</p>
                 </div>
             </section>
-
+        
             <!-- 10. Retención -->
-            <section>
+            <section id="s10">
                 <h2>10. RETENCIÓN DE DATOS</h2>
                 <p>Catalysis retiene tus datos personales durante el tiempo necesario para cumplir con las finalidades declaradas:</p>
-
+        
                 <h3>Períodos de Retención</h3>
-                <div class="privacy-table">
+                <div class="tbl tbl--scroll">
                     <table>
                         <thead>
                             <tr>
@@ -682,7 +595,7 @@
                         </tbody>
                     </table>
                 </div>
-
+        
                 <h3>Después del Período de Retención</h3>
                 <ul>
                     <li>Los datos serán <strong>eliminados de forma segura</strong> (destrucción física o borrado criptográfico)</li>
@@ -690,9 +603,9 @@
                     <li>Puedes solicitar eliminación anticipada en cualquier momento (ejerciendo tu derecho de cancelación)</li>
                 </ul>
             </section>
-
+        
             <!-- 11. Cambios -->
-            <section>
+            <section id="s11">
                 <h2>11. CAMBIOS EN ESTE AVISO</h2>
                 <p>Catalysis se reserva el derecho de <strong>modificar, actualizar o cambiar este Aviso de Privacidad</strong> en cualquier momento para:</p>
                 <ul>
@@ -701,7 +614,7 @@
                     <li>Mejorar la protección de datos</li>
                     <li>Incorporar nuevas finalidades</li>
                 </ul>
-
+        
                 <h3>Cómo Notificamos Cambios</h3>
                 <ul>
                     <li>Se publicará la versión actualizada en nuestro sitio web</li>
@@ -710,15 +623,15 @@
                     <li>Tu continuo uso de nuestros servicios implica aceptación de los cambios</li>
                 </ul>
             </section>
-
+        
             <!-- 12. Ejercicio de Derechos y Quejas -->
-            <section>
+            <section id="s12">
                 <h2>12. EJERCICIO DE DERECHOS Y QUEJAS</h2>
-
+        
                 <h3>Cómo Contactar para Privacidad</h3>
                 <p>Para cualquier cuestión relacionada con tu privacidad, derechos ARCO, o reportar una violación:</p>
-
-                <div class="contact-info">
+        
+                <div class="kv">
                     <p><strong>Email:</strong> privacidad@catalysis.com.mx</p>
                     <p><strong>Teléfono:</strong> +52 55 1234 5678</p>
                     <p><strong>Correo Postal:</strong><br>
@@ -732,20 +645,20 @@
                         <li>Emergencias de seguridad: Inmediato</li>
                     </ul>
                 </div>
-
+        
                 <h3>Si No Estás Satisfecho con Nuestra Respuesta</h3>
                 <p>Tienes derecho a presentar una <strong>queja ante el INAI</strong> (Instituto Nacional de Transparencia, Acceso a la Información y Protección de Datos Personales):</p>
-
-                <div class="contact-info">
+        
+                <div class="kv">
                     <p><strong>Instituto Nacional de Transparencia, Acceso a la Información y Protección de Datos Personales (INAI)</strong></p>
                     <p><strong>Sitio web:</strong> www.gob.mx/inai</p>
                     <p><strong>Email de quejas:</strong> quejas@inai.gob.mx</p>
                     <p><strong>Teléfono:</strong> +52 (55) 1925-4600</p>
                 </div>
             </section>
-
+        
             <!-- 13. Consentimiento -->
-            <section>
+            <section id="s13">
                 <h2>13. CONSENTIMIENTO Y ACEPTACIÓN</h2>
                 <p>Al completar nuestro formulario de evaluación, solicitar nuestros servicios, o proporcionar tus datos de cualquier forma, <strong>confirmas que:</strong></p>
                 <ul>
@@ -754,7 +667,7 @@
                     <li>Autorizas a Catalysis a utilizar tus datos para las finalidades primarias</li>
                     <li>Aceptas los términos y condiciones de privacidad</li>
                 </ul>
-
+        
                 <h3>Consentimiento para Finalidades Secundarias (Opcional)</h3>
                 <p>Independientemente, puedes <strong>opcionalmente consentir</strong> a que tus datos se utilicen para:</p>
                 <ul>
@@ -764,12 +677,12 @@
                 </ul>
                 <p><strong>Esta aceptación es voluntaria y no afecta la prestación de servicios principales.</strong></p>
             </section>
-
+        
             <!-- 14. Transferencias Internacionales -->
-            <section>
+            <section id="s14">
                 <h2>14. TRANSFERENCIAS INTERNACIONALES</h2>
                 <p>Algunos de nuestros proveedores de servicios (AWS, Azure, Google Cloud, Google Analytics) pueden procesar tus datos fuera de México (en servidores ubicados en EE.UU., Europa, u otros países).</p>
-
+        
                 <p><strong>Catalysis asegura que:</strong></p>
                 <ul>
                     <li>Los datos se transfieren solo a países con protección de datos adecuada</li>
@@ -778,12 +691,12 @@
                     <li>Tus derechos están protegidos incluso en transferencias internacionales</li>
                 </ul>
             </section>
-
+        
             <!-- 15. Menores de Edad -->
-            <section>
+            <section id="s15">
                 <h2>15. MENORES DE EDAD</h2>
                 <p>Los servicios de Catalysis están dirigidos a <strong>empresas y profesionales mayores de 18 años</strong>.</p>
-
+        
                 <p><strong>Si eres menor de edad:</strong></p>
                 <ul>
                     <li>No debes proporcionar tus datos personales</li>
@@ -791,9 +704,9 @@
                     <li>Catalysis podrá eliminar datos de menores sin consentimiento parental</li>
                 </ul>
             </section>
-
+        
             <!-- 16. Definiciones -->
-            <section>
+            <section id="s16">
                 <h2>16. DEFINICIONES</h2>
                 <ul>
                     <li><strong>Datos Personales:</strong> Información que identifica o puede identificar a una persona física</li>
@@ -804,9 +717,9 @@
                     <li><strong>Consentimiento:</strong> Manifestación voluntaria e informada de aceptación</li>
                 </ul>
             </section>
-
+        
             <!-- 17. Disposiciones Finales -->
-            <section>
+            <section id="s17">
                 <h2>17. DISPOSICIONES FINALES</h2>
                 <p>Este Aviso de Privacidad se rige por las leyes de los Estados Unidos Mexicanos, específicamente:</p>
                 <ul>
@@ -817,71 +730,100 @@
                 </ul>
                 <p>Para cualquier controversia, las partes se someten a los tribunales competentes de la Ciudad de México.</p>
             </section>
-
+        
             <!-- 18. Vigencia -->
-            <section>
+            <section id="s18">
                 <h2>18. VIGENCIA</h2>
                 <p>Este Aviso de Privacidad entra en vigor a partir del <strong>1 de febrero de 2026</strong> y permanecerá vigente indefinidamente, sujeto a actualizaciones periódicas.</p>
             </section>
-
-            <!-- Contact -->
-            <section style="text-align: center; margin-top: 3rem;">
-                <h3>¿Preguntas?</h3>
-                <p>Contáctanos: <strong>privacidad@catalysis.com.mx</strong></p>
-            </section>
-
-            <!-- Back Link -->
-            <div style="text-align: center;">
-                <a href="index.html" class="back-link">Volver al inicio</a>
+        
+            
+                    <section class="note" style="margin-top:48px">
+                        <h3 style="margin-top:0">¿Preguntas?</h3>
+                        <p style="margin:0">Contáctanos: <strong>privacidad@catalysis.com.mx</strong></p>
+                    </section>
+                </div>
+                <nav class="toc-side" aria-label="Contenido del aviso">
+                    <div class="eyebrow">Contenido</div>
+                    <ul class="plain">
+                        <li><a href="#s0">Preámbulo</a></li>
+                        <li><a href="#s1">1. Responsable del tratamiento de datos</a></li>
+                        <li><a href="#s2">2. Datos personales que recopilamos</a></li>
+                        <li><a href="#s3">3. Finalidades del tratamiento de datos</a></li>
+                        <li><a href="#s4">4. Base legal</a></li>
+                        <li><a href="#s5">5. Destinatarios de tus datos</a></li>
+                        <li><a href="#s6">6. Limitación de uso</a></li>
+                        <li><a href="#s7">7. Derechos ARCO</a></li>
+                        <li><a href="#s8">8. Darse de baja de comunicaciones</a></li>
+                        <li><a href="#s9">9. Seguridad de tus datos</a></li>
+                        <li><a href="#s10">10. Retención de datos</a></li>
+                        <li><a href="#s11">11. Cambios en este aviso</a></li>
+                        <li><a href="#s12">12. Ejercicio de derechos y quejas</a></li>
+                        <li><a href="#s13">13. Consentimiento y aceptación</a></li>
+                        <li><a href="#s14">14. Transferencias internacionales</a></li>
+                        <li><a href="#s15">15. Menores de edad</a></li>
+                        <li><a href="#s16">16. Definiciones</a></li>
+                        <li><a href="#s17">17. Disposiciones finales</a></li>
+                        <li><a href="#s18">18. Vigencia</a></li>
+                    </ul>
+                </nav>
             </div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-container">
-            <div class="footer-about">
-                <h3>catalysis</h3>
-                <p>Impulsamos la transformación digital de empresas que quieren liderar en la era digital. Estrategia, tecnología y resultados medibles.</p>
-                <p>📧 <a href="mailto:contacto@catalysis.com.mx" style="color: inherit; text-decoration: none;">contacto@catalysis.com.mx</a><br>
-                📱 <a href="tel:+5255393370086" style="color: inherit; text-decoration: none;">+52 55 3933 7086</a><br>
-                📍 Ciudad de México, México</p>
-            </div>
-            <div class="footer-links">
-                <h4>Servicios</h4>
-                <ul>
-                    <li><a href="servicios.html#servicio-1">Transformación Digital</a></li>
-                    <li><a href="servicios.html#servicio-4">Data & Analytics</a></li>
-                    <li><a href="servicios.html#servicio-6">Inteligencia Artificial</a></li>
-                    <li><a href="servicios.html#servicio-3">Cloud Computing</a></li>
-                    <li><a href="servicios.html#servicio-2">Optimización de Procesos</a></li>
-                </ul>
-            </div>
-            <div class="footer-links">
-                <h4>Empresa</h4>
-                <ul>
-                    <li><a href="index.html#nosotros">Sobre Nosotros</a></li>
-                    <li><a href="index.html#metodologia">Metodología</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="contacto.html">Contacto</a></li>
-                    <li><a href="aviso-privacidad.html">Aviso de Privacidad</a></li>
-                </ul>
-            </div>
-            <div class="footer-links">
-                <h4>Recursos</h4>
-                <ul>
-                    <li><a href="blog.html">Artículos</a></li>
-                    <li><a href="contacto.html">Contacto</a></li>
-                </ul>
-            </div>
+    </main>
+<!-- shell-end:start -->
+<footer class="foot dk pad">
+    <div class="foot__grid">
+        <div class="foot__brand">
+            <a href="/" class="logo logo--lg" data-slot="logo" aria-label="Catalysis, inicio">
+                <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><circle cx="13" cy="13" r="11" stroke="#F4F2EC" stroke-width="1.6"/><circle class="logo__dot" cx="13" cy="13" r="4.5"/></svg>
+                <span>catalysis</span>
+            </a>
+            <p>Impulsamos la transformación digital de empresas que quieren liderar en la era digital. Estrategia, tecnología y resultados medibles.</p>
+            <ul class="foot__contact">
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><a href="mailto:contacto@catalysis.com.mx">contacto@catalysis.com.mx</a></li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg><a href="tel:+525539337086">+52 55 3933 7086</a></li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Ciudad de México, México</span></li>
+            </ul>
         </div>
-        <div class="footer-bottom">
-            <p id="footer-year"></p>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="js/attribution.js"></script>
-    <script src="js/main.js"></script>
+        <nav class="foot__col" aria-labelledby="foot-servicios">
+            <h2 id="foot-servicios">Servicios</h2>
+            <ul>
+                <li><a href="/servicios.html#servicio-1">Transformación Digital</a></li>
+                <li><a href="/servicios.html#servicio-4">Data &amp; Analytics</a></li>
+                <li><a href="/servicios.html#servicio-6">Inteligencia Artificial</a></li>
+                <li><a href="/servicios.html#servicio-3">Cloud Computing</a></li>
+                <li><a href="/servicios.html#servicio-2">Optimización de Procesos</a></li>
+            </ul>
+        </nav>
+        <nav class="foot__col" aria-labelledby="foot-empresa">
+            <h2 id="foot-empresa">Empresa</h2>
+            <ul>
+                <li><a href="/#metodologia">Metodología</a></li>
+                <li><a href="/marco-madurez.html">Marco de madurez</a></li>
+                <li><a href="/blog.html">Blog</a></li>
+                <li><a href="/contacto.html">Contacto</a></li>
+                <li><a href="/aviso-privacidad.html">Aviso de Privacidad</a></li>
+            </ul>
+        </nav>
+        <nav class="foot__col" aria-labelledby="foot-recursos">
+            <h2 id="foot-recursos">Recursos</h2>
+            <ul>
+                <li><a href="/blog.html">Artículos</a></li>
+                <li><a href="/evaluacion.html">Evaluación de madurez</a></li>
+                <li><a href="/contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="foot__bottom">
+        <span>© <span data-year>2026</span> Catalysis. Todos los derechos reservados.</span>
+        <a href="/aviso-privacidad.html">Aviso de privacidad</a>
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<script type="module" src="/js/shell.js"></script>
+<!-- shell-end:end -->
 </body>
 </html>

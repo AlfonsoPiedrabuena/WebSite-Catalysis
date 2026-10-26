@@ -1,7 +1,62 @@
 [build]
   publish = "."
   functions = "netlify/functions"
+  # No gastar créditos de build si solo cambió documentación, specs, diseño, pruebas o herramientas.
+  # Exit 0 = omitir el build; sin CACHED_COMMIT_REF (primer deploy) el comando falla y se construye.
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ':(exclude)*.md' ':(exclude)docs' ':(exclude)reqs' ':(exclude)design' ':(exclude)tests' ':(exclude)scripts' ':(exclude).claude'"
 
 [functions]
   node_bundler = "esbuild"
   deno_import_map = "./netlify/import_map.json"
+
+# Recursos descargables: no compiten con su landing en buscadores
+[[headers]]
+  for = "/downloads/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+    Cache-Control = "public, max-age=3600"
+
+# Versiones markdown estáticas para agentes
+[[headers]]
+  for = "/servicios.md"
+  [headers.values]
+    Content-Type = "text/markdown; charset=utf-8"
+    Cache-Control = "public, max-age=0, s-maxage=300, stale-while-revalidate=86400"
+[[headers]]
+  for = "/marco-madurez.md"
+  [headers.values]
+    Content-Type = "text/markdown; charset=utf-8"
+    Cache-Control = "public, max-age=0, s-maxage=300, stale-while-revalidate=86400"
+
+# Tipografías alojadas en el repo
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+# Material de trabajo del repo que no debe servirse en producción (la raíz es el directorio publicado)
+[[redirects]]
+  from = "/design/*"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/reqs/*"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/tests/*"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/scripts/*"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/shell/*"
+  to = "/404.html"
+  status = 404
+  force = true

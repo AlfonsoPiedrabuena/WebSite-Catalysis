@@ -3,7 +3,7 @@
    Recibe los datos de los formularios de Catalysis, valida Turnstile
    y da de alta el lead (empresa + contacto) en Catalysis CRM
    (crm.catalysis.com.mx) vía su endpoint de integraciones externas.
-   Contrato con el CRM: reqs/crm-fuente-contrato.md
+   Contrato con el CRM: docs/crm-fuente-contrato.md
    ============================================================ */
 
 const { randomUUID } = require('node:crypto');
@@ -23,7 +23,14 @@ const FUENTE_KEYS = [
   'leadMagnet',
 ];
 const FUENTE_MAX_LEN = 200;
-const CANALES_SITIO = ['sitio-contacto', 'sitio-home', 'lead-magnet'];
+// Canales nuevos (sitio-flotante, agente, evaluacion): el CRM los debe aceptar ANTES de desplegar
+// esto; un canal que el CRM no conoce responde 400 y el lead se pierde (ver docs/crm-fuente-contrato.md).
+const CANALES_SITIO = ['sitio-contacto', 'sitio-home', 'lead-magnet', 'sitio-flotante', 'agente', 'evaluacion'];
+// Lead magnets publicados: id → título que se anota en `notas`. Cualquier otro id se descarta.
+const LEAD_MAGNETS = { 'checklist-cierre-fiscal': 'Checklist de cierre fiscal digital' };
+// Dimensiones de la evaluación de madurez, en el orden de content/evaluacion.js (tests/evaluacion.test.ts lo verifica).
+const DIMENSIONES = ['Procesos', 'Sistemas', 'Datos', 'Experiencia del cliente', 'IA y automatización', 'Equipo y cultura'];
+const NOTAS_MAX_LEN = 1000;
 
 const RETRY_DELAYS_MS = [500, 1500];
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -39,7 +46,39 @@ function buildFuente(raw) {
     if (trimmed) fuente[key] = trimmed;
   }
   if (fuente.canal && !CANALES_SITIO.includes(fuente.canal)) delete fuente.canal;
+  if (fuente.leadMagnet && !LEAD_MAGNETS[fuente.leadMagnet]) delete fuente.leadMagnet;
   return Object.keys(fuente).length ? fuente : undefined;
+}
+
+/**
+ * Resumen de la evaluación a partir de las seis respuestas (nivel 1-5 por dimensión). Se recalcula
+ * aquí (nivel = promedio redondeado, acotado a 1-5, igual que js/lib/evaluacion.mjs) para no confiar
+ * en un nivel enviado por el navegador. Devuelve [] si las respuestas no son válidas.
+ */
+function lineasEvaluacion(evaluacion) {
+  const r = evaluacion && evaluacion.respuestas;
+  if (!Array.isArray(r) || r.length !== DIMENSIONES.length || !r.every((n) => Number.isInteger(n) && n >= 1 && n <= 5)) return [];
+  const promedio = r.reduce((a, b) => a + b, 0) / r.length;
+  const nivel = Math.min(5, Math.max(1, Math.round(promedio)));
+  return [
+    `Evaluación de madurez: Nivel ${nivel} (promedio ${promedio.toFixed(1)})`,
+    `Puntaje por dimensión: ${DIMENSIONES.map((d, i) => `${d} ${r[i]}`).join(', ')}`,
+  ];
+}
+
+/** Texto libre de contacto.notas (sin claves nuevas en el payload); ≤ 1000 caracteres. */
+function construirNotas(data, fuente) {
+  const interes = typeof data.interes === 'string' ? data.interes.trim().slice(0, 100) : '';
+  return [
+    data.industry ? `Sector: ${data.industry}` : null,
+    data.nivel_de_madurez ? `Nivel de madurez: ${data.nivel_de_madurez}` : null,
+    interes ? `Interés: ${interes}` : null,
+    fuente && fuente.leadMagnet ? `Descargó: ${LEAD_MAGNETS[fuente.leadMagnet]}` : null,
+    ...lineasEvaluacion(data.evaluacion),
+  ]
+    .filter(Boolean)
+    .join('\n')
+    .slice(0, NOTAS_MAX_LEN);
 }
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -58,20 +97,14 @@ async function pushToCrm(data, idempotencyKey) {
     return { ok: false, status: 500, config: true };
   }
 
-  const notas = [
-    data.industry ? `Sector: ${data.industry}` : null,
-    data.nivel_de_madurez ? `Nivel de madurez: ${data.nivel_de_madurez}` : null,
-  ]
-    .filter(Boolean)
-    .join('\n');
-
   const fuente = buildFuente(data.fuente);
+  const notas = construirNotas(data, fuente);
 
   const payload = JSON.stringify({
     empresa: { nombre: data.company },
     contacto: {
       nombre: data.firstname,
-      primerApellido: data.lastname,
+      ...(data.lastname ? { primerApellido: data.lastname } : {}),
       email: data.email,
       ...(data.phone ? { telefono: data.phone } : {}),
       ...(notas ? { notas } : {}),
@@ -148,6 +181,8 @@ exports.handler = async (event) => {
     acepto_recibir_mensajes_de_whatsapp = false,
     acuerdodeprivacidad = false,
     fuente,
+    evaluacion,
+    interes,
     idempotencyKey,
     turnstileToken,
   } = body;
@@ -193,6 +228,8 @@ exports.handler = async (event) => {
       acepto_recibir_mensajes_de_whatsapp,
       acuerdodeprivacidad,
       fuente,
+      evaluacion,
+      interes,
     },
     key
   ).catch((err) => {
@@ -218,3 +255,6 @@ function resp(statusCode, body) {
     body: JSON.stringify(body),
   };
 }
+
+// Solo para pruebas (tests/lead-register.test.ts)
+exports.__test = { buildFuente, construirNotas, lineasEvaluacion, CANALES_SITIO, LEAD_MAGNETS, DIMENSIONES };

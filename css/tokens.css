@@ -1,0 +1,98 @@
+/* ====================================
+   TOKENS DEL DISEÑO (rediseño 2026)
+   Única fuente de color, tipografía, radios y espaciado de las páginas
+   rediseñadas. El acento se cambia en --accent; lo demás se deriva de él.
+   css/style.css (páginas admin, clients/ y eventsync) NO usa estos tokens.
+   ==================================== */
+
+@font-face {
+  font-family: 'Sora';
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url('../fonts/sora-latin-wght.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../fonts/inter-latin-wght.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/plexmono-latin-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/plexmono-latin-500.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  /* Acento (naranja de interfaz; el logo conserva su cian) */
+  --accent: #C23E15;
+  --accent-soft: color-mix(in srgb, var(--accent) 12%, #ffffff);
+  --accent-ink: #8F2D0F;   /* texto sobre --accent-soft y enlaces de acento */
+  --on-accent: #FFFFFF;
+  /* Acento sobre fondos oscuros: --accent da ~3.4:1 sobre --dark-3 (falla AA en texto pequeño); este da ~6.4:1 */
+  --accent-on-dark: #F08A63;
+
+  /* Superficies claras */
+  --bg: #F4F2EC;
+  --card: #FFFFFF;
+  --line: #DAD6CB;
+  --line-soft: #ECE9E0;
+  --line-input: #B9B5A9;
+  --disabled-bg: #C9C5BA;
+  --disabled-ink: #4A4F57;
+
+  /* Tinta */
+  --ink: #14171C;
+  --ink-2: #3A3F47;
+  --ink-3: #5A6068;
+
+  /* Superficies oscuras (sidebar y bloques) */
+  --dark: #14171C;
+  --dark-1: #1B1F26;
+  --dark-2: #262B33;
+  --dark-3: #1D2229;
+  --dark-line: #2E333B;
+  --dark-line-2: #4A4F57;
+  --dark-ink: #F4F2EC;
+  --dark-text: #D9D6CE;
+  --dark-text-2: #C9C6BE;
+  --dark-muted: #A4A8B0;
+  --dark-faint: #8C9099;
+
+  /* Tipografía */
+  --font-display: 'Sora', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* Radios */
+  --r-sm: 8px;
+  --r-md: 10px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+  --r-2xl: 20px;
+  --r-3xl: 22px;
+  --r-pill: 999px;
+
+  /* Espaciado de página */
+  --pad-x: 48px;
+  --sidebar: 272px;
+
+  /* Sombras */
+  --shadow-panel: 0 16px 48px rgba(20, 23, 28, 0.22);
+  --shadow-btn: 0 8px 24px rgba(20, 23, 28, 0.28);
+}

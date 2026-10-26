@@ -1,5 +1,7 @@
 # Requerimiento: Lead magnet "Checklist de cierre fiscal digital para PyMEs"
 
+> **Estado: IMPLEMENTADO EN CÓDIGO en la rama `rediseno-fundaciones` (2026-10-26); pendiente de verificar en el preview.** Hecho: `recursos/checklist-cierre-fiscal.html` + `js/lead-magnet.js`, `lead-register.js` (línea `Descargó:` en `notas`, omite líneas vacías), headers de `/downloads/*` en `netlify.toml`. Pendiente: revisión del PDF por un contador, actualizar el post con `actualizar_post_blog` tras el deploy y **antes del 24 de noviembre**. Texto original a continuación.
+
 **Estado: PENDIENTE (spec escrita 2026-10-13).** Depende de `reqs/medicion-leads-ga4-utm.md` para la atribución y el evento `generate_lead` (se puede implementar en paralelo si se respeta el contrato descrito aquí).
 
 ## Problema
@@ -25,8 +27,8 @@ Una página de aterrizaje con formulario corto que entregue el PDF al instante y
 - `lead-register.js`:
   - Aceptar `lead_magnet` (string, lista blanca: solo `'checklist-cierre-fiscal'`; cualquier otro valor se ignora).
   - **CRM**: agregar a `notas` la línea `Descargó: Checklist de cierre fiscal digital`.
-  - **HubSpot**: ya no forma parte del flujo (`reqs/crm-destino-principal.md`, aprobada). Implementar sobre `lead-register.js`; si se construye antes de esa spec, no agregar nada de HubSpot.
-  - **Duplicados**: el CRM hoy **no deduplica por correo** (cada envío crea empresa y contacto nuevos). Una persona que descargue el checklist y luego pida diagnóstico, o un cliente existente, aparecerá duplicado. Es un riesgo conocido; la solución vive en `catalysis-crm/reqs/atribucion-leads-y-dedupe.md`. Mientras tanto, la línea `Descargó: …` en `notas` permite distinguir estos leads al revisarlos.
+  - **HubSpot**: ya fue retirado del sitio; implementar sobre `lead-register.js`.
+  - **Duplicados**: el CRM ya deduplica por correo (un duplicado responde `200` con `duplicated: true` y anexa la interacción a `notas`; ver `docs/crm-fuente-contrato.md`). La fuente real va en `fuente.leadMagnet` y `fuente.canal = 'lead-magnet'`; la línea `Descargó: …` en `notas` queda como apoyo.
   - Si el formulario llega sin `industry`/`nivel_de_madurez`, no escribir líneas vacías en `notas` (omitir "Sector:" / "Nivel de madurez:" cuando no vengan).
   - `company` sigue siendo requerida (la función ya lo exige).
 - Al éxito (`res.ok`): ocultar el formulario, mostrar "¡Listo! Descarga tu checklist" con un botón al PDF, y disparar `gtag('event','generate_lead', {lead_source:'lead_magnet', lead_magnet_id:'checklist-cierre-fiscal', blog_slug})`. El botón de descarga también dispara `file_download` (nativo de GA4 si Enhanced Measurement está activo; si no, `cta_click` con `cta_id: 'checklist_pdf'`).

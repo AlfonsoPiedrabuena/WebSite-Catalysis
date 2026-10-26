@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Catalysis: Formulario de contacto</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F2EC}
+a{text-decoration:none;color:inherit}
+button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #14171C;outline-offset:2px}
+.dk a:focus-visible,.dk button:focus-visible,.dk input:focus-visible,.dk select:focus-visible{outline-color:#F4F2EC}
+button:disabled{cursor:not-allowed;opacity:.62}
+.fx{outline:3px solid #14171C;outline-offset:2px}
+.dk .fx{outline-color:#F4F2EC}
+input:disabled,select:disabled{background:#ECE9E0 !important;color:#5A6068 !important;cursor:not-allowed}
+::placeholder{color:#5A6068;opacity:1}
+.hv-f:hover{filter:brightness(.9)}
+.hv-o:hover{background:#ECE9E0 !important}
+.hv-d:hover{background:#262B33 !important}
+.hv-c:hover{border-color:#14171C !important}
+.hv-u:hover{text-decoration:underline}
+.nv:hover{background:#1B1F26}
+.mbar{display:none}
+.toc-m{display:none}
+.prose h2{margin:44px 0 14px;font-family:'Sora',sans-serif;font-weight:600;font-size:28px;line-height:1.2;letter-spacing:-0.02em}
+.prose h3{margin:32px 0 10px;font-family:'Sora',sans-serif;font-weight:600;font-size:20px;line-height:1.3;letter-spacing:-0.01em}
+.prose p{margin:0 0 18px;font-size:17px;line-height:1.75;color:#3A3F47}
+.prose ul,.prose ol{margin:0 0 20px;padding-left:22px;font-size:17px;line-height:1.7;color:#3A3F47}
+.prose li{margin-bottom:8px}
+.prose li::marker{color:#C23E15}
+.prose strong{color:#14171C}
+.prose a{color:#8F2D0F;text-decoration:underline}
+.prose blockquote{margin:28px 0;padding:4px 0 4px 20px;border-left:3px solid #C23E15;font-family:'Sora',sans-serif;font-size:20px;line-height:1.45;color:#14171C}
+.prose h4{margin:24px 0 8px;font-family:'Sora',sans-serif;font-weight:600;font-size:16px;line-height:1.35}
+.prose .note{margin:0 0 24px;padding:18px 20px;border-radius:12px;background:color-mix(in srgb,#C23E15 12%,#ffffff)}
+.prose .note p{margin:0;font-size:15px;color:#3A3F47}
+.prose .kv{margin:0 0 24px;padding:18px 20px;border:1px solid #DAD6CB;border-radius:12px;background:#FFFFFF}
+.prose .kv p{margin:0 0 8px;font-size:15px;line-height:1.5}
+.prose .kv p:last-child{margin:0}
+.prose figure{margin:28px 0}
+.prose figure img{width:100%;display:block;border-radius:12px}
+.prose figcaption{margin-top:10px;font-size:13px;color:#5A6068}
+.tbl{overflow-x:auto;margin:0 0 24px;border:1px solid #DAD6CB;border-radius:12px;background:#FFFFFF}
+.tbl table{border-collapse:collapse;width:100%;min-width:520px;font-size:15px;line-height:1.5}
+.tbl th{text-align:left;padding:12px 16px;background:#ECE9E0;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:12px;letter-spacing:0.08em;color:#14171C}
+.tbl td{padding:12px 16px;border-top:1px solid #ECE9E0;color:#3A3F47;vertical-align:top}
+.tbl td:first-child{font-weight:600;color:#14171C}
+@keyframes sk{0%{opacity:.55}50%{opacity:1}100%{opacity:.55}}
+.sk{animation:sk 1.4s ease-in-out infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin .9s linear infinite}
+@media (prefers-reduced-motion:reduce){.sk,.spin{animation:none}}
+@media (max-width:900px){
+.side{display:none !important}
+.mbar{display:block}
+.crumb{display:none !important}
+.pad{padding-left:32px !important;padding-right:32px !important}
+.g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+.fgrid{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+.h1{font-size:44px !important}
+.h2{font-size:28px !important}
+.toc-side{display:none !important}
+.toc-m{display:block}
+}
+@media (max-width:640px){
+.pad{padding-left:20px !important;padding-right:20px !important}
+.g2,.g3,.g4,.fgrid{grid-template-columns:minmax(0,1fr) !important}
+.h1{font-size:34px !important}
+.h2{font-size:25px !important}
+.bigcard{padding:28px 22px !important}
+section.pad{padding-bottom:28px !important}
+.tt{min-height:44px !important}
+.bpad{padding-bottom:96px !important}
+.prose h2{font-size:24px}
+.prose p,.prose ul,.prose ol{font-size:16px}
+.tbl{overflow-x:visible}
+.tbl table,.tbl tbody,.tbl tr,.tbl td{display:block;min-width:0 !important}
+.tbl thead{display:none}
+.tbl tr+tr{border-top:1px solid #DAD6CB}
+.tbl td{border-top:0;padding:6px 16px}
+.tbl td:first-child{background:#ECE9E0;padding:10px 16px;font-family:'Sora',sans-serif}
+.tbl td[data-label]::before{content:attr(data-label);display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;color:#5A6068;margin-bottom:2px}
+.tbl tr td:last-child{padding-bottom:12px}
+}
+</style>
+</helmet>
+<div class="bigcard" style="box-sizing: border-box; width: 100%; background: #FFFFFF; border: 1px solid #DAD6CB; border-radius: 22px; padding: 32px; display: flex; flex-direction: column; gap: 20px; font-family: 'Inter', system-ui, sans-serif; color: #14171C">
+<sc-if value="{{showForm}}" hint-placeholder-val="{{ true }}">
+<form onSubmit="{{submit}}" style="display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h2 style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 600; letter-spacing: -0.02em; font-size: 22px">Cuéntanos de tu empresa</h2><span style="font-size: 12px; color: #5A6068">* Obligatorio</span></div>
+<sc-if value="{{showBanner}}" hint-placeholder-val="{{ false }}">
+<div role="alert" style="display: flex; gap: 10px; align-items: flex-start; background: {{accentSoft}}; border: 1px solid {{accent}}; border-radius: 12px; padding: 14px 16px; font-size: 14px; line-height: 1.5; color: #8F2D0F"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C23E15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.5v5.5M12 16.5v.5"></path></svg><div><strong>{{bannerTitle}}</strong><br>{{bannerText}}</div></div>
+</sc-if>
+<div class="g2" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="c-nombre" style="font-size: 13px; font-weight: 500">Nombre <span aria-hidden="true">*</span></label>
+<input id="c-nombre" type="text" autocomplete="given-name" value="{{f.nombre}}" onChange="{{set_nombre}}" disabled="{{dis}}" aria-invalid="{{inv.nombre}}" aria-describedby="c-nombre-e" style="box-sizing: border-box; width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid {{fb.nombre}}; box-shadow: {{fs.nombre}}; background: #FFFFFF; font-size: 15px; color: #14171C">
+
+<sc-if value="{{fe.nombre}}" hint-placeholder-val="{{ false }}"><div id="c-nombre-e" style="display: flex; gap: 6px; align-items: flex-start; font-size: 13px; line-height: 1.4; color: #8F2D0F"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C23E15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.5v5.5M12 16.5v.5"></path></svg><span>{{fe.nombre}}</span></div></sc-if>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="c-apellido" style="font-size: 13px; font-weight: 500">Primer apellido <span aria-hidden="true">*</span></label>
+<input id="c-apellido" type="text" autocomplete="family-name" value="{{f.apellido}}" onChange="{{set_apellido}}" disabled="{{dis}}" aria-invalid="{{inv.apellido}}" aria-describedby="c-apellido-e" style="box-sizing: border-box; width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid {{fb.apellido}}; box-shadow: {{fs.apellido}}; background: #FFFFFF; font-size: 15px; color: #14171C">
+
+<sc-if value="{{fe.apellido}}" hint-placeholder-val="{{ false }}"><div id="c-apellido-e" style="display: flex; gap: 6px; align-items: flex-start; font-size: 13px; line-height: 1.4; color: #8F2D0F"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C23E15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.5v5.5M12 16.5v.5"></path></svg><span>{{fe.apellido}}</span></div></sc-if>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="c-correo" style="font-size: 13px; font-weight: 500">Correo electrónico <span aria-hidden="true">*</span></label>
+<input id="c-correo" type="email" autocomplete="email" value="{{f.correo}}" onChange="{{set_correo}}" disabled="{{dis}}" aria-invalid="{{inv.correo}}" aria-describedby="c-correo-e" style="box-sizing: border-box; width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid {{fb.correo}}; box-shadow: {{fs.correo}}; background: #FFFFFF; font-size: 15px; color: #14171C">
+
+<sc-if value="{{fe.correo}}" hint-placeholder-val="{{ false }}"><div id="c-correo-e" style="display: flex; gap: 6px; align-items: flex-start; font-size: 13px; line-height: 1.4; color: #8F2D0F"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C23E15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.5v5.5M12 16.5v.5"></path></svg><span>{{fe.correo}}</span></div></sc-if>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="c-tel" style="font-size: 13px; font-weight: 500">Teléfono <span aria-hidden="true">*</span></label>
+<input id="c-tel" type="tel" autocomplete="tel" value="{{f.tel}}" onChange="{{set_tel}}" disabled="{{dis}}" aria-invalid="{{inv.tel}}" aria-describedby="c-tel-e" style="box-sizing: border-box; width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid {{fb.tel}}; box-shadow: {{fs.tel}}; background: #FFFFFF; font-size: 15px; color: #14171C">
+<div style="font-size: 12px; color: #5A6068">Solo números, espacios, + o -</div>
+<sc-if value="{{fe.tel}}" hint-placeholder-val="{{ false }}"><div id="c-tel-e" style="display: flex; gap: 6px; align-items: flex-start; font-size: 13px; line-height: 1.4; color: #8F2D0F"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C23E15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.5v5.5M12 16.5v.5"></path></svg><span>{{fe.tel}}</span></div></sc-if>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="c-empresa" style="font-size: 13px; font-weight: 500">Empresa <span aria-hidden="true">*</span></label>
+<input id="c-empresa" type="text" autocomplete="organization" value="{{f.empresa}}" onChange="{{set_empresa}}" disabled="{{dis}}" aria-invalid="{{inv.empresa}}" aria-describedby="c-empresa-e" style="box-sizing: border-box; width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid {{fb.empresa}}; box-shadow: {{fs.empresa}}; background: #FFFFFF; font-size: 15px; color: #14171C">
+
+<sc-if value="{{fe.empresa}}" hint-placeholder-val="{{ false }}"><div id="c-empresa-e" style="display: flex; gap: 6px; align-items: flex-start; font-size: 13px; line-height: 1.4; color: #8F2D0F"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C23E15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.5v5.5M12 16.5v.5"></path></svg><span>{{fe.empresa}}</span></div></sc-if>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px; position: relative">
+<label for="c-sector" style="font-size: 13px; font-weight: 500">Sector <span aria-hidden="true">*</span></label>
+<input id="c-sector" type="text" role="combobox" aria-expanded="{{comboOpen}}" aria-autocomplete="list" aria-controls="c-sector-list" autocomplete="off" placeholder="Escribe para buscar" value="{{f.sector}}" onChange="{{set_sector}}" onFocus="{{openCombo}}" onBlur="{{closeCombo}}" disabled="{{dis}}" aria-invalid="{{inv.sector}}" aria-describedby="c-sector-e" style="box-sizing: border-box; width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid {{fb.sector}}; box-shadow: {{fs.sector}}; background: #FFFFFF; font-size: 15px; color: #14171C">
+<sc-if value="{{comboOpen}}" hint-placeholder-val="{{ false }}">
+<div id="c-sector-list" role="listbox" aria-label="Sectores" style="position: absolute; z-index: 5; left: 0; right: 0; top: 74px; box-sizing: border-box; background: #FFFFFF; border: 1px solid #14171C; border-radius: 12px; box-shadow: 0 12px 32px rgba(20,23,28,0.18); padding: 6px; display: flex; flex-direction: column">
+<sc-for list="{{comboItems}}" as="ci" hint-placeholder-count="4">
+<button type="button" role="option" onClick="{{ci.pick}}" class="hv-o" style="cursor: pointer; text-align: left; min-height: 44px; padding: 0 12px; border-radius: 8px; border: 0; background: transparent; font-size: 15px; color: #14171C">{{ci.v}}</button>
+</sc-for>
+<sc-if value="{{comboNone}}" hint-placeholder-val="{{ false }}"><div style="padding: 12px; font-size: 14px; color: #5A6068">Sin coincidencias. Prueba con otra palabra.</div></sc-if>
+<sc-if value="{{comboHasItems}}" hint-placeholder-val="{{ true }}"><div style="padding: 8px 12px 6px; font-size: 12px; color: #5A6068; border-top: 1px solid #ECE9E0; margin-top: 4px">{{comboMore}}</div></sc-if>
+</div>
+</sc-if>
+<sc-if value="{{fe.sector}}" hint-placeholder-val="{{ false }}"><div id="c-sector-e" style="display: flex; gap: 6px; align-items: flex-start; font-size: 13px; line-height: 1.4; color: #8F2D0F"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C23E15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.5v5.5M12 16.5v.5"></path></svg><span>{{fe.sector}}</span></div></sc-if>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="c-nivel" style="font-size: 13px; font-weight: 500">Nivel de madurez digital <span aria-hidden="true">*</span></label>
+<select id="c-nivel" value="{{f.nivel}}" onChange="{{set_nivel}}" disabled="{{dis}}" aria-invalid="{{inv.nivel}}" aria-describedby="c-nivel-h c-nivel-e" style="box-sizing: border-box; width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid {{fb.nivel}}; box-shadow: {{fs.nivel}}; background: #FFFFFF; font-size: 15px; color: #14171C; min-height: 46px">
+<sc-for list="{{niveles}}" as="nv" hint-placeholder-count="7"><option value="{{nv.v}}" selected="{{nv.sel}}">{{nv.t}}</option></sc-for>
+</select>
+<div id="c-nivel-h" style="font-size: 12px; line-height: 1.5; color: #5A6068">¿No conoces tu nivel? <a href="Evaluacion.dc.html" style="color: #8F2D0F; text-decoration: underline">Haz la evaluación</a> o <a href="Madurez.dc.html" style="color: #8F2D0F; text-decoration: underline">revisa el marco de referencia</a>.</div>
+<sc-if value="{{fe.nivel}}" hint-placeholder-val="{{ false }}"><div id="c-nivel-e" style="display: flex; gap: 6px; align-items: flex-start; font-size: 13px; line-height: 1.4; color: #8F2D0F"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C23E15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.5v5.5M12 16.5v.5"></path></svg><span>{{fe.nivel}}</span></div></sc-if>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; align-items: flex-start; gap: 12px">
+<input id="c-priv" type="checkbox" checked="{{f.priv}}" onChange="{{tog_priv}}" disabled="{{dis}}" aria-describedby="c-priv-e" style="margin: 1px 0 0; width: 20px; height: 20px; flex: 0 0 auto; accent-color: {{accent}}">
+<label for="c-priv" style="font-size: 14px; line-height: 1.5; color: #3A3F47">Acepto el <a href="Aviso.dc.html" style="color: #8F2D0F; text-decoration: underline">aviso de privacidad</a>. <span aria-hidden="true">*</span></label>
+</div>
+<sc-if value="{{fe.priv}}" hint-placeholder-val="{{ false }}"><div id="c-priv-e" style="display: flex; gap: 6px; align-items: flex-start; font-size: 13px; line-height: 1.4; color: #8F2D0F; margin-left: 32px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C23E15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.5v5.5M12 16.5v.5"></path></svg><span>{{fe.priv}}</span></div></sc-if>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; align-items: flex-start; gap: 12px">
+<input id="c-wa" type="checkbox" checked="{{f.wa}}" onChange="{{tog_wa}}" disabled="{{dis}}" aria-describedby="c-wa-e" style="margin: 1px 0 0; width: 20px; height: 20px; flex: 0 0 auto; accent-color: {{accent}}">
+<label for="c-wa" style="font-size: 14px; line-height: 1.5; color: #3A3F47">Acepto que Catalysis me escriba por WhatsApp. <span style="color: #5A6068">(Opcional, no es necesario para enviar tu consulta)</span></label>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div role="img" aria-label="Espacio para el widget anti-bot de Cloudflare Turnstile" style="box-sizing: border-box; width: 300px; max-width: 100%; height: 65px; border: 1px dashed #B9B5A9; border-radius: 6px; background: #FFFFFF; display: flex; align-items: center; gap: 12px; padding: 0 14px; font-size: 12px; line-height: 1.3; color: #5A6068"><span aria-hidden="true" style="flex: 0 0 24px; height: 24px; border: 2px solid #B9B5A9; border-radius: 4px"></span><span>Widget anti-bot (Cloudflare Turnstile, 300 × 65 px)</span></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center">
+<button type="button" onClick="{{submit}}" disabled="{{dis}}" class="hv-f tt" style="cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 15px; padding: 14px 28px; border-radius: 10px; border: 0"><sc-if value="{{dis}}" hint-placeholder-val="{{ false }}"><svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 3a9 9 0 019 9"></path></svg></sc-if><span>{{submitLabel}}</span></button>
+<span style="font-size: 12px; color: #5A6068">Respondemos en menos de 24 horas.</span>
+</div>
+</form>
+</sc-if>
+<sc-if value="{{showSuccess}}" hint-placeholder-val="{{ false }}">
+<div role="status" style="display: flex; flex-direction: column; gap: 16px; padding: 8px 0">
+<span style="width: 48px; height: 48px; border-radius: 50%; background: {{accentSoft}}; display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="{{accent}}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span>
+<h2 style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 600; letter-spacing: -0.02em; font-size: 26px; line-height: 1.2">¡Gracias por tu mensaje!</h2>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: #3A3F47">Nos pondremos en contacto contigo pronto, normalmente en menos de 24 horas. Mientras tanto, puedes conocer el nivel de madurez digital de tu empresa.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="Evaluacion.dc.html" class="hv-f" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 15px; padding: 14px 22px; border-radius: 10px">Hacer la evaluación</a>
+<a href="Blog.dc.html" class="hv-o" style="display: inline-flex; align-items: center; justify-content: center; font-weight: 600; font-size: 15px; padding: 13px 22px; border-radius: 10px; border: 1px solid #14171C">Leer el blog</a>
+</div>
+<button type="button" onClick="{{again}}" class="hv-u tt" style="cursor: pointer; align-self: flex-start; background: transparent; border: 0; padding: 0; font-size: 14px; color: #5A6068; text-decoration: underline">Enviar otra consulta</button>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#C23E15","options":["#C23E15","#1F6F66","#2F4FD1","#14171C"]},"state":{"editor":"enum","default":"","options":["","filled","errors","combo","sending","server","success"]},"$preview":{"width":640,"height":1000}}'>
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_RE = /^[0-9 +\-]{7,30}$/;
+function fieldVals(errs, show, keys, accent) {
+const fe = {}; const fb = {}; const fs = {}; const inv = {};
+keys.forEach((k) => {
+const m = show && errs[k] ? errs[k] : '';
+fe[k] = m; inv[k] = !!m;
+fb[k] = m ? accent : '#B9B5A9';
+fs[k] = m ? '0 0 0 1px ' + accent : 'none';
+});
+return { fe: fe, fb: fb, fs: fs, inv: inv };
+}
+const SECTORES = ["Administración Gubernamental", "Aerolíneas/Aviación", "Agricultura", "Alimentos y Bebidas", "Almacenaje", "Animación", "Apuestas y Casinos", "Arquitectura y Planeación", "Artes Escénicas", "Artes y Artesanías", "Artículos Deportivos", "Asuntos Internacionales", "Automatización Industrial", "Automotriz", "Aviación y Aeroespacial", "Banca", "Banca de Inversión", "Bellas Artes", "Bibliotecas", "Bienes de Consumo", "Bienes de Lujo y Joyería", "Bienes Raíces", "Bienes Raíces Comerciales", "Biotecnología", "Capacitación Profesional y Coaching", "Capital de Riesgo y Private Equity", "Cine y Películas", "Comercio y Desarrollo Internacional", "Construcción", "Construcción Naval", "Consultoría de Gestión", "Contabilidad", "Cosméticos", "Cumplimiento de la Ley", "Defensa y Espacio", "Deportes", "Desarrollo de Programas", "Diseño", "Diseño Gráfico", "Dispositivos Médicos", "Educación en Línea", "Educación Primaria/Secundaria", "Educación Superior", "Electrónica de Consumo", "Embalaje y Contenedores", "Energías Renovables y Medio Ambiente", "Entretenimiento", "Fabricación de Ferrocarriles", "Fabricación Eléctrica/Electrónica", "Farmacéutica", "Filantropía", "Fotografía", "Ganadería", "Gestión de Inversiones", "Gestión de Organizaciones Sin Fines de Lucro", "Gestión Educativa", "Hardware Informático", "Hospital y Salud", "Hotelería", "Importación y Exportación", "Impresión", "Inalámbrico", "Ingeniería Civil", "Ingeniería Mecánica o Industrial", "Instalaciones y Servicios Recreativos", "Instituciones Religiosas", "Internet", "Investigación", "Investigación de Mercado", "Lácteos", "Logística y Cadena de Suministro", "Maquinaria", "Marítimo", "Marketing y Publicidad", "Materiales de Construcción", "Mayoreo", "Medicina Alternativa", "Medios de Difusión", "Medios en Línea", "Mercados de Capitales", "Militar", "Minería y Metales", "Moda y Vestimenta", "Muebles", "Museos e Instituciones", "Música", "Nanotecnología", "Ocio, Viajes y Turismo", "Oficina Ejecutiva", "Oficina Legislativa", "Organización Cívica y Social", "Organización Política", "Paquetería/Entrega de Carga", "Periódicos", "Pesca", "Petróleo y Energía", "Plásticos", "Poder Judicial", "Política Pública", "Práctica Jurídica", "Práctica Médica", "Producción de Alimentos", "Producción de Medios", "Productos de Papel y Forestales", "Productos Químicos", "Publicación", "Recaudación de Fondos", "Reclutamiento y Personal", "Recursos Humanos", "Redacción y Edición", "Redes Informáticas", "Relaciones Gubernamentales", "Relaciones Públicas y Comunicaciones", "Resolución Alternativa de Disputas", "Restaurantes", "Retail / Comercio Minorista", "Salud Mental", "Salud, Bienestar y Acondicionamiento", "Seguridad e Investigaciones", "Seguridad Informática y de Redes", "Seguridad Pública", "Seguros", "Semiconductores", "Servicios al Consumidor", "Servicios Ambientales", "Servicios de Eventos", "Servicios de Información", "Servicios de Instalaciones", "Servicios Financieros", "Servicios Individuales y Familiares", "Servicios Legales", "Servicios Públicos", "Software", "Subcontratación/Offshoring", "Suministros y Equipos de Oficina", "Supermercados", "Tabaco", "Tecnología de la Información y Servicios", "Telecomunicaciones", "Textiles", "Think Tanks", "Traducción y Localización", "Transporte/Camionero/Ferrocarril", "Veterinaria", "Videojuegos Móviles", "Videojuegos para PC", "Vidrio, Cerámica y Concreto", "Vino y Licores", "Nivel 1", "Nivel 2"];
+const BLANK = { nombre: '', apellido: '', correo: '', tel: '', empresa: '', sector: '', nivel: '', priv: false, wa: false };
+const FILLED = { nombre: 'Laura', apellido: 'Mendoza', correo: 'laura.mendoza@empresa-ejemplo.com', tel: '55 1234 5678', empresa: 'Empresa Ejemplo', sector: 'Logística y Cadena de Suministro', nivel: 'Nivel 3', priv: true, wa: false };
+const SCEN = {
+filled: { f: FILLED },
+errors: { show: true, f: { nombre: 'Laura', apellido: '', correo: 'laura.mendoza@empresa', tel: 'abc', empresa: '', sector: 'Logist', nivel: '', priv: false, wa: false } },
+combo: { combo: true, f: { nombre: 'Laura', apellido: 'Mendoza', correo: '', tel: '', empresa: '', sector: 'ban', nivel: '', priv: false, wa: false } },
+sending: { status: 'sending', f: FILLED },
+server: { status: 'server', f: FILLED },
+success: { status: 'ok', f: FILLED }
+};
+const NIVELES = [['', 'Selecciona el nivel de madurez de tu empresa'], ['Nivel 1', 'Nivel 1 · Inicial'], ['Nivel 2', 'Nivel 2 · En desarrollo'], ['Nivel 3', 'Nivel 3 · Intermedia'], ['Nivel 4', 'Nivel 4 · Avanzada'], ['Nivel 5', 'Nivel 5 · Líder'], ['No lo sé', 'No lo sé todavía']];
+function norm(t) { return t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); }
+function validate(f) {
+const e = {};
+if (!f.nombre.trim()) { e.nombre = 'Escribe tu nombre.'; }
+if (!f.apellido.trim()) { e.apellido = 'Escribe tu primer apellido.'; }
+if (!EMAIL_RE.test(f.correo)) { e.correo = 'Escribe un correo válido, por ejemplo nombre@empresa.com.'; }
+if (!PHONE_RE.test(f.tel)) { e.tel = 'Usa solo números, espacios, + o - (de 7 a 30 caracteres).'; }
+if (!f.empresa.trim()) { e.empresa = 'Escribe el nombre de tu empresa.'; }
+if (!SECTORES.some((x) => norm(x) === norm(f.sector.trim()))) { e.sector = 'Elige un sector de la lista.'; }
+if (!f.nivel) { e.nivel = 'Elige tu nivel o «No lo sé todavía».'; }
+if (!f.priv) { e.priv = 'Acepta el aviso de privacidad para continuar.'; }
+return e;
+}
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = Object.assign({ f: Object.assign({}, BLANK), show: false, status: 'idle', combo: false }, SCEN[this.props.state || ''] || {});
+}
+renderVals() {
+const a = this.props.accent ?? '#C23E15';
+const s = this.state;
+const f = s.f;
+const errs = validate(f);
+const nErr = Object.keys(errs).length;
+const dis = s.status === 'sending';
+const keys = ['nombre', 'apellido', 'correo', 'tel', 'empresa', 'sector', 'nivel', 'priv'];
+const fv = fieldVals(errs, s.show, keys, a);
+const setf = (k) => (e) => { const f2 = Object.assign({}, this.state.f); f2[k] = e && e.target ? e.target.value : ''; this.setState({ f: f2 }); };
+const tog = (k) => () => { const f2 = Object.assign({}, this.state.f); f2[k] = !f2[k]; this.setState({ f: f2 }); };
+const q = norm(f.sector.trim());
+const matches = SECTORES.filter((x) => q === '' || norm(x).indexOf(q) >= 0);
+const showBanner = (s.show && nErr > 0 && s.status === 'idle') || s.status === 'server';
+const isServer = s.status === 'server';
+return Object.assign({
+accent: a,
+accentSoft: 'color-mix(in srgb, ' + a + ' 12%, #ffffff)',
+f: f, dis: dis,
+showForm: s.status !== 'ok',
+showSuccess: s.status === 'ok',
+showBanner: showBanner,
+bannerTitle: isServer ? 'No pudimos enviar tu mensaje' : 'Revisa ' + (nErr === 1 ? 'el campo marcado' : 'los ' + nErr + ' campos marcados') + ' antes de enviar',
+bannerText: isServer ? 'Tus datos siguen aquí, no se perdió nada. Intenta de nuevo; si el problema continúa, escríbenos a contacto@catalysis.com.mx.' : 'Cada campo marcado explica qué falta.',
+set_nombre: setf('nombre'), set_apellido: setf('apellido'), set_correo: setf('correo'), set_tel: setf('tel'), set_empresa: setf('empresa'), set_nivel: setf('nivel'),
+set_sector: (e) => { const f2 = Object.assign({}, this.state.f); f2.sector = e && e.target ? e.target.value : ''; this.setState({ f: f2, combo: true }); },
+tog_priv: tog('priv'), tog_wa: tog('wa'),
+niveles: NIVELES.map((n) => ({ v: n[0], t: n[1], sel: n[0] === f.nivel })),
+comboOpen: s.combo && !dis,
+openCombo: () => this.setState({ combo: true }),
+closeCombo: () => setTimeout(() => this.setState({ combo: false }), 150),
+comboItems: matches.slice(0, 6).map((x) => ({ v: x, pick: () => { const f2 = Object.assign({}, this.state.f); f2.sector = x; this.setState({ f: f2, combo: false }); } })),
+comboHasItems: matches.length > 0,
+comboNone: matches.length === 0,
+comboMore: matches.length > 6 ? (matches.length - 6) + ' sectores más. Sigue escribiendo para filtrar.' : '',
+submitLabel: dis ? 'Enviando…' : (isServer ? 'Reintentar envío' : 'Enviar consulta'),
+submit: (e) => {
+if (e && e.preventDefault) { e.preventDefault(); }
+const st = this.state;
+if (st.status === 'sending') { return; }
+if (Object.keys(validate(st.f)).length > 0) { this.setState({ show: true, status: 'idle' }); return; }
+this.setState({ status: 'sending', show: false });
+setTimeout(() => this.setState({ status: 'ok' }), 1200);
+},
+again: () => this.setState({ status: 'idle', show: false, f: Object.assign({}, BLANK) })
+}, fv);
+}
+}
+
+</script>
+</body>
+</html>

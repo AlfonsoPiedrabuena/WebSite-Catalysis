@@ -3,7 +3,7 @@
 **Para:** quien implemente `lead-register.js`, `contact.js`, `lead-magnet.js` y `attribution.js` en `WebSite-Catalysis`.
 **Origen:** implementado en `catalysis-crm` (commits locales, aún sin deploy al 2026-10-13). Este documento fija lo que el sitio debe mandar y esperar para que ambos lados queden alineados.
 **Estado (2026-10-13):** implementado y desplegado en `production` (commit `9fb0e8b`) con el CRM ya en producción. Pendiente: lead magnet (`lead-magnet.js`, sin página ni spec) y verificación manual de los criterios de la sección 9. Notas de implementación: `hubspot-register.js` pasó a `lead-register.js` y HubSpot se eliminó del sitio; el CRM es el destino principal, así que un fallo tras los reintentos devuelve `502` al visitante (no es best-effort). `attribution.js` no se carga en `eventsync-sv-onepager.html` (sin formulario).
-**Complementa:** `reqs/crm-destino-principal.md`, `reqs/medicion-leads-ga4-utm.md` (fase 2) y `reqs/lead-magnet-checklist-cierre-fiscal.md`.
+**Complementa:** `reqs/medicion-leads-ga4-utm.md` y `reqs/lead-magnet-checklist-cierre-fiscal.md` (pendientes).
 
 ## 1. Orden de despliegue (obligatorio)
 

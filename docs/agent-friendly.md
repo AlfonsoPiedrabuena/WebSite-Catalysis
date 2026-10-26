@@ -1,6 +1,5 @@
 # Blog agent-friendly (fase 1)
 
-Spec: `reqs/agent-friendly-web.md`. Decisiones de Fase 0: `reqs/agent-friendly-web-fase0.md`.
 Arquitectura: sitio estático + Netlify Edge Functions leyendo Firestore por REST (sin Next.js).
 
 ## Rutas

@@ -12,80 +12,46 @@ La raíz de este repositorio **es** el sitio de producción servido por Netlify 
 
 ```
 ./                                  # 🎯 raíz del repo = raíz del sitio
-├── index.html                     # Homepage con formulario quick-contact
-├── servicios.html                 # Catálogo de servicios
-├── contacto.html                  # Formulario completo
-├── blog.html                      # Listado de posts (Firestore)
-├── blog-post.html                 # Vista individual ?id=<slug> (o ID de Firestore, legado)
-├── aviso-privacidad.html          # Aviso legal
-├── admin-login.html               # Login admin (Firebase Auth)
-├── admin-setup-2fa.html           # Configuración 2FA
-├── admin-contactos.html           # Panel: ver contactos en Firestore
-├── verificar-configuracion.html   # Diagnóstico Firebase Auth/2FA
-├── eventsync-sv-onepager.html     # One-pager de propuesta (estática)
-├── clients/                       # Cotizaciones/propuestas para clientes puntuales (noindex, sin GA4)
-│   ├── ctl-2025-041.html
-│   └── canal_agente_comparativo_v2.html
-├── css/style.css
+├── index.html, servicios.html, marco-madurez.html, evaluacion.html,
+│   blog.html, blog-post.html (?id=<slug>), contacto.html, aviso-privacidad.html, 404.html
+├── recursos/checklist-cierre-fiscal.html   # lead magnet (landing + PDF en downloads/)
+├── admin-*.html, verificar-configuracion.html   # panel admin / diagnóstico (Firebase Auth + 2FA)
+├── eventsync-sv-onepager.html     # One-pager de propuesta (estática, usa css/style.css)
+├── clients/                       # Cotizaciones por cliente (noindex, sin GA4, usan css/style.css)
+├── css/tokens.css, css/site.css   # Diseño actual (tokens + shell + componentes)
+├── css/style.css                  # Solo admin, clients/ y eventsync: NO tocar
+├── fonts/                         # Sora, Inter e IBM Plex Mono (WOFF2)
+├── shell/top.html, bottom.html    # Sidebar, barra móvil y pie: fuente única (se copian a cada página)
+├── content/*.mjs                  # Servicios, metodología, marco de madurez, evaluación, recursos
 ├── js/
-│   ├── main.js                    # Navbar, smooth scroll, año footer
-│   ├── firebase-config.js         # Init Firebase (window.firestoreDb)
-│   ├── blog-utils.js              # slugify()/getPostSlug() — slug de la URL a partir del título
-│   ├── blog.js                    # Lista posts publicados (tarjetas enlazan por slug)
-│   ├── blog-post.js               # Resuelve post (ID legado → slug → título), render + vistas
-│   ├── attribution.js             # UTM/referrer/artículo de origen en localStorage → window.getFuente(canal)
-│   └── contact.js                 # Submit → Netlify Function (lead-register)
-├── netlify/functions/
-│   └── lead-register.js           # POST → verifica Turnstile → alta (empresa + contacto + fuente) en Catalysis CRM
-├── netlify/edge-functions/
-│   ├── blog-og.ts                 # blog-post.html: OG, canonical, JSON-LD y cuerpo en el HTML inicial (todos los UA)
-│   ├── blog-md.ts                 # /blog/<slug>.md → post en markdown
-│   └── llms-txt.ts, sitemap.ts, blog-feed.ts   # /llms.txt, /sitemap.xml, /blog/feed.xml (dinámicos)
-├── netlify/edge-lib/              # Lógica compartida de las edge functions (testeada con vitest en tests/)
+│   ├── shell.js, flotantes.js, buscador.js, analytics.js   # comunes
+│   ├── home-blog.js, madurez.js, evaluacion.js, blog.js, blog-post.js, contact.js, lead-magnet.js   # por página
+│   ├── lib/                       # lógica sin DOM (lead-form, evaluacion, asistente, turnstile, blog-data)
+│   ├── data/sectores.mjs          # lista única de sectores
+│   ├── attribution.js             # UTM/referrer/artículo de origen → window.getFuente(canal)
+│   ├── blog-utils.js              # slugify()/getPostSlug()
+│   └── firebase-config.js         # Init Firebase (window.firestoreDb)
+├── scripts/                       # sync-shell.mjs, build-content.mjs (herramientas de desarrollo)
+├── netlify/functions/lead-register.js   # POST → Turnstile → alta (empresa + contacto + fuente) en Catalysis CRM
+├── netlify/edge-functions/        # blog-og, blog-md, llms-txt, sitemap, blog-feed
+├── netlify/edge-lib/              # Lógica compartida de las edge functions (vitest en tests/)
+├── tests/                         # vitest: `cd tests && npm install && npm test`
+├── design/                        # Prototipo aprobado (solo lectura; responde 404 en producción)
+├── docs/, reqs/                   # Referencia técnica / specs pendientes
 ├── robots.txt                     # Política de bots (única fuente)
-├── netlify.toml                   # publish=".", functions="netlify/functions"
-├── firebase.json                  # Reglas de Firestore (no se usa para hosting)
-├── .firebaserc                    # Proyecto Firebase target ("catalysis-blog")
-├── firestore.rules
-├── firestore.indexes.json
-├── .env.example                   # TURNSTILE_SECRET_KEY, CRM_LEADS_ENDPOINT, CRM_API_KEY
-├── README.md                      # Setup detallado de Firebase
-└── CLAUDE.md
+├── netlify.toml                   # publish=".", ignore de docs, headers y redirects
+├── firebase.json, .firebaserc, firestore.rules, firestore.indexes.json   # solo reglas de Firestore
+├── .claude/agents/                # docs-maintainer, test-runner
+└── .env.example, README.md, CLAUDE.md
 ```
 
 ## Arquitectura Híbrida
 
-```
-┌─ Frontend estático (HTML/CSS/Vanilla JS, hosteado en Netlify) ─┐
-│                                                                 │
-│  Blog       ──lee──▶  Firestore (blog_posts, lectura pública)   │
-│  Admin      ──auth─▶  Firebase Auth + 2FA                       │
-│  Admin      ──lee──▶  Firestore (contactos, requiere auth)      │
-│                                                                 │
-│  Form de    ──POST─▶  Netlify Function (lead-register)         │
-│  contacto              │                                         │
-│                        ├─▶ Cloudflare Turnstile (verify token)  │
-│                        └─▶ Catalysis CRM (POST /api/external/   │
-│                             v1/leads, destino principal)         │
-└─────────────────────────────────────────────────────────────────┘
-```
+Frontend estático en Netlify. **Blog** ← Firestore `blog_posts` (lectura pública). **Admin** → Firebase Auth + 2FA → Firestore `contactos`. **Formularios** (Contacto, flotante, asistente, evaluación, lead magnet) → Netlify Function `lead-register` → verifica Turnstile → alta en **Catalysis CRM** (`POST /api/external/v1/leads`).
 
-**Decisión clave:** los contactos del formulario público **no se escriben directo a Firestore** desde el navegador — pasan por la Netlify Function, que valida Turnstile del lado servidor y los da de alta en **Catalysis CRM**, el único destino (no hay otro CRM en la infraestructura). La colección `contactos` en Firestore queda como respaldo/legado del panel admin.
+**Decisión clave:** los contactos **no se escriben directo a Firestore** desde el navegador: la Function valida Turnstile del lado servidor y los da de alta en Catalysis CRM, el único destino. `contactos` en Firestore queda como respaldo/legado del panel admin.
 
-**Alta en Catalysis CRM:** `lead-register.js` crea empresa + contacto en `crm.catalysis.com.mx`
-(repo `catalysis-crm`) vía su endpoint machine-to-machine `app/api/external/v1/leads` (auth por header
-`X-Api-Key`, scope `leads:create`). Es el destino principal: si el CRM falla tras los reintentos
-(2, a 500 ms y 1.5 s, ante `429`/`5xx`/red, con la misma `Idempotency-Key`) la función responde `502` y el
-visitante ve un error — nunca un éxito falso. `4xx` no se reintenta; `401/403` se loguea como alerta.
-Un `200` con `duplicated: true` (correo ya existente) es éxito para el visitante. La `Idempotency-Key`
-la genera el navegador por envío (`contact.js`). Sector y nivel de madurez van como texto libre en
-`contacto.notas`; consentimiento de WhatsApp y privacidad son campos propios (`aceptaWhatsapp`,
-`aceptaPrivacidad`).
-
-**Atribución (`fuente`):** `js/attribution.js` guarda `{first, last, blog_slug}` en `localStorage` y
-`window.getFuente(canal)` arma `contacto.fuente`; la función filtra con lista blanca (el CRM responde
-`400` ante cualquier clave desconocida). Contrato completo: `reqs/crm-fuente-contrato.md`. **Orden de
-despliegue: primero el CRM, después el sitio.**
+**Alta en Catalysis CRM:** si el CRM falla tras 2 reintentos responde `502` (nunca un éxito falso); `200` con `duplicated: true` cuenta como éxito. `js/attribution.js` arma `contacto.fuente` con lista blanca (el CRM responde `400` ante claves desconocidas). **Orden de despliegue: primero el CRM, después el sitio.** Detalle: `docs/crm-leads.md` y `docs/crm-fuente-contrato.md`.
 
 ## Variables de Entorno
 
@@ -100,13 +66,7 @@ Configurar en **Netlify → Site settings → Environment variables**:
 
 ## Stack Tecnológico
 
-- **Frontend:** HTML5, CSS3 (custom properties), Vanilla JS (ES6+). Sin frameworks.
-- **Backend serverless:** Netlify Functions (Node, esbuild).
-- **Datos:** Firebase Firestore (blog + contactos legacy), Catalysis CRM (contactos nuevos).
-- **Auth:** Firebase Authentication con 2FA para panel admin.
-- **Anti-bot:** Cloudflare Turnstile (cliente + verificación server-side).
-- **Analítica:** Google Analytics 4 (`gtag.js`), ID de medición `G-19DQMK1HYD`. Snippet inline en el `<head>` de cada página pública (no hay archivo compartido — al agregar una página pública nueva, copiar el snippet de `index.html`).
-- **Hosting:** Netlify (`netlify.toml` con `publish = "."`).
+HTML5 + CSS3 (custom properties) + JS vanilla (sin frameworks) · Netlify (hosting, Functions con esbuild, Edge Functions) · Firebase Firestore y Auth con 2FA · Cloudflare Turnstile · Google Analytics 4 (`G-19DQMK1HYD`, snippet inline en el `<head>` de cada página pública: copiarlo de `index.html` al crear una página).
 
 ## Colecciones Firestore
 
@@ -117,25 +77,10 @@ categoria, tags[], publicado (bool), fecha_publicacion, fecha_creacion,
 vistas (auto-increment)
 ```
 
-**Slug / URLs del blog:** la URL pública es `blog-post.html?id=<slug>` (ej.
-`como_automatizar_procesos_con_business_intelligence_crm`: minúsculas, sin
-acentos, todo lo no alfanumérico → `_`; el `+` se descarta porque en un query
-string se leería como espacio). `blog-post.js` resuelve en este orden: ID de
-documento (enlaces legados) → campo `slug` → slug derivado del `titulo` (solo
-dentro de los 50 posts más recientes). `slugify()` vive en `js/blog-utils.js` y
-**debe mantenerse idéntica** a `slugifyTitle()` de `lib/blogSlug.ts` en
-`catalysis-crm` y a `slugify()` de `netlify/edge-functions/blog-og.ts`. El campo
-`slug` lo guardan `crear_post_blog`/`actualizar_post_blog` (MCP del CRM) y no
-cambia al editar el título; los posts cargados a mano en la consola de Firebase
-no lo tienen hasta que se editan una vez con `actualizar_post_blog`.
-
-**Open Graph y agent-friendly:** `blog-og.ts` intercepta `/blog-post.html` y, para
-**todos** los UA, inyecta `og:*`, `canonical`, JSON-LD `BlogPosting`, `<link rel="alternate"
-type="text/markdown">` y el cuerpo del post (`js/blog-post.js` lo reemplaza luego con el mismo
-contenido). Cualquier fallo sirve el HTML original. Probar con
-`curl -A "facebookexternalhit/1.1" "https://catalysis.com.mx/blog-post.html?id=<slug>"`.
-Specs: `reqs/og-tags-blog-post.md`, `reqs/agent-friendly-web.md`. Si Facebook ya cacheó un
-link, usar "Scrape Again" en el Sharing Debugger.
+**Slug / URLs del blog:** la URL pública es `blog-post.html?id=<slug>`. `slugify()` de `js/blog-utils.js`
+**debe mantenerse idéntica** a `slugifyTitle()` de `lib/blogSlug.ts` en `catalysis-crm` y a `slugify()` de
+`netlify/edge-functions/blog-og.ts`. Los posts manuales no tienen campo `slug` hasta editarlos una vez con
+`actualizar_post_blog`. Orden de resolución, Open Graph (`blog-og.ts`) y cómo probarlo: `docs/blog-slugs-og.md`.
 
 **Versión markdown para agentes:** `/blog/<slug>.md` y `Accept: text/markdown` sobre la URL
 actual devuelven el post en markdown (HTML→MD al vuelo desde Firestore, caché CDN 5 min; un post
@@ -154,50 +99,30 @@ Reglas completas en `firestore.rules`.
 ## Desarrollo Local
 
 ```bash
-# Opción recomendada (Netlify CLI ejecuta funciones localmente)
+# Funciones y edge functions locales
 npm install -g netlify-cli
-netlify dev          # http://localhost:8888
+netlify dev          # http://localhost:8888 (cargar variables en `.env`, no commitear)
 
-# Alternativa solo-frontend (sin Netlify Functions)
+# Solo frontend (sin Netlify Functions ni edge functions)
 python3 -m http.server 8000
+
+node scripts/sync-shell.mjs      # tras editar shell/*.html
+node scripts/build-content.mjs   # tras editar content/*.mjs
+cd tests && npm test             # shell, contenido, enlaces, lógica y scripts con jsdom
 ```
 
-Para que el formulario de contacto funcione localmente: usar `netlify dev` y cargar las variables en `.env` (no commitear).
+Arquitectura del frontend, checklist de páginas nuevas y flujo de leads: `docs/rediseno-frontend.md`.
 
 ## Deployment
 
-**Netlify** (sitio `catalysis-site` → `catalysis.com.mx`) es el destino de producción.
-
-**La rama de deploy es `production`, NO `main`.** `git push origin main` sube a
-GitHub pero no dispara ningún build — hay que además llevar `production` al
-día (`git push origin main:production` si `production` está estrictamente
-detrás, o mergear si no). Se confirmó esto el 2026-08-18: hubo 4 commits en
-`main` (incl. la integración con Catalysis CRM) sin desplegar durante días
-porque el push solo llegó a `main`. Verificar con `netlify api
-listSiteDeploys --data '{"site_id":"<id>"}'` cuál fue el último commit
-realmente publicado, no asumir por el estado de `main`.
-
-```bash
-netlify deploy --prod
-```
-
-O por integración Git (push a `production`). Configuración mínima ya está en `netlify.toml`. **No** usar `firebase deploy` para hosting — el `firebase.json` está solo para desplegar reglas de Firestore.
-
-**Secret scanner de Netlify:** si un archivo del repo (docs, `.env.example`,
-etc.) contiene el **valor literal** de una env var configurada en el sitio —
-aunque esa variable no sea sensible, como una URL pública — el build falla
-con `Build script returned non-zero exit code: 2` (ver
-`deploy_validations_report.secret_scan_result` en el deploy vía la API de
-Netlify). Pasó con `CRM_LEADS_ENDPOINT`. Evitar escribir el valor exacto de
-cualquier env var del sitio en archivos versionados; usar placeholders o
-describirlo sin el string completo.
+**Netlify** (sitio `catalysis-site` → `catalysis.com.mx`) despliega desde la rama **`production`, NO `main`** (`git push origin main` no dispara build). Verificar el último deploy realmente publicado, no asumirlo. `netlify.toml` omite el build si solo cambió documentación, specs, diseño, pruebas o herramientas. **No** usar `firebase deploy` para hosting (solo reglas de Firestore). El secret scanner rompe el build si un archivo versionado contiene el valor literal de una env var del sitio. Detalle y comandos: `docs/deploy.md`.
 
 ## Páginas
 
 | Página | Pública | GA4 | Depende de |
 |---|---|---|---|
-| `index.html`, `servicios.html`, `aviso-privacidad.html` | ✅ | ✅ | — |
-| `contacto.html` | ✅ | ✅ | Netlify Function + Turnstile + Catalysis CRM |
+| `index`, `servicios`, `marco-madurez`, `aviso-privacidad`, `404` | ✅ | ✅ | — (la home lee el blog de Firestore) |
+| `evaluacion.html`, `contacto.html`, `recursos/checklist-cierre-fiscal.html` | ✅ | ✅ | Netlify Function + Turnstile + Catalysis CRM |
 | `blog.html`, `blog-post.html` | ✅ | ✅ | Firestore (lectura) |
 | `eventsync-sv-onepager.html` | ✅ | ✅ | — (one-pager estático de propuesta) |
 | `admin-login.html`, `admin-setup-2fa.html` | 🔒 | — | Firebase Auth + 2FA |
@@ -205,20 +130,20 @@ describirlo sin el string completo.
 | `verificar-configuracion.html` | 🔧 | — | Diagnóstico — útil al onboarding |
 | `clients/*.html` (cotizaciones/propuestas por cliente) | 🔗 | — | Nada — estáticas, `noindex,nofollow` |
 
-Las páginas admin/diagnóstico quedan fuera de Google Analytics a propósito, para no mezclar el uso interno del equipo con las métricas de tráfico de visitantes. Las páginas de `clients/` tampoco llevan GA4 a propósito (decisión 2026-08-06): son propuestas para un cliente puntual, no tráfico del sitio que se quiera medir — a diferencia de `eventsync-sv-onepager.html`, que sí es pública/indexable.
+Las páginas admin/diagnóstico quedan fuera de Google Analytics a propósito, para no mezclar el uso interno del equipo con las métricas de tráfico de visitantes. Las páginas de `clients/` tampoco llevan GA4 a propósito (decisión 2026-08-06): son propuestas para un cliente puntual. Eventos y UTM: `docs/medicion-leads.md`.
 
 ## Servicios y Metodología (contenido)
 
-**9 servicios:** Evaluación y Estrategia Digital · Optimización de Procesos · Cloud · Data & Analytics · Experiencia del Cliente Digital · IA Generativa · Agentes de IA Autónomos · Analítica Predictiva · Computer Vision & NLP.
-
-**Metodología (5 pasos):** Diagnóstico → Estrategia → Quick Wins → Transformación → Evolución.
+Se editan en `content/servicios.mjs` y `content/niveles.mjs` y se regeneran con `node scripts/build-content.mjs` (HTML + `servicios.md` / `marco-madurez.md`). **9 servicios**, **metodología de 5 pasos** (Diagnóstico → Estrategia → Quick Wins → Transformación → Evolución) y **marco de madurez de 5 niveles**.
 
 ## Archivos sensibles — leer antes de modificar
 
 - `js/firebase-config.js` — credenciales públicas de Firebase (no son secretas, pero reemplazarlas rompe todo).
-- `netlify/functions/lead-register.js` — validación + alta en Catalysis CRM (reintentos, idempotencia, lista blanca de `fuente`).
-- `js/attribution.js` — captura de UTM/artículo; debe cargarse antes de `contact.js`.
-- `js/contact.js` — orquesta Turnstile + submit; el orden de inicialización del widget importa.
+- `netlify/functions/lead-register.js` — validación + alta en Catalysis CRM (reintentos, idempotencia, lista blanca de `fuente` y de canales).
+- `js/attribution.js` — captura de UTM/artículo; se carga antes de los scripts de página (lo hace `shell/bottom.html`).
+- `js/lib/lead-form.mjs` y `js/lib/turnstile.mjs` — validación/envío compartidos por todos los formularios.
+- `blog-post.html` — `blog-og.ts` busca `<title id="post-title">` y `<div id="post-body" …>` (el `id` va primero); `tests/paginas.test.ts` lo verifica.
+- `shell/*.html` — no editar el bloque dentro de una página: editar aquí y correr `sync-shell`.
 - `firestore.rules` — un cambio incorrecto puede exponer la colección `contactos`.
 
 ## Gestión de Contenido
@@ -229,11 +154,13 @@ Las páginas admin/diagnóstico quedan fuera de Google Analytics a propósito, p
 
 ## Convenciones de Código
 
-- Vanilla JS, sin transpilación. ES6+ asumido (navegadores modernos).
-- CSS Custom Properties: `--primary`, `--secondary`, `--text`, `--light-bg`, `--border` (definidas en `style.css`).
-- Mobile-first; probar en móvil/tablet/desktop antes de mergear.
-- Si una página nueva usa Firebase, importar SDKs **antes** de los scripts propios.
-- Si una página nueva tiene formulario que toca CRM, reutilizar `contact.js` y la Netlify Function existente — no crear endpoints nuevos por defecto.
+- Vanilla JS, sin transpilación. ES6+ asumido (navegadores modernos). Módulos ES con rutas absolutas (`/js/...`).
+- Estilos: variables de `css/tokens.css`; no valores sueltos. `css/style.css` solo lo usan admin, clients y eventsync.
+- Mobile-first; puntos de quiebre 900 y 640 px. Accesibilidad AA: foco visible, `button` reales, `prefers-reduced-motion`.
+- Páginas nuevas: ver el checklist de `docs/rediseno-frontend.md` (shell, GA4 inline, sitemap/`llms.txt`, `data-cta`).
+- Formularios que tocan el CRM: reutilizar `js/lib/lead-form.mjs` y `lead-register`; no crear endpoints nuevos. **Canal nuevo = primero al CRM, después al sitio.**
+- Si una página usa Firebase, cargar los SDKs **antes** de los scripts propios (o usar `obtenerDb()` de `js/lib/blog-data.mjs`).
+- No escribir el valor literal de variables de entorno en archivos versionados (secret scanner de Netlify).
 
 ## Troubleshooting
 
@@ -242,13 +169,24 @@ Las páginas admin/diagnóstico quedan fuera de Google Analytics a propósito, p
 - **CORS en local:** no abrir HTML con `file://`; usar `netlify dev` o servidor HTTP.
 - **2FA admin no funciona:** abrir `verificar-configuracion.html` para diagnóstico paso a paso.
 
+## Organización de documentación
+
+- `reqs/` = specs pendientes. Al implementar una: lo permanente (decisiones, contratos) pasa a `docs/` o a la sección correspondiente de este archivo, y la spec **se borra** (git conserva el historial).
+- `docs/` = referencia técnica consultable, no cargada por defecto. CLAUDE.md solo la enlaza. Decisiones: `docs/decisions.md`.
+- Este archivo: resumen + punteros, no detalle.
+- Subagentes (`.claude/agents/`, Haiku 4.5): `docs-maintainer` (tras cada merge) y `test-runner` (en cada push a `sandbox`).
+
+## Ramas
+
+Trabajo en ramas por bloque desde `sandbox` → PR → `main` → `production` (Netlify despliega desde `production`). Sin commits directos a `main` ni a `production`. Agrupar cambios en un solo merge a `production` (créditos de build limitados).
+
 ## Referencias
 
-- Setup detallado de Firebase: `README.md`
-- Variables de entorno: `.env.example`
-- Reglas de seguridad: `firestore.rules`
-- Documentos históricos (privacidad, framework): fuera de este repo, en `../archive/` (carpeta hermana de `WebSite/`, no versionada aquí)
+- Setup detallado de Firebase: `README.md`; variables de entorno: `.env.example`; reglas: `firestore.rules`.
+- Contexto bajo demanda (leer solo si la tarea lo toca): `docs/rediseno-frontend.md` (shell, contenido, pruebas, flotantes), `docs/medicion-leads.md` (GA4/UTM), `docs/decisions.md` (decisiones y pendientes), `docs/agent-friendly.md` (blog `.md`, llms.txt, caché, bots), `docs/blog-slugs-og.md` (slugs y Open Graph), `docs/crm-leads.md` y `docs/crm-fuente-contrato.md` (alta en CRM, `fuente`/dedupe).
+- Trabajo pendiente: `reqs/` — `rediseno-sitio-catalysis.md` (spec del rediseño), `medicion-leads-ga4-utm.md` y `lead-magnet-checklist-cierre-fiscal.md` (implementados en código, pendientes de verificar en preview), contador de vistas.
+- Documentos históricos (privacidad, framework): fuera de este repo, en `../archive/`.
 
 ---
-**Versión:** 3.4 (blog agent-friendly: `.md`, llms.txt, sitemap, RSS, JSON-LD)
-**Última actualización:** 2026-10-23
+**Versión:** 4.0 (rediseño: shell, tokens, contenido único, flotantes y asistente)
+**Última actualización:** 2026-10-26

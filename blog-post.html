@@ -12,133 +12,216 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="post-title">Blog - Catalysis</title>
-    <link rel="stylesheet" href="css/style.css">
+    <script>document.documentElement.classList.add('js')</script>
+    <link rel="preload" href="/fonts/sora-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/inter-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/site.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav id="navbar" class="static">
-        <div class="nav-container">
-            <a href="index.html" class="logo"><img src="images/catalysis_logo.png" alt="Catalysis" width="80" height="80"></a>
-            <ul class="nav-links">
-                <li><a href="index.html#inicio">Inicio</a></li>
-                <li><a href="index.html#nosotros">Nosotros</a></li>
-                <li><a href="index.html#servicios">Servicios</a></li>
-                <li><a href="index.html#metodologia">Metodología</a></li>
-                <li><a href="index.html#marco-madurez">Sobre Madurez Digital</a></li>
-                <li><a href="blog.html">Blog</a></li>
-            </ul>
-            <a href="contacto.html" class="cta-button">Agenda tu diagnóstico</a>
+<!-- shell:start page=blog -->
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<div class="app">
+<aside class="side dk" aria-label="Barra lateral">
+    <a href="/" class="logo" data-slot="logo" aria-label="Catalysis, inicio">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><circle cx="13" cy="13" r="11" stroke="#F4F2EC" stroke-width="1.6"/><circle class="logo__dot" cx="13" cy="13" r="4.5"/></svg>
+        <span>catalysis</span>
+    </a>
+    <button type="button" class="side__search" data-search-open aria-haspopup="dialog">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A4A8B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <span>Buscar en el sitio</span>
+        <span class="kbd" aria-hidden="true">Ctrl K</span>
+    </button>
+    <nav class="side__nav" aria-label="Principal">
+        <div class="side__group">
+            <div class="side__label">Explorar</div>
+            <a href="/" class="nv" data-nav="inicio" data-key="i"><span>Inicio</span><span class="nv__key" aria-hidden="true">I</span></a>
+            <a href="/servicios.html" class="nv" data-nav="servicios" data-key="s"><span>Servicios</span><span class="nv__key" aria-hidden="true">S</span></a>
+            <a href="/marco-madurez.html" class="nv" data-nav="madurez" data-key="m"><span>Marco de madurez</span><span class="nv__key" aria-hidden="true">M</span></a>
+            <a href="/evaluacion.html" class="nv" data-nav="evaluacion" data-key="e"><span class="nv__main">Evaluación <span class="badge">Gratis</span></span><span class="nv__key" aria-hidden="true">E</span></a>
+        </div>
+        <div class="side__group">
+            <div class="side__label">Aprender</div>
+            <a href="/blog.html" class="nv" data-nav="blog" aria-current="page" data-key="b"><span>Blog</span><span class="nv__key" aria-hidden="true">B</span></a>
+            <a href="/blog.html#recursos" class="nv" data-nav="recursos" data-key="r"><span>Recursos gratuitos</span><span class="nv__key" aria-hidden="true">R</span></a>
+        </div>
+        <div class="side__group">
+            <div class="side__label">Hablemos</div>
+            <a href="/contacto.html" class="nv" data-nav="contacto" data-key="c"><span>Contacto</span><span class="nv__key" aria-hidden="true">C</span></a>
         </div>
     </nav>
-
-    <!-- Loading State -->
-    <div id="loading-post" style="padding: 200px 5%; text-align: center;">
-        <h3 style="font-size: 1.5rem; color: var(--primary);">Cargando artículo...</h3>
+    <div class="side__foot">
+        <div class="side__cta">
+            <strong>Agenda tu diagnóstico</strong>
+            <p>Una consulta estratégica gratuita para conocer tu punto de partida.</p>
+            <a href="/contacto.html" class="btn btn--primary" data-cta="sidebar_diagnostico" data-cta-location="sidebar">Agendar</a>
+        </div>
+        <button type="button" class="side__keys" data-shortcuts-toggle aria-pressed="true">Atajos de teclado: activados</button>
+    </div>
+</aside>
+<div class="col">
+<header class="mbar dk">
+    <div class="mbar__bar">
+        <a href="/" class="logo" data-slot="logo" aria-label="Catalysis, inicio">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><circle cx="13" cy="13" r="11" stroke="#F4F2EC" stroke-width="1.6"/><circle class="logo__dot" cx="13" cy="13" r="4.5"/></svg>
+            <span>catalysis</span>
+        </a>
+        <div class="mbar__actions">
+            <button type="button" class="mbar__btn" data-search-open aria-label="Buscar en el sitio" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F4F2EC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
+            <button type="button" class="mbar__btn" data-menu-toggle aria-label="Menú" aria-expanded="false" aria-controls="mbar-menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4F2EC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+        </div>
+    </div>
+    <nav class="mbar__menu" id="mbar-menu" aria-label="Principal móvil" hidden>
+        <div class="side__label">Explorar</div>
+        <a href="/" class="mbar__link" data-nav="inicio">Inicio</a>
+        <a href="/servicios.html" class="mbar__link" data-nav="servicios">Servicios</a>
+        <a href="/marco-madurez.html" class="mbar__link" data-nav="madurez">Marco de madurez</a>
+        <a href="/evaluacion.html" class="mbar__link" data-nav="evaluacion">Evaluación <span class="badge">Gratis</span></a>
+        <div class="side__label">Aprender</div>
+        <a href="/blog.html" class="mbar__link" data-nav="blog" aria-current="page">Blog</a>
+        <a href="/blog.html#recursos" class="mbar__link" data-nav="recursos">Recursos gratuitos</a>
+        <div class="side__label">Hablemos</div>
+        <a href="/contacto.html" class="mbar__link" data-nav="contacto">Contacto</a>
+        <div class="mbar__actions2">
+            <button type="button" class="btn btn--ondark" data-chat-open>Habla con nuestro agente</button>
+            <a href="/contacto.html" class="btn btn--primary" data-cta="menu_diagnostico" data-cta-location="menu_movil">Agenda tu diagnóstico</a>
+        </div>
+    </nav>
+</header>
+<!-- shell:end -->
+    <div class="crumb pad">
+        <div class="crumb__path">catalysis.com.mx / blog / artículo</div>
+        <button type="button" class="btn btn--outline btn--sm" data-chat-open>Habla con nuestro agente</button>
     </div>
 
-    <!-- Post Not Found -->
-    <div id="post-not-found" style="display: none; padding: 200px 5%; text-align: center;">
-        <h3 style="font-size: 2rem; color: var(--primary); margin-bottom: 1rem;">Artículo no encontrado</h3>
-        <p style="margin-bottom: 2rem;">El artículo que buscas no existe o ha sido eliminado.</p>
-        <a href="blog.html" class="cta-button">Ver todos los artículos</a>
-    </div>
-
-    <!-- Blog Post Content (populated by JavaScript) -->
-    <div id="post-content" style="display: none;">
-        <!-- Blog Post Hero -->
-        <section class="hero" style="padding-top: 180px; min-height: 40vh;">
-            <div class="hero-content" style="max-width: 900px;">
-                <div class="hero-label" id="post-category">BLOG</div>
-                <h1 id="post-heading" style="font-size: clamp(2rem, 5vw, 4rem);"></h1>
-                <p id="post-meta" style="display: flex; gap: 2rem; font-size: 0.95rem; margin-top: 2rem; flex-wrap: wrap;">
-                    <!-- Meta info will be inserted here -->
-                </p>
-            </div>
-        </section>
-
-        <!-- Blog Post Content -->
-        <section style="padding: 80px 5%; background: var(--light-bg);">
-            <div style="max-width: 900px; margin: 0 auto;">
-                <img id="post-image" src="" alt="" style="width: 100%; height: 400px; object-fit: cover; margin-bottom: 3rem; border-radius: 4px; display: none;">
-
-                <div id="post-body" style="font-size: 1.125rem; line-height: 1.9; color: var(--text);">
-                    <!-- Post content will be inserted here -->
+    <main id="contenido">
+        <!-- Cargando -->
+        <div class="pad art" id="loading-post" role="status" aria-live="polite">
+            <div class="art__inner">
+                <div class="mono" style="font-size:12px;color:var(--ink-3)">Cargando artículo…</div>
+                <div aria-hidden="true" style="display:flex;flex-direction:column;gap:14px">
+                    <div class="sk" style="height:14px;width:30%"></div>
+                    <div class="sk" style="height:40px;width:90%"></div>
+                    <div class="sk" style="height:40px;width:60%"></div>
+                    <div class="sk" style="aspect-ratio:16/9"></div>
+                    <div class="sk" style="height:14px"></div>
+                    <div class="sk" style="height:14px;width:94%"></div>
+                    <div class="sk" style="height:14px;width:80%"></div>
                 </div>
-
-                <div id="post-tags" style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); display: none;">
-                    <strong style="color: var(--primary); margin-right: 1rem;">Tags:</strong>
-                    <span id="tags-list"></span>
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA Section -->
-        <section class="cta-section">
-            <div class="cta-content">
-                <div>
-                    <h2>¿Te gustó este artículo?</h2>
-                    <p>Descubre cómo podemos ayudarte a implementar estas soluciones en tu empresa.</p>
-                </div>
-                <div>
-                    <a href="contacto.html" class="cta-button" style="display: inline-block; padding: 1.2rem 2.5rem; margin-top: 1rem;">Agendar consulta</a>
-                    <a href="blog.html" class="cta-button" style="display: inline-block; padding: 1.2rem 2.5rem; margin-top: 1rem; margin-left: 1rem; background: transparent;">Ver más artículos</a>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-container">
-            <div class="footer-about">
-                <h3>catalysis</h3>
-                <p>Impulsamos la transformación digital de empresas que quieren liderar en la era digital. Estrategia, tecnología y resultados medibles.</p>
-                <p>📧 <a href="mailto:contacto@catalysis.com.mx" style="color: inherit; text-decoration: none;">contacto@catalysis.com.mx</a><br>
-                📱 <a href="tel:+5255393370086" style="color: inherit; text-decoration: none;">+52 55 3933 7086</a><br>
-                📍 Ciudad de México, México</p>
-            </div>
-            <div class="footer-links">
-                <h4>Servicios</h4>
-                <ul>
-                    <li><a href="servicios.html#servicio-1">Transformación Digital</a></li>
-                    <li><a href="servicios.html#servicio-4">Data & Analytics</a></li>
-                    <li><a href="servicios.html#servicio-6">Inteligencia Artificial</a></li>
-                    <li><a href="servicios.html#servicio-3">Cloud Computing</a></li>
-                    <li><a href="servicios.html#servicio-2">Optimización de Procesos</a></li>
-                </ul>
-            </div>
-            <div class="footer-links">
-                <h4>Empresa</h4>
-                <ul>
-                    <li><a href="index.html#nosotros">Sobre Nosotros</a></li>
-                    <li><a href="index.html#metodologia">Metodología</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="contacto.html">Contacto</a></li>
-                    <li><a href="aviso-privacidad.html">Aviso de Privacidad</a></li>
-                </ul>
-            </div>
-            <div class="footer-links">
-                <h4>Recursos</h4>
-                <ul>
-                    <li><a href="blog.html">Artículos</a></li>
-                    <li><a href="contacto.html">Contacto</a></li>
-                </ul>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p id="footer-year"></p>
+
+        <!-- No encontrado -->
+        <div class="pad art" id="post-not-found" hidden>
+            <div class="statecard">
+                <span class="statecard__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></span>
+                <h1 class="h2" style="font-size:24px">Artículo no encontrado</h1>
+                <p>El artículo que buscas no existe o ha sido eliminado.</p>
+                <a href="/blog.html" class="btn btn--primary">Ver todos los artículos</a>
+            </div>
         </div>
-    </footer>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+        <!-- Artículo (lo llena js/blog-post.js; blog-og.ts inyecta el cuerpo en el HTML inicial) -->
+        <article class="pad art" id="post-content" hidden>
+            <div class="art__inner">
+                <header class="art__head">
+                    <a href="/blog.html" class="art__back"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Volver al blog</span></a>
+                    <div><span class="pill" id="post-category">BLOG</span></div>
+                    <h1 class="h1" id="post-heading" style="font-size:44px"></h1>
+                    <div class="art__meta" id="post-meta"></div>
+                </header>
+                <img class="art__cover" id="post-image" src="" alt="" hidden>
+                <div id="post-body" class="prose"></div>
+                <div class="tags" id="post-tags" hidden>
+                    <span class="eyebrow">Tags</span>
+                    <span id="tags-list" style="display:contents"></span>
+                </div>
 
-    <!-- Scripts del sitio -->
-    <script src="js/attribution.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/firebase-config.js"></script>
-    <script src="js/blog-utils.js"></script>
-    <script src="js/blog-post.js"></script>
+                <!-- Cierre: evaluación (por defecto) o recurso descargable según content/recursos.mjs -->
+                <div class="bigcard bigcard--dark" id="cierre-eval">
+                    <div class="bigcard__body">
+                        <div class="eyebrow eyebrow--dark">Evaluación de madurez digital</div>
+                        <h2 class="h2">Antes de elegir una tecnología, conoce tu punto de partida</h2>
+                        <p>Seis preguntas para ubicar a tu empresa en uno de los cinco niveles del marco y ver los retos que enfrentan las empresas en esa etapa.</p>
+                    </div>
+                    <div class="btn-row">
+                        <a href="/evaluacion.html" class="btn btn--primary" data-cta="blog_cierre_evaluacion" data-cta-location="blog_post">Hacer la evaluación</a>
+                        <a href="/blog.html" class="btn btn--ondark" data-cta="blog_cierre_mas_articulos" data-cta-location="blog_post">Ver más artículos</a>
+                    </div>
+                </div>
+                <div class="bigcard bigcard--white" id="cierre-recurso" hidden>
+                    <div class="bigcard__body">
+                        <div class="card__top" style="justify-content:flex-start;gap:10px"><span class="pill" id="cierre-etiqueta"></span><span class="card__note" id="cierre-nota"></span></div>
+                        <h2 class="h2" id="cierre-titulo"></h2>
+                        <p id="cierre-texto" style="color:var(--ink-2)"></p>
+                    </div>
+                    <div class="btn-row">
+                        <a href="/recursos/checklist-cierre-fiscal.html" class="btn btn--primary" id="cierre-cta" data-cta="blog_cierre_recurso" data-cta-location="blog_post"></a>
+                        <a href="/blog.html" class="btn btn--outline" data-cta="blog_cierre_mas_articulos" data-cta-location="blog_post">Ver más artículos</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </main>
+<!-- shell-end:start -->
+<footer class="foot dk pad">
+    <div class="foot__grid">
+        <div class="foot__brand">
+            <a href="/" class="logo logo--lg" data-slot="logo" aria-label="Catalysis, inicio">
+                <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><circle cx="13" cy="13" r="11" stroke="#F4F2EC" stroke-width="1.6"/><circle class="logo__dot" cx="13" cy="13" r="4.5"/></svg>
+                <span>catalysis</span>
+            </a>
+            <p>Impulsamos la transformación digital de empresas que quieren liderar en la era digital. Estrategia, tecnología y resultados medibles.</p>
+            <ul class="foot__contact">
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><a href="mailto:contacto@catalysis.com.mx">contacto@catalysis.com.mx</a></li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg><a href="tel:+525539337086">+52 55 3933 7086</a></li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Ciudad de México, México</span></li>
+            </ul>
+        </div>
+        <nav class="foot__col" aria-labelledby="foot-servicios">
+            <h2 id="foot-servicios">Servicios</h2>
+            <ul>
+                <li><a href="/servicios.html#servicio-1">Transformación Digital</a></li>
+                <li><a href="/servicios.html#servicio-4">Data &amp; Analytics</a></li>
+                <li><a href="/servicios.html#servicio-6">Inteligencia Artificial</a></li>
+                <li><a href="/servicios.html#servicio-3">Cloud Computing</a></li>
+                <li><a href="/servicios.html#servicio-2">Optimización de Procesos</a></li>
+            </ul>
+        </nav>
+        <nav class="foot__col" aria-labelledby="foot-empresa">
+            <h2 id="foot-empresa">Empresa</h2>
+            <ul>
+                <li><a href="/#metodologia">Metodología</a></li>
+                <li><a href="/marco-madurez.html">Marco de madurez</a></li>
+                <li><a href="/blog.html">Blog</a></li>
+                <li><a href="/contacto.html">Contacto</a></li>
+                <li><a href="/aviso-privacidad.html">Aviso de Privacidad</a></li>
+            </ul>
+        </nav>
+        <nav class="foot__col" aria-labelledby="foot-recursos">
+            <h2 id="foot-recursos">Recursos</h2>
+            <ul>
+                <li><a href="/blog.html">Artículos</a></li>
+                <li><a href="/evaluacion.html">Evaluación de madurez</a></li>
+                <li><a href="/contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="foot__bottom">
+        <span>© <span data-year>2026</span> Catalysis. Todos los derechos reservados.</span>
+        <a href="/aviso-privacidad.html">Aviso de privacidad</a>
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<script type="module" src="/js/shell.js"></script>
+<!-- shell-end:end -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js" defer></script>
+    <script src="/js/firebase-config.js" defer></script>
+    <script src="/js/blog-utils.js" defer></script>
+    <script type="module" src="/js/blog-post.js"></script>
 </body>
 </html>

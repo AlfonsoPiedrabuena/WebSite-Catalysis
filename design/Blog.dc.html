@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Catalysis: Blog y recursos</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F2EC}
+a{text-decoration:none;color:inherit}
+button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #14171C;outline-offset:2px}
+.dk a:focus-visible,.dk button:focus-visible,.dk input:focus-visible,.dk select:focus-visible{outline-color:#F4F2EC}
+button:disabled{cursor:not-allowed;opacity:.62}
+.fx{outline:3px solid #14171C;outline-offset:2px}
+.dk .fx{outline-color:#F4F2EC}
+input:disabled,select:disabled{background:#ECE9E0 !important;color:#5A6068 !important;cursor:not-allowed}
+::placeholder{color:#5A6068;opacity:1}
+.hv-f:hover{filter:brightness(.9)}
+.hv-o:hover{background:#ECE9E0 !important}
+.hv-d:hover{background:#262B33 !important}
+.hv-c:hover{border-color:#14171C !important}
+.hv-u:hover{text-decoration:underline}
+.nv:hover{background:#1B1F26}
+.mbar{display:none}
+.toc-m{display:none}
+.prose h2{margin:44px 0 14px;font-family:'Sora',sans-serif;font-weight:600;font-size:28px;line-height:1.2;letter-spacing:-0.02em}
+.prose h3{margin:32px 0 10px;font-family:'Sora',sans-serif;font-weight:600;font-size:20px;line-height:1.3;letter-spacing:-0.01em}
+.prose p{margin:0 0 18px;font-size:17px;line-height:1.75;color:#3A3F47}
+.prose ul,.prose ol{margin:0 0 20px;padding-left:22px;font-size:17px;line-height:1.7;color:#3A3F47}
+.prose li{margin-bottom:8px}
+.prose li::marker{color:#C23E15}
+.prose strong{color:#14171C}
+.prose a{color:#8F2D0F;text-decoration:underline}
+.prose blockquote{margin:28px 0;padding:4px 0 4px 20px;border-left:3px solid #C23E15;font-family:'Sora',sans-serif;font-size:20px;line-height:1.45;color:#14171C}
+.prose h4{margin:24px 0 8px;font-family:'Sora',sans-serif;font-weight:600;font-size:16px;line-height:1.35}
+.prose .note{margin:0 0 24px;padding:18px 20px;border-radius:12px;background:color-mix(in srgb,#C23E15 12%,#ffffff)}
+.prose .note p{margin:0;font-size:15px;color:#3A3F47}
+.prose .kv{margin:0 0 24px;padding:18px 20px;border:1px solid #DAD6CB;border-radius:12px;background:#FFFFFF}
+.prose .kv p{margin:0 0 8px;font-size:15px;line-height:1.5}
+.prose .kv p:last-child{margin:0}
+.prose figure{margin:28px 0}
+.prose figure img{width:100%;display:block;border-radius:12px}
+.prose figcaption{margin-top:10px;font-size:13px;color:#5A6068}
+.tbl{overflow-x:auto;margin:0 0 24px;border:1px solid #DAD6CB;border-radius:12px;background:#FFFFFF}
+.tbl table{border-collapse:collapse;width:100%;min-width:520px;font-size:15px;line-height:1.5}
+.tbl th{text-align:left;padding:12px 16px;background:#ECE9E0;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:12px;letter-spacing:0.08em;color:#14171C}
+.tbl td{padding:12px 16px;border-top:1px solid #ECE9E0;color:#3A3F47;vertical-align:top}
+.tbl td:first-child{font-weight:600;color:#14171C}
+@keyframes sk{0%{opacity:.55}50%{opacity:1}100%{opacity:.55}}
+.sk{animation:sk 1.4s ease-in-out infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin .9s linear infinite}
+@media (prefers-reduced-motion:reduce){.sk,.spin{animation:none}}
+@media (max-width:900px){
+.side{display:none !important}
+.mbar{display:block}
+.crumb{display:none !important}
+.pad{padding-left:32px !important;padding-right:32px !important}
+.g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+.fgrid{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+.h1{font-size:44px !important}
+.h2{font-size:28px !important}
+.toc-side{display:none !important}
+.toc-m{display:block}
+}
+@media (max-width:640px){
+.pad{padding-left:20px !important;padding-right:20px !important}
+.g2,.g3,.g4,.fgrid{grid-template-columns:minmax(0,1fr) !important}
+.h1{font-size:34px !important}
+.h2{font-size:25px !important}
+.bigcard{padding:28px 22px !important}
+section.pad{padding-bottom:28px !important}
+.tt{min-height:44px !important}
+.bpad{padding-bottom:96px !important}
+.prose h2{font-size:24px}
+.prose p,.prose ul,.prose ol{font-size:16px}
+.tbl{overflow-x:visible}
+.tbl table,.tbl tbody,.tbl tr,.tbl td{display:block;min-width:0 !important}
+.tbl thead{display:none}
+.tbl tr+tr{border-top:1px solid #DAD6CB}
+.tbl td{border-top:0;padding:6px 16px}
+.tbl td:first-child{background:#ECE9E0;padding:10px 16px;font-family:'Sora',sans-serif}
+.tbl td[data-label]::before{content:attr(data-label);display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;color:#5A6068;margin-bottom:2px}
+.tbl tr td:last-child{padding-bottom:12px}
+}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; align-items: stretch; background: #F4F2EC; color: #14171C; font-family: 'Inter', system-ui, sans-serif; min-height: 100%">
+
+<aside class="side dk" style="flex: 1 1 260px; max-width: 272px; box-sizing: border-box; background: #14171C; color: #D9D6CE; padding: 24px 18px; display: flex; flex-direction: column; gap: 28px">
+<a href="Main.dc.html" data-slot="logo" aria-label="Catalysis, inicio" style="display: flex; align-items: center; gap: 10px; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 20px; color: #F4F2EC; letter-spacing: -0.02em">
+<svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><circle cx="13" cy="13" r="11" stroke="#F4F2EC" stroke-width="1.6"></circle><circle cx="13" cy="13" r="4.5" fill="{{accent}}"></circle></svg>
+<span>catalysis</span>
+</a>
+<button type="button" onClick="{{openSearch}}" class="hv-d" style="cursor: pointer; display: flex; align-items: center; gap: 10px; width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1px solid #2E333B; background: #1B1F26; color: #A4A8B0; font-size: 14px; text-align: left">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A4A8B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<span style="flex: 1">Buscar en el sitio</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; border: 1px solid #3A3F47; border-radius: 4px; padding: 1px 6px">Ctrl K</span>
+</button>
+<nav aria-label="Principal" style="display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #8C9099; padding: 0 12px 8px">EXPLORAR</div>
+<a href="Main.dc.html" class="nv" style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; font-size: 14px"><span>Inicio</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8C9099">I</span></a>
+<a href="Servicios.dc.html" class="nv" style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; font-size: 14px"><span>Servicios</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8C9099">S</span></a>
+<a href="Madurez.dc.html" class="nv" style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; font-size: 14px"><span>Marco de madurez</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8C9099">M</span></a>
+<a href="Evaluacion.dc.html" class="nv" style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; font-size: 14px"><span style="display: flex; align-items: center; gap: 8px">Evaluación <span style="font-size: 11px; font-weight: 600; background: {{accent}}; color: #FFFFFF; border-radius: 999px; padding: 2px 8px">Gratis</span></span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8C9099">E</span></a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #8C9099; padding: 0 12px 8px">APRENDER</div>
+<a href="Blog.dc.html" aria-current="page" class="nv" style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; font-size: 14px; background: #262B33; color: #FFFFFF; font-weight: 500"><span>Blog</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #A4A8B0">B</span></a>
+<a href="Blog.dc.html#recursos" class="nv" style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; font-size: 14px"><span>Recursos gratuitos</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8C9099">R</span></a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #8C9099; padding: 0 12px 8px">HABLEMOS</div>
+<a href="Contacto.dc.html" class="nv" style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; font-size: 14px"><span>Contacto</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8C9099">C</span></a>
+</div>
+</nav>
+<div style="margin-top: auto; background: #1B1F26; border: 1px solid #2E333B; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+<div style="font-family: 'Sora', sans-serif; font-weight: 600; font-size: 15px; color: #F4F2EC">Agenda tu diagnóstico</div>
+<div style="font-size: 13px; line-height: 1.5; color: #A4A8B0">Una consulta estratégica gratuita para conocer tu punto de partida.</div>
+<a href="Contacto.dc.html" class="hv-f" style="display: block; text-align: center; background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 14px; padding: 10px 14px; border-radius: 8px">Agendar</a>
+</div>
+</aside>
+
+<main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+
+<div class="mbar dk" style="background: #14171C; color: #F4F2EC; position: relative; z-index: 20">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 12px 6px 20px; min-height: 56px; box-sizing: border-box">
+<a href="Main.dc.html" data-slot="logo" aria-label="Catalysis, inicio" style="display: flex; align-items: center; gap: 10px; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 20px; color: #F4F2EC; letter-spacing: -0.02em">
+<svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><circle cx="13" cy="13" r="11" stroke="#F4F2EC" stroke-width="1.6"></circle><circle cx="13" cy="13" r="4.5" fill="{{accent}}"></circle></svg>
+<span>catalysis</span>
+</a>
+<div style="display: flex; align-items: center; gap: 4px">
+<button type="button" aria-label="Buscar en el sitio" onClick="{{openSearch}}" class="hv-d" style="cursor: pointer; width: 44px; height: 44px; border-radius: 10px; border: 0; background: transparent; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F4F2EC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg></button>
+<button type="button" aria-label="Menú" aria-expanded="{{menuOpen}}" onClick="{{toggleMenu}}" class="hv-d" style="cursor: pointer; width: 44px; height: 44px; border-radius: 10px; border: 0; background: {{menuBg}}; display: flex; align-items: center; justify-content: center">
+<sc-if value="{{menuClosed}}" hint-placeholder-val="{{ true }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4F2EC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></sc-if>
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4F2EC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></sc-if>
+</button>
+</div>
+</div>
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{ false }}">
+<nav aria-label="Principal móvil" style="position: absolute; left: 0; right: 0; top: 100%; box-sizing: border-box; background: #14171C; border-top: 1px solid #2E333B; padding: 4px 12px 20px; display: flex; flex-direction: column; gap: 2px; box-shadow: 0 16px 32px rgba(20,23,28,0.28)">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #8C9099; padding: 14px 4px 4px">EXPLORAR</div>
+<a href="Main.dc.html" class="nv" style="display: flex; align-items: center; min-height: 48px; padding: 0 8px; border-radius: 8px; font-size: 16px; color: #F4F2EC">Inicio</a>
+<a href="Servicios.dc.html" class="nv" style="display: flex; align-items: center; min-height: 48px; padding: 0 8px; border-radius: 8px; font-size: 16px; color: #F4F2EC">Servicios</a>
+<a href="Madurez.dc.html" class="nv" style="display: flex; align-items: center; min-height: 48px; padding: 0 8px; border-radius: 8px; font-size: 16px; color: #F4F2EC">Marco de madurez</a>
+<a href="Evaluacion.dc.html" class="nv" style="display: flex; align-items: center; min-height: 48px; padding: 0 8px; border-radius: 8px; font-size: 16px; color: #F4F2EC">Evaluación <span style="font-size: 11px; font-weight: 600; background: {{accent}}; color: #FFFFFF; border-radius: 999px; padding: 2px 8px; margin-left: 6px">Gratis</span></a>
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #8C9099; padding: 14px 4px 4px">APRENDER</div>
+<a href="Blog.dc.html" class="nv" style="display: flex; align-items: center; min-height: 48px; padding: 0 8px; border-radius: 8px; font-size: 16px; color: #F4F2EC">Blog</a>
+<a href="Blog.dc.html#recursos" class="nv" style="display: flex; align-items: center; min-height: 48px; padding: 0 8px; border-radius: 8px; font-size: 16px; color: #F4F2EC">Recursos gratuitos</a>
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #8C9099; padding: 14px 4px 4px">HABLEMOS</div>
+<a href="Contacto.dc.html" class="nv" style="display: flex; align-items: center; min-height: 48px; padding: 0 8px; border-radius: 8px; font-size: 16px; color: #F4F2EC">Contacto</a>
+<div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px">
+<button type="button" onClick="{{openAgent}}" class="hv-d" style="cursor: pointer; min-height: 48px; border-radius: 10px; border: 1px solid #4A4F57; background: transparent; color: #F4F2EC; font-weight: 600; font-size: 15px">Habla con nuestro agente</button>
+<a href="Contacto.dc.html" class="hv-f" style="display: flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 10px; background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 15px">Agenda tu diagnóstico</a>
+</div>
+</nav>
+</sc-if>
+</div>
+<div class="crumb pad" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 18px 48px; border-bottom: 1px solid #DAD6CB">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A6068">catalysis.com.mx / blog</div>
+<button type="button" onClick="{{openAgent}}" class="hv-o" style="cursor: pointer; font-size: 13px; font-weight: 500; border: 1px solid #14171C; border-radius: 999px; padding: 7px 16px; background: transparent; color: #14171C">Habla con nuestro agente</button>
+</div>
+
+<section class="pad" style="padding: 56px 48px 32px; display: flex; flex-direction: column; gap: 16px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: #5A6068">BLOG Y RECURSOS</div>
+<h1 class="h1" style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 52px; line-height: 1.06; letter-spacing: -0.03em; max-width: 820px">Insights sobre transformación digital</h1>
+<p style="margin: 0; font-size: 18px; line-height: 1.6; color: #3A3F47; max-width: 620px">Artículos, tendencias y mejores prácticas en tecnología y estrategia digital.</p>
+</section>
+
+<section id="recursos" class="pad" style="padding: 8px 48px 48px; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap">
+<h2 style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 24px; letter-spacing: -0.02em">Recursos gratuitos</h2>
+<span style="font-size: 13px; color: #5A6068">Descárgalos o úsalos al instante. Solo pedimos tus datos de contacto para darte acceso.</span>
+</div>
+<div class="g2" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px">
+<sc-for list="{{resources}}" as="rs" hint-placeholder-count="3">
+<a href="{{rs.href}}" class="hv-c" style="background: #FFFFFF; border: 1px solid #DAD6CB; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 14px; min-height: 240px">
+<div style="display: flex; justify-content: space-between; align-items: center">
+<span style="font-size: 12px; font-weight: 600; background: {{accentSoft}}; color: #8F2D0F; border-radius: 999px; padding: 4px 10px">{{rs.tag}}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5A6068">{{rs.note}}</span>
+</div>
+<h3 style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 20px; line-height: 1.25; letter-spacing: -0.01em">{{rs.title}}</h3>
+<p style="margin: 0; font-size: 14px; line-height: 1.6; color: #3A3F47; flex: 1">{{rs.text}}</p>
+<div style="font-size: 14px; font-weight: 600; color: #8F2D0F">{{rs.cta}}</div>
+</a>
+</sc-for>
+</div>
+</section>
+
+<section class="pad" style="padding: 0 48px 40px">
+<a href="Articulo.dc.html" class="hv-c" style="background: #FFFFFF; border: 1px solid #DAD6CB; border-radius: 20px; padding: 28px; display: flex; flex-wrap: wrap; gap: 32px; align-items: center">
+<img src="/_blob/4b77d3f33a30d773be37df4721663924" alt="" style="flex: 1 1 380px; min-width: 0; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 12px">
+<div style="flex: 1 1 340px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap"><span style="font-size: 12px; font-weight: 600; background: {{accentSoft}}; color: #8F2D0F; border-radius: 999px; padding: 4px 10px">Destacado</span><span style="font-size: 12px; color: #5A6068">CRM y Automatización · 24 oct 2026</span></div>
+<h2 class="h2" style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 32px; line-height: 1.15; letter-spacing: -0.02em">CRM a la medida vs. licencia: cuándo conviene construir el tuyo</h2>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: #3A3F47">¿Licencia de CRM o desarrollo a la medida? La respuesta depende de tu proceso, tu tamaño y el costo total a varios años. Criterios concretos, costos ocultos de cada opción, el camino híbrido y cinco preguntas para decidir bien.</p>
+<div style="font-size: 14px; font-weight: 600; color: #8F2D0F">Leer artículo</div>
+</div>
+</a>
+</section>
+
+<section class="pad" style="padding: 0 48px 24px; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap">
+<div role="group" aria-label="Filtrar por categoría" style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{chips}}" as="ch" hint-placeholder-count="5">
+<button type="button" onClick="{{ch.pick}}" aria-pressed="{{ch.on}}" class="tt" style="cursor: pointer; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; padding: 8px 16px; border-radius: 999px; border: 1px solid {{ch.border}}; background: {{ch.bg}}; color: {{ch.color}}">{{ch.label}}</button>
+</sc-for>
+</div>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A6068">{{countLabel}}</span>
+</div>
+<sc-if value="{{showGrid}}" hint-placeholder-val="{{ true }}">
+<div class="g3" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px">
+<sc-for list="{{posts}}" as="po" hint-placeholder-count="6">
+<a href="Articulo.dc.html" class="hv-c" style="background: #FFFFFF; border: 1px solid #DAD6CB; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 12px; min-height: 270px">
+<sc-if value="{{po.hasImg}}" hint-placeholder-val="{{ true }}">
+<img src="{{po.img}}" alt="" style="width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 10px">
+</sc-if>
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+<span style="font-size: 12px; font-weight: 600; color: #8F2D0F">{{po.cat}}</span>
+<span style="font-size: 12px; color: #5A6068">{{po.date}}</span>
+</div>
+<h3 style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 19px; line-height: 1.3; letter-spacing: -0.01em">{{po.title}}</h3>
+<p style="margin: 0; font-size: 14px; line-height: 1.6; color: #3A3F47; flex: 1">{{po.text}}</p>
+<div style="display: flex; justify-content: space-between; align-items: center">
+<span style="font-size: 13px; color: #5A6068">Equipo Catalysis</span>
+<span style="font-size: 12px; font-weight: 600; background: {{po.badgeBg}}; color: #8F2D0F; border-radius: 999px; padding: 3px 10px">{{po.badge}}</span>
+</div>
+</a>
+</sc-for>
+</div>
+<sc-if value="{{hasMore}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; justify-content: center; padding-top: 8px"><button type="button" onClick="{{loadMore}}" class="hv-o tt" style="cursor: pointer; background: transparent; color: #14171C; border: 1px solid #14171C; font-weight: 600; font-size: 15px; padding: 13px 26px; border-radius: 10px">Cargar más artículos</button></div>
+</sc-if>
+</sc-if>
+<sc-if value="{{showLoading}}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="display: flex; flex-direction: column; gap: 16px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A6068">Cargando artículos…</div>
+<div class="g3" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px">
+<sc-for list="{{skeletons}}" as="sk" hint-placeholder-count="6">
+<div aria-hidden="true" style="background: #FFFFFF; border: 1px solid #DAD6CB; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 14px; min-height: 270px">
+<div class="sk" style="width: 100%; aspect-ratio: 16 / 9; border-radius: 10px; background: #ECE9E0"></div>
+<div style="display: flex; justify-content: space-between"><div class="sk" style="width: 96px; height: 12px; border-radius: 6px; background: #ECE9E0"></div><div class="sk" style="width: 72px; height: 12px; border-radius: 6px; background: #ECE9E0"></div></div>
+<div class="sk" style="width: 92%; height: 18px; border-radius: 6px; background: #ECE9E0"></div>
+<div class="sk" style="width: 64%; height: 18px; border-radius: 6px; background: #ECE9E0"></div>
+<div class="sk" style="width: 100%; height: 12px; border-radius: 6px; background: #ECE9E0"></div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{showEmpty}}" hint-placeholder-val="{{ false }}">
+<div style="align-self: center; width: 100%; max-width: 560px; box-sizing: border-box; background: #FFFFFF; border: 1px solid #DAD6CB; border-radius: 20px; padding: 36px 32px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center">
+<span style="width: 48px; height: 48px; border-radius: 50%; background: {{accentSoft}}; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"></path><path d="M14 3v4h4M10 12h5M10 16h5"></path></svg></span>
+<div style="font-family: 'Sora', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.01em">{{emptyTitle}}</div>
+<div style="font-size: 15px; line-height: 1.6; color: #3A3F47">{{emptyText}}</div>
+<a href="Evaluacion.dc.html" class="hv-f" style="margin-top: 6px; background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 15px; padding: 13px 22px; border-radius: 10px">Hacer la evaluación de madurez</a>
+</div>
+</sc-if>
+<sc-if value="{{showError}}" hint-placeholder-val="{{ false }}">
+<div style="align-self: center; width: 100%; max-width: 560px; box-sizing: border-box; background: #FFFFFF; border: 1px solid #DAD6CB; border-radius: 20px; padding: 36px 32px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center">
+<span style="width: 48px; height: 48px; border-radius: 50%; background: {{accentSoft}}; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l10 18H2z"></path><path d="M12 10v5M12 18v.5"></path></svg></span>
+<div style="font-family: 'Sora', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.01em">No pudimos cargar los artículos</div>
+<div style="font-size: 15px; line-height: 1.6; color: #3A3F47">Revisa tu conexión e inténtalo de nuevo. Si el problema continúa, escríbenos a contacto@catalysis.com.mx.</div>
+<button type="button" onClick="{{retry}}" class="hv-f tt" style="cursor: pointer; margin-top: 6px; background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 15px; padding: 13px 22px; border-radius: 10px; border: 0">Reintentar</button>
+</div>
+</sc-if>
+</section>
+
+<section class="pad" style="padding: 24px 48px 56px">
+<div class="bigcard" style="background: #14171C; color: #F4F2EC; border-radius: 22px; padding: 44px; display: flex; flex-wrap: wrap; gap: 32px; align-items: center; justify-content: space-between">
+<div style="flex: 1 1 420px; display: flex; flex-direction: column; gap: 12px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: #A4A8B0">EVALUACIÓN DE MADUREZ DIGITAL</div>
+<h2 class="h2" style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 32px; line-height: 1.12; letter-spacing: -0.02em">Antes de elegir una tecnología, conoce tu punto de partida</h2>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: #C9C6BE">Seis preguntas para ubicar a tu empresa en uno de los cinco niveles del marco y ver los retos que enfrentan las empresas en esa etapa.</p>
+</div>
+<a href="Evaluacion.dc.html" class="hv-f" style="background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 15px; padding: 14px 24px; border-radius: 10px">Hacer la evaluación</a>
+</div>
+</section>
+
+<footer class="pad dk bpad" style="margin-top: auto; background: #14171C; color: #D9D6CE; padding: 56px 48px 28px; display: flex; flex-direction: column; gap: 40px">
+<div class="fgrid" style="display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 16px; max-width: 360px">
+<a href="Main.dc.html" data-slot="logo" aria-label="Catalysis, inicio" style="display: flex; align-items: center; gap: 10px; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 22px; color: #F4F2EC; letter-spacing: -0.02em">
+<svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><circle cx="13" cy="13" r="11" stroke="#F4F2EC" stroke-width="1.6"></circle><circle cx="13" cy="13" r="4.5" fill="{{accent}}"></circle></svg>
+<span>catalysis</span>
+</a>
+<p style="margin: 0; font-size: 14px; line-height: 1.6; color: #D9D6CB">Impulsamos la transformación digital de empresas que quieren liderar en la era digital. Estrategia, tecnología y resultados medibles.</p>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 14px">
+<li style="display: flex; align-items: center; gap: 10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A4A8B0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg><a href="mailto:contacto@catalysis.com.mx" class="hv-u">contacto@catalysis.com.mx</a></li>
+<li style="display: flex; align-items: center; gap: 10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A4A8B0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"></path></svg><a href="tel:+525539337086" class="hv-u">+52 55 3933 7086</a></li>
+<li style="display: flex; align-items: center; gap: 10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A4A8B0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg><span>Ciudad de México, México</span></li>
+</ul>
+</div>
+<nav aria-label="Servicios" style="display: flex; flex-direction: column; gap: 14px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: #8C9099">SERVICIOS</div>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px">
+<li><a href="Servicios.dc.html#servicio-1" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Transformación Digital</a></li>
+<li><a href="Servicios.dc.html#servicio-4" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Data & Analytics</a></li>
+<li><a href="Servicios.dc.html#servicio-6" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Inteligencia Artificial</a></li>
+<li><a href="Servicios.dc.html#servicio-3" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Cloud Computing</a></li>
+<li><a href="Servicios.dc.html#servicio-2" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Optimización de Procesos</a></li>
+</ul>
+</nav>
+<nav aria-label="Empresa" style="display: flex; flex-direction: column; gap: 14px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: #8C9099">EMPRESA</div>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px">
+<li><a href="Main.dc.html#metodologia" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Metodología</a></li>
+<li><a href="Madurez.dc.html" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Marco de madurez</a></li>
+<li><a href="Blog.dc.html" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Blog</a></li>
+<li><a href="Contacto.dc.html" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Contacto</a></li>
+<li><a href="Aviso.dc.html" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Aviso de Privacidad</a></li>
+</ul>
+</nav>
+<nav aria-label="Recursos" style="display: flex; flex-direction: column; gap: 14px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: #8C9099">RECURSOS</div>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px">
+<li><a href="Blog.dc.html" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Artículos</a></li>
+<li><a href="Evaluacion.dc.html" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Evaluación de madurez</a></li>
+<li><a href="Contacto.dc.html" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Contacto</a></li>
+</ul>
+</nav>
+</div>
+<div style="border-top: 1px solid #2E333B; padding-top: 20px; display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; font-size: 13px; color: #A4A8B0">
+<span>© 2026 Catalysis. Todos los derechos reservados.</span>
+<a href="Aviso.dc.html" class="hv-u">Aviso de privacidad</a>
+</div>
+</footer>
+
+</main>
+<dc-import name="Flotantes" demo="{{ false }}" accent="{{accent}}" scenario="{{float}}" hideform="{{hideform}}" chatreq="{{chatReq}}" hint-size="1px,1px"></dc-import>
+<dc-import name="Buscador" accent="{{accent}}" layout="float" scenario="closed" searchreq="{{searchReq}}" hint-size="1px,1px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"state":{"editor":"text","default":""},"accent":{"editor":"color","default":"#C23E15","options":["#C23E15","#1F6F66","#2F4FD1","#14171C"]},"$preview":{"width":1360,"height":3474},"menuopen":{"editor":"boolean","default":false},"float":{"editor":"text","default":""},"hideform":{"editor":"boolean","default":false}}'>
+function NAVVALS(self) {
+const st = self.state || {};
+const mo = st.menuOpen !== undefined ? st.menuOpen : (self.props.menuopen === true);
+return {
+menuOpen: mo,
+menuClosed: !mo,
+menuBg: mo ? '#262B33' : 'transparent',
+toggleMenu: () => self.setState({ menuOpen: !mo }),
+openAgent: () => self.setState({ chatReq: (st.chatReq || 0) + 1, menuOpen: false }),
+openSearch: () => self.setState({ searchReq: (st.searchReq || 0) + 1, menuOpen: false }),
+chatReq: st.chatReq || 0,
+searchReq: st.searchReq || 0,
+float: self.props.float || '',
+hideform: self.props.hideform === true
+};
+}
+const ALL_POSTS = [
+{ cat: 'CRM y Automatización', date: '26 sep 2026', title: 'HubSpot vs. Salesforce Marketing Cloud: cuál elegir según tu tamaño de empresa', text: 'HubSpot o Salesforce Marketing Cloud: la respuesta depende de tu tamaño y complejidad, no de cuál plataforma es “mejor”. Comparativa y recomendación por etapa de crecimiento.' },
+{ cat: 'CRM y Automatización', date: '26 sep 2026', title: 'Cómo automatizar procesos con business intelligence + CRM', text: 'Conectar business intelligence con tu CRM elimina el trabajo de reunir información dispersa y te permite decidir con datos en tiempo real, no con intuición.' },
+{ cat: 'CRM y Automatización', date: '26 sep 2026', title: 'Cuáles son las 4 tecnologías base de la transformación digital', text: 'Nube, datos, automatización e IA, explicadas con un ejemplo de aplicación en PyME para cada una.' },
+{ cat: 'Inteligencia Artificial', date: '26 sep 2026', title: 'Prompt engineering para equipos no técnicos', text: 'Cinco técnicas que cualquier persona de tu equipo puede aplicar hoy mismo, sin saber programar, para obtener mejores resultados de la IA.' },
+{ cat: 'Inteligencia Artificial', date: '26 sep 2026', title: 'IA generativa vs. agentes de IA: qué necesita tu empresa', text: 'No son lo mismo, y elegir mal cuesta meses de implementación. Tabla comparativa y guía para saber cuál necesita tu empresa.' },
+{ cat: 'Inteligencia Artificial', date: '26 sep 2026', title: 'Qué son los agentes de IA y cómo los usan las empresas en México', text: 'Un agente de IA no es un chatbot con más presupuesto: puede tomar una instrucción, usar herramientas y completar una tarea de principio a fin.' },
+{ cat: 'Facturación y Fiscal', date: '26 sep 2026', title: 'Checklist de cierre fiscal digital para PyMEs', text: 'Checklist descargable gratis con todo lo que tu PyME debe revisar antes de que cierre el año fiscal: comprobantes, complementos de pago y datos de clientes.', download: true },
+{ cat: 'Facturación y Fiscal', date: '26 sep 2026', title: 'Facturación electrónica + CRM: cómo automatizar cobranza', text: 'Conectar tu facturación electrónica con tu CRM convierte el seguimiento de cobranza en un proceso automático: menos llamadas incómodas, más flujo de caja.' },
+{ cat: 'Facturación y Fiscal', date: '26 sep 2026', title: 'Guía de facturación electrónica para PyMEs en 2026', text: 'Qué debes tener vigente, los errores que más multas generan y cómo automatizar tu proceso conectando tus sistemas.' },
+{ cat: 'Transformación Digital', date: '23 oct 2025', title: 'Bienvenidos a Catalysis', text: 'Descubre cómo la transformación digital puede impulsar tu negocio.' }
+];
+const COVERS = {
+'HubSpot vs. Salesforce Marketing Cloud: cuál elegir según tu tamaño de empresa': '/_blob/a9a6fb448bd280a5c27c3330c4221125',
+'Cómo automatizar procesos con business intelligence + CRM': '/_blob/6710c6f1b5a88b5b9498500cb694a870',
+'Cuáles son las 4 tecnologías base de la transformación digital': '/_blob/92508d39113e12aac63ebfd123619601',
+'Prompt engineering para equipos no técnicos': '/_blob/a7d4d6915ad644a9cdf6d9abbf453433',
+'IA generativa vs. agentes de IA: qué necesita tu empresa': '/_blob/5924ed9778a65846972823f5f3946669',
+'Qué son los agentes de IA y cómo los usan las empresas en México': '/_blob/aba40673312f0d4bb8118f5f15c09291',
+'Checklist de cierre fiscal digital para PyMEs': '/_blob/fb790a6dfc6ccf84c5a0db2681ecaf15',
+'Facturación electrónica + CRM: cómo automatizar cobranza': '/_blob/b03aaa08906bbf301d69728a70fe55c2',
+'Guía de facturación electrónica para PyMEs en 2026': '/_blob/0233b45aaa2873691ce717ccb3a93b9a'
+};
+const CATS = ['Todos', 'CRM y Automatización', 'Inteligencia Artificial', 'Facturación y Fiscal', 'Transformación Digital'];
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { cat: 'Todos', shown: 9, mode: this.props.state || 'ok' };
+}
+renderVals() {
+const a = this.props.accent ?? '#C23E15';
+const soft = 'color-mix(in srgb, ' + a + ' 12%, #ffffff)';
+const cur = this.state.cat;
+const mode = this.state.mode;
+const list = ALL_POSTS.filter((p) => cur === 'Todos' || p.cat === cur);
+const vis = list.slice(0, this.state.shown);
+return {
+accent: a,
+...NAVVALS(this),
+accentSoft: soft,
+countLabel: mode === 'loading' ? 'Cargando…' : (mode === 'ok' ? list.length + (list.length === 1 ? ' artículo' : ' artículos') : ''),
+showGrid: mode === 'ok' && vis.length > 0,
+showLoading: mode === 'loading',
+showEmpty: mode === 'empty' || (mode === 'ok' && list.length === 0),
+showError: mode === 'error',
+emptyTitle: mode === 'empty' ? 'Todavía no hay artículos publicados' : 'Aún no hay artículos en esta categoría',
+emptyText: mode === 'empty' ? 'Estamos preparando contenido nuevo. Mientras tanto, conoce el nivel de madurez digital de tu empresa.' : 'Prueba con otra categoría o vuelve pronto.',
+skeletons: [1, 2, 3, 4, 5, 6].map((n) => ({ n: n })),
+hasMore: list.length > vis.length,
+loadMore: () => this.setState({ shown: this.state.shown + 9 }),
+retry: () => { this.setState({ mode: 'loading' }); setTimeout(() => this.setState({ mode: 'ok' }), 900); },
+chips: CATS.map((c) => ({
+label: c,
+on: c === cur,
+pick: () => this.setState({ cat: c, shown: 9 }),
+bg: c === cur ? '#14171C' : '#FFFFFF',
+color: c === cur ? '#FFFFFF' : '#14171C',
+border: c === cur ? '#14171C' : '#B9B5A9'
+})),
+posts: vis.map((p) => ({
+cat: p.cat,
+date: p.date,
+title: p.title,
+text: p.text,
+img: COVERS[p.title] || '',
+hasImg: !!COVERS[p.title],
+badge: p.download ? 'Descargable' : 'Leer',
+badgeBg: p.download ? soft : '#F4F2EC'
+})),
+resources: [
+{ tag: 'Checklist', note: 'Descarga gratis', title: 'Checklist de cierre fiscal digital para PyMEs', text: 'Todo lo que tu PyME debe revisar antes de que cierre el año fiscal: comprobantes, complementos de pago y datos de clientes.', cta: 'Descargar checklist', href: 'Blog.dc.html' },
+{ tag: 'Evaluación', note: '6 preguntas', title: 'Diagnóstico de madurez digital', text: 'Responde seis preguntas y descubre en cuál de los cinco niveles del marco está tu empresa, con los retos principales de tu etapa.', cta: 'Hacer la evaluación', href: 'Evaluacion.dc.html' }
+]
+};
+}
+}
+</script>
+</body>
+</html>

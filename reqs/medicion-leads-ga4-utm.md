@@ -1,5 +1,7 @@
 # Requerimiento: Medición de leads (GA4 + atribución UTM hasta Catalysis CRM)
 
+> **Estado: IMPLEMENTADO EN CÓDIGO en la rama `rediseno-fundaciones` (2026-10-26); pendiente de verificar en el preview y en GA4 DebugView.** Lo permanente ya está en `docs/medicion-leads.md`; esta spec se borra cuando se verifique. Lo implementado: `js/analytics.js` (`cta_click` por `data-cta`, `generate_lead` tras respuesta correcta en los cinco formularios, UTM en los enlaces a Calendly) y el botón muerto del agente sustituido por el chat. Pendiente de Poncho: acciones manuales en GA4. Texto original a continuación.
+
 **Estado: PENDIENTE (spec escrita 2026-10-13, corregida el mismo día: el destino de los leads es el Catalysis CRM interno, no HubSpot).** Objetivo de negocio de la estrategia de contenidos: **generar leads**. Hoy no se puede medir qué pieza o teaser genera uno.
 
 ## Problema
@@ -51,8 +53,8 @@ Incluir antes de `contact.js`, en `index.html`, `contacto.html`, `blog.html`, `b
   - Sanear `attribution`: lista blanca de claves (`first`, `last`, `blog_slug`; y dentro, solo los UTMs y `referrer`/`landing`), cada valor como string de máximo 200 caracteres. Ignorar todo lo demás. Nunca fallar el envío por una atribución mal formada.
   - **CRM**: extender `notas` en `pushToCrm` con líneas como `Fuente: <utm_source>/<utm_medium>`, `Campaña: <utm_campaign>`, `Pieza: <utm_content>`, `Artículo de origen: <blog_slug>`, `Primer contacto: <first.utm_source|referrer>`. Mismo patrón que hoy para Sector y Nivel de madurez; **no requiere cambios en `catalysis-crm`**.
   - **Límite de `notas`**: el CRM acota el campo; el bloque de atribución debe quedar ≤ 1000 caracteres en total y **no** puede introducir claves nuevas en el payload (el endpoint del CRM rechaza con 400 cualquier clave fuera de su lista permitida, y el alta se perdería en silencio por ser best-effort).
-  - **HubSpot: no se toca.** No se agrega ningún PATCH ni propiedad personalizada. HubSpot se retira por completo en `reqs/crm-destino-principal.md` (aprobada): implementar **esa spec primero**; esta se aplica sobre `netlify/functions/lead-register.js`.
-  - **Fase 2 (campos estructurados en el CRM)**: ver `catalysis-crm/reqs/atribucion-leads-y-dedupe.md`. Cuando el CRM despliegue ese cambio, la función enviará un objeto `fuente` en vez de texto en `notas`. **Orden obligatorio: primero se despliega el CRM, después el sitio.**
+  - **HubSpot: no se toca.** No se agrega ningún PATCH ni propiedad personalizada. HubSpot ya fue retirado; esto se aplica sobre `netlify/functions/lead-register.js`.
+  - **Fase 2 (campos estructurados en el CRM)**: **ya implementada**: `attribution.js` + `lead-register.js` envían `fuente` al CRM (contrato en `docs/crm-fuente-contrato.md`). Lo que falta de esta spec son los eventos GA4 (`generate_lead`, `cta_click`), los atributos `data-cta` y la higiene de conversión.
 
 ### Acciones manuales previas (no son código)
 

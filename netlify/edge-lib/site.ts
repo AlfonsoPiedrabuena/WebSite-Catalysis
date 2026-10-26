@@ -6,10 +6,16 @@ export const SITE_SUMMARY =
 export const DEFAULT_LANG = "es-MX";
 export const FALLBACK_IMAGE = `${SITE}/images/catalysis_logo.png`;
 
-// Páginas institucionales (solo HTML en fase 1; su versión markdown es backlog fase 2).
+// Páginas institucionales. Servicios y marco de madurez tienen versión markdown estática
+// (/servicios.md, /marco-madurez.md; las genera scripts/build-content.mjs desde content/*.js).
 export const KEY_PAGES = [
   { title: "Inicio", path: "/", description: "Qué hace Catalysis y cómo trabaja" },
   { title: "Servicios", path: "/servicios.html", description: "Catálogo de los 9 servicios de consultoría" },
+  { title: "Servicios (markdown)", path: "/servicios.md", description: "Los 9 servicios y la metodología en texto plano" },
+  { title: "Marco de madurez digital", path: "/marco-madurez.html", description: "Los cinco niveles de madurez digital, sus características y retos" },
+  { title: "Marco de madurez digital (markdown)", path: "/marco-madurez.md", description: "El marco de madurez completo en texto plano" },
+  { title: "Evaluación de madurez", path: "/evaluacion.html", description: "Seis preguntas para ubicar el nivel de madurez digital de una empresa" },
+  { title: "Checklist de cierre fiscal digital", path: "/recursos/checklist-cierre-fiscal.html", description: "Recurso gratuito para PyMEs" },
   { title: "Contacto", path: "/contacto.html", description: "Agenda un diagnóstico" },
 ];
 
@@ -17,6 +23,9 @@ export const KEY_PAGES = [
 export const SITEMAP_PAGES = [
   "/",
   "/servicios.html",
+  "/marco-madurez.html",
+  "/evaluacion.html",
+  "/recursos/checklist-cierre-fiscal.html",
   "/contacto.html",
   "/blog.html",
   "/aviso-privacidad.html",

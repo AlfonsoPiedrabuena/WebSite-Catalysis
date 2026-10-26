@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Catalysis: Evaluación de madurez</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F2EC}
+a{text-decoration:none;color:inherit}
+button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #14171C;outline-offset:2px}
+.dk a:focus-visible,.dk button:focus-visible,.dk input:focus-visible,.dk select:focus-visible{outline-color:#F4F2EC}
+button:disabled{cursor:not-allowed;opacity:.62}
+.fx{outline:3px solid #14171C;outline-offset:2px}
+.dk .fx{outline-color:#F4F2EC}
+input:disabled,select:disabled{background:#ECE9E0 !important;color:#5A6068 !important;cursor:not-allowed}
+::placeholder{color:#5A6068;opacity:1}
+.hv-f:hover{filter:brightness(.9)}
+.hv-o:hover{background:#ECE9E0 !important}
+.hv-d:hover{background:#262B33 !important}
+.hv-c:hover{border-color:#14171C !important}
+.hv-u:hover{text-decoration:underline}
+.nv:hover{background:#1B1F26}
+.mbar{display:none}
+.toc-m{display:none}
+.prose h2{margin:44px 0 14px;font-family:'Sora',sans-serif;font-weight:600;font-size:28px;line-height:1.2;letter-spacing:-0.02em}
+.prose h3{margin:32px 0 10px;font-family:'Sora',sans-serif;font-weight:600;font-size:20px;line-height:1.3;letter-spacing:-0.01em}
+.prose p{margin:0 0 18px;font-size:17px;line-height:1.75;color:#3A3F47}
+.prose ul,.prose ol{margin:0 0 20px;padding-left:22px;font-size:17px;line-height:1.7;color:#3A3F47}
+.prose li{margin-bottom:8px}
+.prose li::marker{color:#C23E15}
+.prose strong{color:#14171C}
+.prose a{color:#8F2D0F;text-decoration:underline}
+.prose blockquote{margin:28px 0;padding:4px 0 4px 20px;border-left:3px solid #C23E15;font-family:'Sora',sans-serif;font-size:20px;line-height:1.45;color:#14171C}
+.prose h4{margin:24px 0 8px;font-family:'Sora',sans-serif;font-weight:600;font-size:16px;line-height:1.35}
+.prose .note{margin:0 0 24px;padding:18px 20px;border-radius:12px;background:color-mix(in srgb,#C23E15 12%,#ffffff)}
+.prose .note p{margin:0;font-size:15px;color:#3A3F47}
+.prose .kv{margin:0 0 24px;padding:18px 20px;border:1px solid #DAD6CB;border-radius:12px;background:#FFFFFF}
+.prose .kv p{margin:0 0 8px;font-size:15px;line-height:1.5}
+.prose .kv p:last-child{margin:0}
+.prose figure{margin:28px 0}
+.prose figure img{width:100%;display:block;border-radius:12px}
+.prose figcaption{margin-top:10px;font-size:13px;color:#5A6068}
+.tbl{overflow-x:auto;margin:0 0 24px;border:1px solid #DAD6CB;border-radius:12px;background:#FFFFFF}
+.tbl table{border-collapse:collapse;width:100%;min-width:520px;font-size:15px;line-height:1.5}
+.tbl th{text-align:left;padding:12px 16px;background:#ECE9E0;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:12px;letter-spacing:0.08em;color:#14171C}
+.tbl td{padding:12px 16px;border-top:1px solid #ECE9E0;color:#3A3F47;vertical-align:top}
+.tbl td:first-child{font-weight:600;color:#14171C}
+@keyframes sk{0%{opacity:.55}50%{opacity:1}100%{opacity:.55}}
+.sk{animation:sk 1.4s ease-in-out infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin .9s linear infinite}
+@media (prefers-reduced-motion:reduce){.sk,.spin{animation:none}}
+@media (max-width:900px){
+.side{display:none !important}
+.mbar{display:block}
+.crumb{display:none !important}
+.pad{padding-left:32px !important;padding-right:32px !important}
+.g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+.fgrid{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+.h1{font-size:44px !important}
+.h2{font-size:28px !important}
+.toc-side{display:none !important}
+.toc-m{display:block}
+}
+@media (max-width:640px){
+.pad{padding-left:20px !important;padding-right:20px !important}
+.g2,.g3,.g4,.fgrid{grid-template-columns:minmax(0,1fr) !important}
+.h1{font-size:34px !important}
+.h2{font-size:25px !important}
+.bigcard{padding:28px 22px !important}
+section.pad{padding-bottom:28px !important}
+.tt{min-height:44px !important}
+.bpad{padding-bottom:96px !important}
+.prose h2{font-size:24px}
+.prose p,.prose ul,.prose ol{font-size:16px}
+.tbl{overflow-x:visible}
+.tbl table,.tbl tbody,.tbl tr,.tbl td{display:block;min-width:0 !important}
+.tbl thead{display:none}
+.tbl tr+tr{border-top:1px solid #DAD6CB}
+.tbl td{border-top:0;padding:6px 16px}
+.tbl td:first-child{background:#ECE9E0;padding:10px 16px;font-family:'Sora',sans-serif}
+.tbl td[data-label]::before{content:attr(data-label);display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;color:#5A6068;margin-bottom:2px}
+.tbl tr td:last-child{padding-bottom:12px}
+}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; align-items: stretch; background: #F4F2EC; color: #14171C; font-family: 'Inter', system-ui, sans-serif; min-height: 100%">
+
+<aside class="side dk" style="flex: 1 1 260px; max-width: 272px; box-sizing: border-box; background: #14171C; color: #D9D6CE; padding: 24px 18px; display: flex; flex-direction: column; gap: 28px">
+<a href="Main.dc.html" data-slot="logo" aria-label="Catalysis, inicio" style="display: flex; align-items: center; gap: 10px; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 20px; color: #F4F2EC; letter-spacing: -0.02em">
+<svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><circle cx="13" cy="13" r="11" stroke="#F4F2EC" stroke-width="1.6"></circle><circle cx="13" cy="13" r="4.5" fill="{{accent}}"></circle></svg>
+<span>catalysis</span>
+</a>
+<button type="button" onClick="{{openSearch}}" class="hv-d" style="cursor: pointer; display: flex; align-items: center; gap: 10px; width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1px solid #2E333B; background: #1B1F26; color: #A4A8B0; font-size: 14px; text-align: left">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A4A8B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<span style="flex: 1">Buscar en el sitio</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; border: 1px solid #3A3F47; border-radius: 4px; padding: 1px 6px">Ctrl K</span>
+</button>
+<nav aria-label="Principal" style="display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #8C9099; padding: 0 12px 8px">EXPLORAR</div>
+<a href="Main.dc.html" class="nv" style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; font-size: 14px"><span>Inicio</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8C9099">I</span></a>
+<a href="Servicios.dc.html" class="nv" style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; font-size: 14px"><span>Servicios</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8C9099">S</span></a>
+<a href="Madurez.dc.html" class="nv" style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; font-size: 14px"><span>Marco de madurez</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8C9099">M</span></a>
+<a href="Evaluacion.dc.html" aria-current="page" class="nv" style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; font-size: 14px; background: #262B33; color: #FFFFFF; font-weight: 500"><span style="display: flex; align-items: center; gap: 8px">Evaluación <span style="font-size: 11px; font-weight: 600; background: {{accent}}; color: #FFFFFF; border-radius: 999px; padding: 2px 8px">Gratis</span></span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #A4A8B0">E</span></a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #8C9099; padding: 0 12px 8px">APRENDER</div>
+<a href="Blog.dc.html" class="nv" style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; font-size: 14px"><span>Blog</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8C9099">B</span></a>
+<a href="Blog.dc.html#recursos" class="nv" style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; font-size: 14px"><span>Recursos gratuitos</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8C9099">R</span></a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #8C9099; padding: 0 12px 8px">HABLEMOS</div>
+<a href="Contacto.dc.html" class="nv" style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; font-size: 14px"><span>Contacto</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8C9099">C</span></a>
+</div>
+</nav>
+<div style="margin-top: auto; background: #1B1F26; border: 1px solid #2E333B; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+<div style="font-family: 'Sora', sans-serif; font-weight: 600; font-size: 15px; color: #F4F2EC">Agenda tu diagnóstico</div>
+<div style="font-size: 13px; line-height: 1.5; color: #A4A8B0">Una consulta estratégica gratuita para conocer tu punto de partida.</div>
+<a href="Contacto.dc.html" class="hv-f" style="display: block; text-align: center; background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 14px; padding: 10px 14px; border-radius: 8px">Agendar</a>
+</div>
+</aside>
+
+<main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+
+<div class="mbar dk" style="background: #14171C; color: #F4F2EC; position: relative; z-index: 20">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 12px 6px 20px; min-height: 56px; box-sizing: border-box">
+<a href="Main.dc.html" data-slot="logo" aria-label="Catalysis, inicio" style="display: flex; align-items: center; gap: 10px; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 20px; color: #F4F2EC; letter-spacing: -0.02em">
+<svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><circle cx="13" cy="13" r="11" stroke="#F4F2EC" stroke-width="1.6"></circle><circle cx="13" cy="13" r="4.5" fill="{{accent}}"></circle></svg>
+<span>catalysis</span>
+</a>
+<div style="display: flex; align-items: center; gap: 4px">
+<button type="button" aria-label="Buscar en el sitio" onClick="{{openSearch}}" class="hv-d" style="cursor: pointer; width: 44px; height: 44px; border-radius: 10px; border: 0; background: transparent; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F4F2EC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg></button>
+<button type="button" aria-label="Menú" aria-expanded="{{menuOpen}}" onClick="{{toggleMenu}}" class="hv-d" style="cursor: pointer; width: 44px; height: 44px; border-radius: 10px; border: 0; background: {{menuBg}}; display: flex; align-items: center; justify-content: center">
+<sc-if value="{{menuClosed}}" hint-placeholder-val="{{ true }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4F2EC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></sc-if>
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4F2EC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></sc-if>
+</button>
+</div>
+</div>
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{ false }}">
+<nav aria-label="Principal móvil" style="position: absolute; left: 0; right: 0; top: 100%; box-sizing: border-box; background: #14171C; border-top: 1px solid #2E333B; padding: 4px 12px 20px; display: flex; flex-direction: column; gap: 2px; box-shadow: 0 16px 32px rgba(20,23,28,0.28)">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #8C9099; padding: 14px 4px 4px">EXPLORAR</div>
+<a href="Main.dc.html" class="nv" style="display: flex; align-items: center; min-height: 48px; padding: 0 8px; border-radius: 8px; font-size: 16px; color: #F4F2EC">Inicio</a>
+<a href="Servicios.dc.html" class="nv" style="display: flex; align-items: center; min-height: 48px; padding: 0 8px; border-radius: 8px; font-size: 16px; color: #F4F2EC">Servicios</a>
+<a href="Madurez.dc.html" class="nv" style="display: flex; align-items: center; min-height: 48px; padding: 0 8px; border-radius: 8px; font-size: 16px; color: #F4F2EC">Marco de madurez</a>
+<a href="Evaluacion.dc.html" class="nv" style="display: flex; align-items: center; min-height: 48px; padding: 0 8px; border-radius: 8px; font-size: 16px; color: #F4F2EC">Evaluación <span style="font-size: 11px; font-weight: 600; background: {{accent}}; color: #FFFFFF; border-radius: 999px; padding: 2px 8px; margin-left: 6px">Gratis</span></a>
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #8C9099; padding: 14px 4px 4px">APRENDER</div>
+<a href="Blog.dc.html" class="nv" style="display: flex; align-items: center; min-height: 48px; padding: 0 8px; border-radius: 8px; font-size: 16px; color: #F4F2EC">Blog</a>
+<a href="Blog.dc.html#recursos" class="nv" style="display: flex; align-items: center; min-height: 48px; padding: 0 8px; border-radius: 8px; font-size: 16px; color: #F4F2EC">Recursos gratuitos</a>
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #8C9099; padding: 14px 4px 4px">HABLEMOS</div>
+<a href="Contacto.dc.html" class="nv" style="display: flex; align-items: center; min-height: 48px; padding: 0 8px; border-radius: 8px; font-size: 16px; color: #F4F2EC">Contacto</a>
+<div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px">
+<button type="button" onClick="{{openAgent}}" class="hv-d" style="cursor: pointer; min-height: 48px; border-radius: 10px; border: 1px solid #4A4F57; background: transparent; color: #F4F2EC; font-weight: 600; font-size: 15px">Habla con nuestro agente</button>
+<a href="Contacto.dc.html" class="hv-f" style="display: flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 10px; background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 15px">Agenda tu diagnóstico</a>
+</div>
+</nav>
+</sc-if>
+</div>
+<div class="crumb pad" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 18px 48px; border-bottom: 1px solid #DAD6CB">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A6068">catalysis.com.mx / evaluacion</div>
+<button type="button" onClick="{{openAgent}}" class="hv-o" style="cursor: pointer; font-size: 13px; font-weight: 500; border: 1px solid #14171C; border-radius: 999px; padding: 7px 16px; background: transparent; color: #14171C">Habla con nuestro agente</button>
+</div>
+
+<div class="pad" style="padding: 48px 48px 56px; max-width: 880px; box-sizing: border-box; width: 100%">
+
+<sc-if value="{{showIntro}}" hint-placeholder-val="{{ true }}">
+<section style="display: flex; flex-direction: column; gap: 28px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: #5A6068">EVALUACIÓN DE MADUREZ DIGITAL</div>
+<h1 class="h1" style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 48px; line-height: 1.08; letter-spacing: -0.03em">Descubre en qué nivel de transformación digital está tu empresa</h1>
+<p style="margin: 0; font-size: 18px; line-height: 1.6; color: #3A3F47; max-width: 680px">Seis preguntas para ubicar a tu empresa en uno de los cinco niveles del Marco de Madurez Digital de Catalysis.</p>
+<div class="g3" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+<div style="background: #FFFFFF; border: 1px solid #DAD6CB; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 6px"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: {{accent}}">01</div><div style="font-family: 'Sora', sans-serif; font-weight: 600; font-size: 16px">Tu nivel, de 1 a 5</div><div style="font-size: 14px; line-height: 1.5; color: #3A3F47">Con el estado y las características de tu etapa.</div></div>
+<div style="background: #FFFFFF; border: 1px solid #DAD6CB; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 6px"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: {{accent}}">02</div><div style="font-family: 'Sora', sans-serif; font-weight: 600; font-size: 16px">Resultado por dimensión</div><div style="font-size: 14px; line-height: 1.5; color: #3A3F47">Procesos, sistemas, datos, cliente, IA y equipo.</div></div>
+<div style="background: #FFFFFF; border: 1px solid #DAD6CB; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 6px"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: {{accent}}">03</div><div style="font-family: 'Sora', sans-serif; font-weight: 600; font-size: 16px">Retos de tu etapa</div><div style="font-size: 14px; line-height: 1.5; color: #3A3F47">Y la opción de revisarlo con un especialista.</div></div>
+</div>
+<div>
+<button type="button" onClick="{{start}}" class="hv-f" style="cursor: pointer; background: {{accent}}; color: #FFFFFF; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 16px; padding: 16px 28px; border-radius: 10px; border: 0">Comenzar la evaluación</button>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{showQuiz}}" hint-placeholder-val="{{ false }}">
+<section style="display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A6068"><span>{{stepLabel}}</span><span>{{dim}}</span></div>
+<div style="height: 6px; border-radius: 3px; background: #DAD6CB"><div style="height: 6px; border-radius: 3px; background: {{accent}}; width: {{progressW}}"></div></div>
+</div>
+<h2 class="h2" style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 32px; line-height: 1.2; letter-spacing: -0.02em">{{qtext}}</h2>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<sc-for list="{{options}}" as="o" hint-placeholder-count="5">
+<button type="button" onClick="{{o.pick}}" aria-pressed="{{o.on}}" style="cursor: pointer; display: flex; align-items: center; gap: 16px; text-align: left; padding: 16px 18px; border-radius: 14px; border: 1.5px solid {{o.border}}; background: {{o.bg}}; font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.45; color: #14171C">
+<span style="flex: 0 0 auto; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500; background: {{o.chipBg}}; color: {{o.chipColor}}">{{o.letter}}</span>
+<span>{{o.text}}</span>
+</button>
+</sc-for>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+<button type="button" onClick="{{back}}" class="tt" style="cursor: pointer; background: transparent; border: 1px solid #B9B5A9; color: #14171C; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 15px; padding: 13px 22px; border-radius: 10px">Atrás</button>
+<button type="button" onClick="{{next}}" disabled="{{notAnswered}}" style="cursor: pointer; background: {{nextBg}}; color: {{nextColor}}; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 15px; padding: 14px 26px; border-radius: 10px; border: 0">{{nextLabel}}</button>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{showResult}}" hint-placeholder-val="{{ false }}">
+<section style="display: flex; flex-direction: column; gap: 32px">
+<div class="bigcard" style="background: #14171C; color: #F4F2EC; border-radius: 22px; padding: 40px; display: flex; flex-direction: column; gap: 20px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: #A4A8B0">TU RESULTADO · PUNTAJE PROMEDIO {{avg}} DE 5</div>
+<div class="h1" style="font-family: 'Sora', sans-serif; font-weight: 600; font-size: 52px; line-height: 1.05; letter-spacing: -0.03em">Nivel {{levelN}}: {{levelName}}</div>
+<div style="font-size: 18px; line-height: 1.5; color: #D9D6CE">{{estado}}</div>
+<div style="display: flex; gap: 8px">
+<sc-for list="{{ladder}}" as="seg" hint-placeholder-count="5">
+<div style="flex: 1; display: flex; flex-direction: column; gap: 6px"><div style="height: 8px; border-radius: 4px; background: {{seg.bg}}"></div><div style="font-size: 12px; color: #A4A8B0">{{seg.name}}</div></div>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 24px; letter-spacing: -0.02em">Resultado por dimensión</h2>
+<div style="display: flex; flex-direction: column; gap: 14px">
+<sc-for list="{{dims}}" as="d" hint-placeholder-count="6">
+<div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap">
+<div style="flex: 0 0 200px; font-size: 14px; font-weight: 600">{{d.name}}</div>
+<div style="flex: 1 1 200px; height: 10px; border-radius: 5px; background: #DAD6CB"><div style="height: 10px; border-radius: 5px; background: {{accent}}; width: {{d.w}}"></div></div>
+<div style="flex: 0 0 48px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A6068; text-align: right">{{d.val}} / 5</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 24px; letter-spacing: -0.02em">Retos de tu etapa</h2>
+<div class="g3" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px">
+<sc-for list="{{retos}}" as="r" hint-placeholder-count="3">
+<div style="background: {{accentSoft}}; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 6px">
+<div style="font-family: 'Sora', sans-serif; font-weight: 600; font-size: 15px; color: #8F2D0F">{{r.head}}</div>
+<div style="font-size: 14px; line-height: 1.5; color: #3A3F47">{{r.text}}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<sc-if value="{{showForm}}" hint-placeholder-val="{{ true }}">
+<div class="bigcard" style="background: #FFFFFF; border: 1px solid #DAD6CB; border-radius: 22px; padding: 36px; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h2 style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 26px; line-height: 1.2; letter-spacing: -0.02em">Revisa tu resultado con un especialista</h2>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: #3A3F47">Una persona de Catalysis te contactará para revisar tu resultado y los siguientes pasos sugeridos para tu nivel.</p>
+</div>
+<sc-if value="{{showErr}}" hint-placeholder-val="{{ false }}">
+<div role="alert" style="display: flex; gap: 10px; align-items: flex-start; background: {{accentSoft}}; border: 1px solid {{accent}}; border-radius: 12px; padding: 14px 16px; font-size: 14px; line-height: 1.5; color: #8F2D0F"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C23E15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.5v5.5M12 16.5v.5"></path></svg><div><strong>No pudimos enviar tus datos.</strong> Tu resultado sigue aquí y no se perdió nada. Intenta de nuevo; si el problema continúa, escríbenos a contacto@catalysis.com.mx.</div></div>
+</sc-if>
+<form onSubmit="{{submit}}" style="display: flex; flex-direction: column; gap: 16px">
+<div class="g2" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="nombre" style="font-size: 13px; font-weight: 500">Nombre <span aria-hidden="true">*</span></label>
+<input id="nombre" type="text" autocomplete="name" value="{{f.nombre}}" onChange="{{set_nombre}}" disabled="{{dis}}" aria-invalid="{{inv.nombre}}" aria-describedby="nombre-e" style="box-sizing: border-box; width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid {{fb.nombre}}; box-shadow: {{fs.nombre}}; background: #FFFFFF; font-size: 15px; color: #14171C">
+
+<sc-if value="{{fe.nombre}}" hint-placeholder-val="{{ false }}"><div id="nombre-e" style="display: flex; gap: 6px; align-items: flex-start; font-size: 13px; line-height: 1.4; color: #8F2D0F"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C23E15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.5v5.5M12 16.5v.5"></path></svg><span>{{fe.nombre}}</span></div></sc-if>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="correo" style="font-size: 13px; font-weight: 500">Correo de trabajo <span aria-hidden="true">*</span></label>
+<input id="correo" type="email" autocomplete="email" value="{{f.correo}}" onChange="{{set_correo}}" disabled="{{dis}}" aria-invalid="{{inv.correo}}" aria-describedby="correo-e" style="box-sizing: border-box; width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid {{fb.correo}}; box-shadow: {{fs.correo}}; background: #FFFFFF; font-size: 15px; color: #14171C">
+
+<sc-if value="{{fe.correo}}" hint-placeholder-val="{{ false }}"><div id="correo-e" style="display: flex; gap: 6px; align-items: flex-start; font-size: 13px; line-height: 1.4; color: #8F2D0F"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C23E15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.5v5.5M12 16.5v.5"></path></svg><span>{{fe.correo}}</span></div></sc-if>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="empresa" style="font-size: 13px; font-weight: 500">Empresa <span aria-hidden="true">*</span></label>
+<input id="empresa" type="text" autocomplete="organization" value="{{f.empresa}}" onChange="{{set_empresa}}" disabled="{{dis}}" aria-invalid="{{inv.empresa}}" aria-describedby="empresa-e" style="box-sizing: border-box; width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid {{fb.empresa}}; box-shadow: {{fs.empresa}}; background: #FFFFFF; font-size: 15px; color: #14171C">
+
+<sc-if value="{{fe.empresa}}" hint-placeholder-val="{{ false }}"><div id="empresa-e" style="display: flex; gap: 6px; align-items: flex-start; font-size: 13px; line-height: 1.4; color: #8F2D0F"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C23E15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.5v5.5M12 16.5v.5"></path></svg><span>{{fe.empresa}}</span></div></sc-if>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="sector" style="font-size: 13px; font-weight: 500">Sector (escribe para buscar) <span aria-hidden="true">*</span></label>
+<input id="sector" type="text" autocomplete="off" list="sectores" value="{{f.sector}}" onChange="{{set_sector}}" disabled="{{dis}}" aria-invalid="{{inv.sector}}" aria-describedby="sector-e" style="box-sizing: border-box; width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid {{fb.sector}}; box-shadow: {{fs.sector}}; background: #FFFFFF; font-size: 15px; color: #14171C">
+
+<sc-if value="{{fe.sector}}" hint-placeholder-val="{{ false }}"><div id="sector-e" style="display: flex; gap: 6px; align-items: flex-start; font-size: 13px; line-height: 1.4; color: #8F2D0F"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C23E15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.5v5.5M12 16.5v.5"></path></svg><span>{{fe.sector}}</span></div></sc-if>
+</div>
+</div>
+<datalist id="sectores"><sc-for list="{{sectores}}" as="so" hint-placeholder-count="3"><option value="{{so.v}}"></option></sc-for></datalist>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; align-items: flex-start; gap: 12px">
+<input id="priv" type="checkbox" checked="{{f.priv}}" onChange="{{tog_priv}}" disabled="{{dis}}" aria-describedby="priv-e" style="margin: 1px 0 0; width: 20px; height: 20px; flex: 0 0 auto; accent-color: {{accent}}">
+<label for="priv" style="font-size: 14px; line-height: 1.5; color: #3A3F47">Acepto el <a href="Aviso.dc.html" style="color: #8F2D0F; text-decoration: underline">aviso de privacidad</a>. <span aria-hidden="true">*</span></label>
+</div>
+<sc-if value="{{fe.priv}}" hint-placeholder-val="{{ false }}"><div id="priv-e" style="display: flex; gap: 6px; align-items: flex-start; font-size: 13px; line-height: 1.4; color: #8F2D0F; margin-left: 32px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C23E15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.5v5.5M12 16.5v.5"></path></svg><span>{{fe.priv}}</span></div></sc-if>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; align-items: flex-start; gap: 12px">
+<input id="wa" type="checkbox" checked="{{f.wa}}" onChange="{{tog_wa}}" disabled="{{dis}}" aria-describedby="wa-e" style="margin: 1px 0 0; width: 20px; height: 20px; flex: 0 0 auto; accent-color: {{accent}}">
+<label for="wa" style="font-size: 14px; line-height: 1.5; color: #3A3F47">Acepto que Catalysis me escriba por WhatsApp para darme seguimiento. <span style="color: #5A6068">(Opcional)</span></label>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center">
+<button type="button" onClick="{{submit}}" disabled="{{dis}}" class="hv-f tt" style="cursor: pointer; display: inline-flex; align-items: center; gap: 10px; background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 15px; padding: 14px 26px; border-radius: 10px; border: 0"><sc-if value="{{dis}}" hint-placeholder-val="{{ false }}"><svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 3a9 9 0 019 9"></path></svg></sc-if><span>{{submitLabel}}</span></button>
+<button type="button" onClick="{{restart}}" disabled="{{dis}}" class="hv-o tt" style="cursor: pointer; background: transparent; color: #14171C; font-weight: 600; font-size: 15px; padding: 13px 20px; border-radius: 10px; border: 1px solid #B9B5A9">Repetir la evaluación</button>
+</div>
+</form>
+</div>
+</sc-if>
+
+<sc-if value="{{showThanks}}" hint-placeholder-val="{{ false }}">
+<div class="bigcard" role="status" style="background: #FFFFFF; border: 1px solid #DAD6CB; border-radius: 22px; padding: 36px; display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 26px; letter-spacing: -0.02em">Listo, te contactaremos</h2>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: #3A3F47">Una persona de Catalysis te contactará para revisar tu resultado. Si prefieres adelantarte, agenda tu diagnóstico o sigue leyendo en el blog.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="Contacto.dc.html" class="hv-f" style="background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 15px; padding: 14px 24px; border-radius: 10px">Agenda tu diagnóstico</a>
+<a href="Blog.dc.html" class="hv-o" style="border: 1px solid #B9B5A9; font-weight: 600; font-size: 15px; padding: 13px 22px; border-radius: 10px">Leer el blog</a>
+</div>
+</div>
+</sc-if>
+</section>
+</sc-if>
+
+</div>
+
+<footer class="pad dk bpad" style="margin-top: auto; background: #14171C; color: #D9D6CE; padding: 56px 48px 28px; display: flex; flex-direction: column; gap: 40px">
+<div class="fgrid" style="display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 16px; max-width: 360px">
+<a href="Main.dc.html" data-slot="logo" aria-label="Catalysis, inicio" style="display: flex; align-items: center; gap: 10px; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 22px; color: #F4F2EC; letter-spacing: -0.02em">
+<svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><circle cx="13" cy="13" r="11" stroke="#F4F2EC" stroke-width="1.6"></circle><circle cx="13" cy="13" r="4.5" fill="{{accent}}"></circle></svg>
+<span>catalysis</span>
+</a>
+<p style="margin: 0; font-size: 14px; line-height: 1.6; color: #D9D6CB">Impulsamos la transformación digital de empresas que quieren liderar en la era digital. Estrategia, tecnología y resultados medibles.</p>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 14px">
+<li style="display: flex; align-items: center; gap: 10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A4A8B0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg><a href="mailto:contacto@catalysis.com.mx" class="hv-u">contacto@catalysis.com.mx</a></li>
+<li style="display: flex; align-items: center; gap: 10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A4A8B0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"></path></svg><a href="tel:+525539337086" class="hv-u">+52 55 3933 7086</a></li>
+<li style="display: flex; align-items: center; gap: 10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A4A8B0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg><span>Ciudad de México, México</span></li>
+</ul>
+</div>
+<nav aria-label="Servicios" style="display: flex; flex-direction: column; gap: 14px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: #8C9099">SERVICIOS</div>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px">
+<li><a href="Servicios.dc.html#servicio-1" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Transformación Digital</a></li>
+<li><a href="Servicios.dc.html#servicio-4" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Data & Analytics</a></li>
+<li><a href="Servicios.dc.html#servicio-6" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Inteligencia Artificial</a></li>
+<li><a href="Servicios.dc.html#servicio-3" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Cloud Computing</a></li>
+<li><a href="Servicios.dc.html#servicio-2" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Optimización de Procesos</a></li>
+</ul>
+</nav>
+<nav aria-label="Empresa" style="display: flex; flex-direction: column; gap: 14px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: #8C9099">EMPRESA</div>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px">
+<li><a href="Main.dc.html#metodologia" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Metodología</a></li>
+<li><a href="Madurez.dc.html" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Marco de madurez</a></li>
+<li><a href="Blog.dc.html" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Blog</a></li>
+<li><a href="Contacto.dc.html" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Contacto</a></li>
+<li><a href="Aviso.dc.html" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Aviso de Privacidad</a></li>
+</ul>
+</nav>
+<nav aria-label="Recursos" style="display: flex; flex-direction: column; gap: 14px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: #8C9099">RECURSOS</div>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px">
+<li><a href="Blog.dc.html" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Artículos</a></li>
+<li><a href="Evaluacion.dc.html" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Evaluación de madurez</a></li>
+<li><a href="Contacto.dc.html" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Contacto</a></li>
+</ul>
+</nav>
+</div>
+<div style="border-top: 1px solid #2E333B; padding-top: 20px; display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; font-size: 13px; color: #A4A8B0">
+<span>© 2026 Catalysis. Todos los derechos reservados.</span>
+<a href="Aviso.dc.html" class="hv-u">Aviso de privacidad</a>
+</div>
+</footer>
+
+</main>
+<dc-import name="Flotantes" demo="{{ false }}" accent="{{accent}}" scenario="{{float}}" hideform="{{hideform}}" chatreq="{{chatReq}}" hint-size="1px,1px"></dc-import>
+<dc-import name="Buscador" accent="{{accent}}" layout="float" scenario="closed" searchreq="{{searchReq}}" hint-size="1px,1px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"scenario":{"editor":"text","default":""},"accent":{"editor":"color","default":"#C23E15","options":["#C23E15","#1F6F66","#2F4FD1","#14171C"]},"$preview":{"width":1360,"height":1900},"menuopen":{"editor":"boolean","default":false},"float":{"editor":"text","default":""},"hideform":{"editor":"boolean","default":false}}'>
+function NAVVALS(self) {
+const st = self.state || {};
+const mo = st.menuOpen !== undefined ? st.menuOpen : (self.props.menuopen === true);
+return {
+menuOpen: mo,
+menuClosed: !mo,
+menuBg: mo ? '#262B33' : 'transparent',
+toggleMenu: () => self.setState({ menuOpen: !mo }),
+openAgent: () => self.setState({ chatReq: (st.chatReq || 0) + 1, menuOpen: false }),
+openSearch: () => self.setState({ searchReq: (st.searchReq || 0) + 1, menuOpen: false }),
+chatReq: st.chatReq || 0,
+searchReq: st.searchReq || 0,
+float: self.props.float || '',
+hideform: self.props.hideform === true
+};
+}
+const QUESTIONS = [
+{ dim: 'Procesos', q: '¿Cómo describirías la operación de tu empresa?', opts: [
+'Casi todo se hace de forma manual, en Excel o en papel.',
+'Algunos procesos están digitalizados, pero las mejoras son sueltas.',
+'Los procesos clave están automatizados e integrados.',
+'Casi todos los procesos core están digitalizados y automatizados.',
+'Los procesos son digitales y además inteligentes.' ] },
+{ dim: 'Sistemas', q: '¿Qué tan conectados están tus sistemas?', opts: [
+'Sistemas legacy o herramientas sueltas, sin integración.',
+'Tenemos un sistema principal (CRM o ERP), pero está aislado.',
+'ERP, CRM y contabilidad están integrados en lo principal.',
+'Infraestructura moderna y completamente en la nube.',
+'Un ecosistema digital completamente integrado.' ] },
+{ dim: 'Datos', q: '¿Cómo manejas tus datos y reportes?', opts: [
+'Los datos están dispersos y decidimos por intuición.',
+'Empezamos a recopilar datos y generamos reportes básicos.',
+'Datos centralizados, con dashboards regulares.',
+'Datos en tiempo real y analítica avanzada con predicción básica.',
+'Decisiones impulsadas por datos en tiempo real en toda la organización.' ] },
+{ dim: 'Experiencia del cliente', q: '¿Cómo es la experiencia digital de tus clientes?', opts: [
+'Atención principalmente por email o teléfono.',
+'Algunos canales digitales, sin una vista unificada del cliente.',
+'Buenos canales digitales, pero sin visión 360° del cliente.',
+'Experiencia omnicanal consolidada.',
+'Experiencia hiperpersonalizada.' ] },
+{ dim: 'IA y automatización', q: '¿Qué papel juega hoy la inteligencia artificial en tu empresa?', opts: [
+'No usamos IA ni automatización.',
+'Automatizamos tareas puntuales en áreas específicas.',
+'Tenemos una estrategia digital definida, pero la IA aún es un reto.',
+'Comenzamos a usar IA y ML en áreas específicas de la operación.',
+'IA y agentes autónomos embebidos en la organización.' ] },
+{ dim: 'Equipo y cultura', q: '¿Cómo describirías las capacidades digitales de tu equipo?', opts: [
+'Hay alta dependencia de personas específicas y poca tecnología.',
+'Roles definidos, pero sin estructura digital clara y con resistencia al cambio.',
+'Equipos alfabetizados digitalmente y con presupuesto dedicado.',
+'Equipos con habilidades digitales avanzadas y mejora continua.',
+'Equipos multidisciplinarios (datos, ingeniería, producto) con cultura de innovación.' ] }
+];
+const LEVELS = [
+{ n: 1, name: 'Inicial', estado: 'Procesos manuales y desconectados.', ret: [['Visibilidad', 'No hay claridad sobre procesos y resultados.'], ['Eficiencia', 'Procesos lentos, repetitivos y propensos a errores.'], ['Escalabilidad', 'Difícil crecer sin aumentar la operación manual.']] },
+{ n: 2, name: 'En desarrollo', estado: 'Algunos sistemas digitales y procesos parcialmente automatizados.', ret: [['Integración', 'Sistemas aislados que no se comunican.'], ['Inconsistencia', 'Datos duplicados o contradictorios.'], ['Adopción', 'Resistencia al cambio y baja capacitación.']] },
+{ n: 3, name: 'Intermedia', estado: 'Sistemas integrados, pero con brechas de tecnología.', ret: [['Brechas tecnológicas', 'Áreas específicas aún manuales o legacy.'], ['Experiencia del cliente', 'No hay visión 360° del cliente.'], ['Innovación', 'Dificultad para implementar IA y analytics avanzado.']] },
+{ n: 4, name: 'Avanzada', estado: 'Infraestructura moderna, buscando optimización e innovación.', ret: [['Optimización continua', 'Exprimir el máximo valor de la tecnología existente.'], ['Escalabilidad inteligente', 'Automatizar hasta la toma de decisiones.'], ['Talento', 'Retener especialistas en IA y datos.']] },
+{ n: 5, name: 'Líder', estado: 'Transformación digital completa e innovación continua.', ret: [['Diferenciación', 'Mantener la ventaja competitiva en un mercado saturado.'], ['Ética y compliance', 'Gobernanza de IA, privacidad y regulación.'], ['Anticipación', 'Estar adelante de las tendencias de mercado.']] }
+];
+const LETTERS = ['A', 'B', 'C', 'D', 'E'];
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_RE = /^[0-9 +\-]{7,30}$/;
+function fieldVals(errs, show, keys, accent) {
+const fe = {}; const fb = {}; const fs = {}; const inv = {};
+keys.forEach((k) => {
+const m = show && errs[k] ? errs[k] : '';
+fe[k] = m; inv[k] = !!m;
+fb[k] = m ? accent : '#B9B5A9';
+fs[k] = m ? '0 0 0 1px ' + accent : 'none';
+});
+return { fe: fe, fb: fb, fs: fs, inv: inv };
+}
+const SECTORES = ["Administración Gubernamental", "Aerolíneas/Aviación", "Agricultura", "Alimentos y Bebidas", "Almacenaje", "Animación", "Apuestas y Casinos", "Arquitectura y Planeación", "Artes Escénicas", "Artes y Artesanías", "Artículos Deportivos", "Asuntos Internacionales", "Automatización Industrial", "Automotriz", "Aviación y Aeroespacial", "Banca", "Banca de Inversión", "Bellas Artes", "Bibliotecas", "Bienes de Consumo", "Bienes de Lujo y Joyería", "Bienes Raíces", "Bienes Raíces Comerciales", "Biotecnología", "Capacitación Profesional y Coaching", "Capital de Riesgo y Private Equity", "Cine y Películas", "Comercio y Desarrollo Internacional", "Construcción", "Construcción Naval", "Consultoría de Gestión", "Contabilidad", "Cosméticos", "Cumplimiento de la Ley", "Defensa y Espacio", "Deportes", "Desarrollo de Programas", "Diseño", "Diseño Gráfico", "Dispositivos Médicos", "Educación en Línea", "Educación Primaria/Secundaria", "Educación Superior", "Electrónica de Consumo", "Embalaje y Contenedores", "Energías Renovables y Medio Ambiente", "Entretenimiento", "Fabricación de Ferrocarriles", "Fabricación Eléctrica/Electrónica", "Farmacéutica", "Filantropía", "Fotografía", "Ganadería", "Gestión de Inversiones", "Gestión de Organizaciones Sin Fines de Lucro", "Gestión Educativa", "Hardware Informático", "Hospital y Salud", "Hotelería", "Importación y Exportación", "Impresión", "Inalámbrico", "Ingeniería Civil", "Ingeniería Mecánica o Industrial", "Instalaciones y Servicios Recreativos", "Instituciones Religiosas", "Internet", "Investigación", "Investigación de Mercado", "Lácteos", "Logística y Cadena de Suministro", "Maquinaria", "Marítimo", "Marketing y Publicidad", "Materiales de Construcción", "Mayoreo", "Medicina Alternativa", "Medios de Difusión", "Medios en Línea", "Mercados de Capitales", "Militar", "Minería y Metales", "Moda y Vestimenta", "Muebles", "Museos e Instituciones", "Música", "Nanotecnología", "Ocio, Viajes y Turismo", "Oficina Ejecutiva", "Oficina Legislativa", "Organización Cívica y Social", "Organización Política", "Paquetería/Entrega de Carga", "Periódicos", "Pesca", "Petróleo y Energía", "Plásticos", "Poder Judicial", "Política Pública", "Práctica Jurídica", "Práctica Médica", "Producción de Alimentos", "Producción de Medios", "Productos de Papel y Forestales", "Productos Químicos", "Publicación", "Recaudación de Fondos", "Reclutamiento y Personal", "Recursos Humanos", "Redacción y Edición", "Redes Informáticas", "Relaciones Gubernamentales", "Relaciones Públicas y Comunicaciones", "Resolución Alternativa de Disputas", "Restaurantes", "Retail / Comercio Minorista", "Salud Mental", "Salud, Bienestar y Acondicionamiento", "Seguridad e Investigaciones", "Seguridad Informática y de Redes", "Seguridad Pública", "Seguros", "Semiconductores", "Servicios al Consumidor", "Servicios Ambientales", "Servicios de Eventos", "Servicios de Información", "Servicios de Instalaciones", "Servicios Financieros", "Servicios Individuales y Familiares", "Servicios Legales", "Servicios Públicos", "Software", "Subcontratación/Offshoring", "Suministros y Equipos de Oficina", "Supermercados", "Tabaco", "Tecnología de la Información y Servicios", "Telecomunicaciones", "Textiles", "Think Tanks", "Traducción y Localización", "Transporte/Camionero/Ferrocarril", "Veterinaria", "Videojuegos Móviles", "Videojuegos para PC", "Vidrio, Cerámica y Concreto", "Vino y Licores", "Nivel 1", "Nivel 2"];
+const BLANK_EF = { nombre: '', correo: '', empresa: '', sector: '', priv: false, wa: false };
+const FILLED = { nombre: 'Laura Mendoza', correo: 'laura.mendoza@empresa-ejemplo.com', empresa: 'Empresa Ejemplo', sector: 'Logística y Cadena de Suministro', priv: true, wa: false };
+const ANS = [3, 3, 2, 3, 2, 3];
+const SCEN = {
+result: { step: 7, answers: ANS },
+invalid: { step: 7, answers: ANS, show: true, f: Object.assign({}, BLANK_EF, { nombre: 'Laura Mendoza', correo: 'laura.mendoza@empresa' }) },
+sending: { step: 7, answers: ANS, status: 'sending', f: FILLED },
+error: { step: 7, answers: ANS, status: 'error', f: FILLED },
+ok: { step: 7, answers: ANS, status: 'ok', f: FILLED }
+};
+function evalErrors(f) {
+const e = {};
+if (!f.nombre.trim()) { e.nombre = 'Escribe tu nombre.'; }
+if (!EMAIL_RE.test(f.correo)) { e.correo = 'Escribe un correo válido, por ejemplo nombre@empresa.com.'; }
+if (!f.empresa.trim()) { e.empresa = 'Escribe el nombre de tu empresa.'; }
+if (!f.sector.trim()) { e.sector = 'Elige un sector de la lista.'; }
+if (!f.priv) { e.priv = 'Acepta el aviso de privacidad para continuar.'; }
+return e;
+}
+function FV(self, a) {
+const s = self.state;
+const dis = s.status === 'sending';
+const fv = fieldVals(evalErrors(s.f), s.show, ['nombre', 'correo', 'empresa', 'sector', 'priv'], a);
+const setf = (k) => (e) => { const f2 = Object.assign({}, self.state.f); f2[k] = e && e.target ? e.target.value : ''; self.setState({ f: f2 }); };
+const tog = (k) => () => { const f2 = Object.assign({}, self.state.f); f2[k] = !f2[k]; self.setState({ f: f2 }); };
+return Object.assign({
+f: s.f, dis: dis,
+sectores: SECTORES.map((v) => ({ v: v })),
+set_nombre: setf('nombre'), set_correo: setf('correo'), set_empresa: setf('empresa'), set_sector: setf('sector'),
+tog_priv: tog('priv'), tog_wa: tog('wa'),
+showErr: s.status === 'error',
+submitLabel: dis ? 'Enviando…' : 'Quiero que me contacten',
+submit: (e) => {
+if (e && e.preventDefault) { e.preventDefault(); }
+const st = self.state;
+if (st.status === 'sending') { return; }
+if (Object.keys(evalErrors(st.f)).length > 0) { self.setState({ show: true, status: 'idle' }); return; }
+self.setState({ status: 'sending', show: false });
+setTimeout(() => self.setState({ status: 'ok' }), 1100);
+}
+}, fv);
+}
+
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = Object.assign({ step: 0, answers: [0, 0, 0, 0, 0, 0], status: 'idle', show: false, f: Object.assign({}, BLANK_EF) }, SCEN[this.props.scenario] || {});
+}
+renderVals() {
+const a = this.props.accent ?? '#C23E15';
+const soft = 'color-mix(in srgb, ' + a + ' 12%, #ffffff)';
+const s = this.state;
+const inQuiz = s.step >= 1 && s.step <= 6;
+const q = inQuiz ? QUESTIONS[s.step - 1] : QUESTIONS[0];
+const cur = inQuiz ? s.answers[s.step - 1] : 0;
+const sum = s.answers.reduce((x, y) => x + y, 0);
+const avgNum = sum / 6;
+const lvNum = Math.min(5, Math.max(1, Math.round(avgNum)));
+const lv = LEVELS[lvNum - 1];
+return {
+accent: a,
+...NAVVALS(this),
+accentSoft: soft,
+showIntro: s.step === 0,
+showQuiz: inQuiz,
+showResult: s.step === 7,
+showForm: s.step === 7 && s.status !== 'ok',
+showThanks: s.step === 7 && s.status === 'ok',
+start: () => this.setState({ step: 1 }),
+back: () => this.setState({ step: Math.max(0, this.state.step - 1) }),
+next: () => { const st = this.state; if (st.answers[st.step - 1]) { this.setState({ step: st.step + 1 }); } },
+restart: () => this.setState({ step: 0, answers: [0, 0, 0, 0, 0, 0], status: 'idle', show: false, f: Object.assign({}, BLANK_EF) }),
+...FV(this, a),
+stepLabel: 'Pregunta ' + Math.max(1, s.step) + ' de 6',
+progressW: (Math.max(1, s.step) / 6 * 100) + '%',
+dim: q.dim,
+qtext: q.q,
+notAnswered: cur === 0,
+nextLabel: s.step === 6 ? 'Ver mi resultado' : 'Siguiente',
+nextBg: cur === 0 ? '#C9C5BA' : '#14171C',
+nextColor: cur === 0 ? '#4A4F57' : '#FFFFFF',
+options: q.opts.map((t, i) => {
+const on = cur === i + 1;
+return {
+text: t,
+letter: LETTERS[i],
+on: on,
+pick: () => { const ans = this.state.answers.slice(); ans[this.state.step - 1] = i + 1; this.setState({ answers: ans }); },
+bg: on ? soft : '#FFFFFF',
+border: on ? a : '#DAD6CB',
+chipBg: on ? a : '#F4F2EC',
+chipColor: on ? '#FFFFFF' : '#14171C'
+};
+}),
+avg: avgNum.toFixed(1),
+levelN: lv.n,
+levelName: lv.name,
+estado: lv.estado,
+ladder: LEVELS.map((x) => ({ name: x.name, bg: x.n <= lvNum ? a : '#3A3F47' })),
+dims: QUESTIONS.map((d, i) => ({ name: d.dim, val: s.answers[i], w: (s.answers[i] / 5 * 100) + '%' })),
+retos: lv.ret.map((r) => ({ head: r[0], text: r[1] }))
+};
+}
+}
+</script>
+</body>
+</html>

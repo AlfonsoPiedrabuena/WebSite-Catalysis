@@ -1,120 +1,86 @@
 /* ====================================
-   BLOG - LOAD POSTS FROM FIRESTORE
+   BLOG: LISTADO DESDE FIRESTORE
+   Solo posts publicados (nunca borradores). Destacado = el publicado más reciente.
+   Filtros por categoría sobre los posts cargados y "Cargar más" de 9 en 9, para no
+   perder posts cuando haya más de 12. Estados: cargando, vacío, error y sin resultados.
    ==================================== */
+import { obtenerDb, publicados, tarjetaPost, destacadoBlog } from '/js/lib/blog-data.mjs';
 
-document.addEventListener('DOMContentLoaded', async function() {
-    const postsGrid = document.getElementById('posts-grid');
-    const loadingPosts = document.getElementById('loading-posts');
-    const noPosts = document.getElementById('no-posts');
+const POR_PAGINA = 9;
+const $ = (id) => document.getElementById(id);
+const el = {
+  carga: $('estado-carga'), grid: $('posts-grid'), mas: $('mas'), vacio: $('estado-vacio'), error: $('estado-error'),
+  filtros: $('filtros'), conteo: $('conteo'), destacadoSec: $('destacado-sec'), destacado: $('destacado'),
+};
+const estado = { posts: [], categoria: 'Todos', mostrados: POR_PAGINA };
 
-    try {
-        // Check if Firebase is initialized
-        if (!window.firestoreDb) {
-            throw new Error('Firebase not initialized');
-        }
-
-        // Query blog posts from Firestore
-        // Posts are ordered by publication date (newest first)
-        // Only published posts are shown
-
-        // NOTE: Using orderBy without where to avoid needing composite index
-        // We'll filter published posts in JavaScript
-        const allPostsSnapshot = await window.firestoreDb
-            .collection('blog_posts')
-            .orderBy('fecha_publicacion', 'desc')
-            .limit(50) // Get more posts to ensure we have enough published ones
-            .get();
-
-        // Filter only published posts
-        const publishedPosts = [];
-        allPostsSnapshot.forEach(doc => {
-            const post = doc.data();
-            if (post.publicado === true) {
-                publishedPosts.push({ id: doc.id, data: post });
-            }
-        });
-
-        // Create a mock snapshot with only published posts
-        const postsSnapshot = {
-            empty: publishedPosts.length === 0,
-            size: publishedPosts.length,
-            forEach: (callback) => publishedPosts.forEach(item =>
-                callback({ id: item.id, data: () => item.data })
-            )
-        };
-
-        // Hide loading state
-        loadingPosts.style.display = 'none';
-
-        if (postsSnapshot.empty) {
-            // Show "no posts" message
-            noPosts.style.display = 'block';
-        } else {
-            // Show posts grid
-            postsGrid.style.display = 'grid';
-
-            // Create post cards
-            publishedPosts.slice(0, 12).forEach(item => {
-                const postCard = createPostCard(item.data, item.id);
-                postsGrid.appendChild(postCard);
-            });
-        }
-    } catch (error) {
-        console.error('Error loading blog posts:', error);
-        loadingPosts.style.display = 'none';
-        noPosts.style.display = 'block';
-        noPosts.innerHTML = `
-            <h3 style="font-size: 2rem; color: var(--primary); margin-bottom: 1rem;">Error al cargar artículos</h3>
-            <p>Por favor, verifica la configuración de Firebase.</p>
-        `;
-    }
-});
-
-/**
- * Create a blog post card element
- * @param {Object} post - Post data from Firestore
- * @param {string} postId - Document ID
- * @returns {HTMLElement} Post card element
- */
-function createPostCard(post, postId) {
-    const card = document.createElement('a');
-    card.href = `blog-post.html?id=${encodeURIComponent(getPostSlug(post) || postId)}`;
-    card.className = 'service-card';
-    card.style.textDecoration = 'none';
-    card.style.color = 'inherit';
-
-    // Format date
-    let formattedDate = '';
-    if (post.fecha_publicacion) {
-        const date = post.fecha_publicacion.toDate();
-        formattedDate = date.toLocaleDateString('es-MX', {
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric'
-        });
-    }
-
-    // Truncate summary
-    const summary = post.resumen || '';
-    const truncatedSummary = summary.length > 150
-        ? summary.substring(0, 150) + '...'
-        : summary;
-
-    card.innerHTML = `
-        ${post.imagen_portada ? `
-            <img src="${post.imagen_portada}"
-                 alt="${post.titulo}"
-                 style="width: 100%; height: 200px; object-fit: cover; margin-bottom: 1.5rem;">
-        ` : ''}
-        <div class="service-number">${post.categoria || 'General'}</div>
-        <h3>${post.titulo}</h3>
-        <p>${truncatedSummary}</p>
-        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
-            <small style="color: var(--text); font-size: 0.85rem;">
-                ${post.autor || 'Catalysis'} • ${formattedDate}
-            </small>
-        </div>
-    `;
-
-    return card;
+function ver(que) {
+  el.carga.hidden = que !== 'carga';
+  el.grid.hidden = que !== 'ok';
+  el.vacio.hidden = que !== 'vacio' && que !== 'vacio-categoria';
+  el.error.hidden = que !== 'error';
+  if (que !== 'ok') el.mas.hidden = true;
 }
+
+function pintarFiltros() {
+  const cats = ['Todos', ...new Set(estado.posts.map((p) => p.data.categoria || 'General'))];
+  el.filtros.replaceChildren(...cats.map((c) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'fchip';
+    b.textContent = c;
+    b.setAttribute('aria-pressed', String(c === estado.categoria));
+    b.addEventListener('click', () => { estado.categoria = c; estado.mostrados = POR_PAGINA; pintar(); });
+    return b;
+  }));
+}
+
+function pintar() {
+  const filtrados = estado.posts.filter((p) => estado.categoria === 'Todos' || (p.data.categoria || 'General') === estado.categoria);
+  // El destacado (el publicado más reciente) tiene su propio bloque: no se repite en la cuadrícula
+  const resto = filtrados.filter((p) => p !== estado.posts[0]);
+  const visibles = resto.slice(0, estado.mostrados);
+
+  pintarFiltros();
+  el.conteo.textContent = `${filtrados.length} ${filtrados.length === 1 ? 'artículo' : 'artículos'}`;
+
+  if (!filtrados.length) {
+    $('vacio-titulo').textContent = 'Aún no hay artículos en esta categoría';
+    $('vacio-texto').textContent = 'Prueba con otra categoría o vuelve pronto.';
+    ver('vacio-categoria');
+    return;
+  }
+  el.grid.replaceChildren(...visibles.map(tarjetaPost));
+  ver('ok');
+  el.grid.hidden = visibles.length === 0;
+  el.mas.hidden = resto.length <= visibles.length;
+}
+
+async function cargar() {
+  ver('carga');
+  el.conteo.textContent = 'Cargando…';
+  try {
+    const db = await obtenerDb();
+    estado.posts = await publicados(db);
+    if (!estado.posts.length) {
+      $('vacio-titulo').textContent = 'Todavía no hay artículos publicados';
+      $('vacio-texto').textContent = 'Estamos preparando contenido nuevo. Mientras tanto, conoce el nivel de madurez digital de tu empresa.';
+      el.conteo.textContent = '';
+      el.filtros.replaceChildren();
+      ver('vacio');
+      return;
+    }
+    const [destacado] = estado.posts;
+    el.destacado.replaceChildren(destacadoBlog(destacado));
+    el.destacadoSec.hidden = false;
+    pintar();
+  } catch (e) {
+    console.error('Error al cargar el blog:', e);
+    el.conteo.textContent = '';
+    ver('error');
+  }
+}
+
+el.mas.querySelector('button').addEventListener('click', () => { estado.mostrados += POR_PAGINA; pintar(); });
+$('reintentar').addEventListener('click', cargar);
+cargar();

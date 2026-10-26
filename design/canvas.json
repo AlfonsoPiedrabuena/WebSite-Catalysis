@@ -1,0 +1,462 @@
+{
+  "v": 3,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-25T02:50:00Z"
+  },
+  "title": "Propuesta de rediseño Catalysis",
+  "launch": {
+    "view": "canvas"
+  },
+  "pages": [],
+  "boards": {
+    "Main.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1360,
+      "h": 4277,
+      "title": "Inicio",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Servicios.dc.html": {
+      "x": 1440,
+      "y": 0,
+      "w": 1360,
+      "h": 2788,
+      "title": "Servicios",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Madurez.dc.html": {
+      "x": 2880,
+      "y": 0,
+      "w": 1360,
+      "h": 2600,
+      "title": "Marco de madurez digital",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Evaluacion.dc.html": {
+      "x": 4320,
+      "y": 0,
+      "w": 1360,
+      "h": 1900,
+      "title": "Evaluación de madurez",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Blog.dc.html": {
+      "x": 0,
+      "y": 4637,
+      "w": 1360,
+      "h": 3474,
+      "title": "Blog y recursos",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Articulo.dc.html": {
+      "x": 1440,
+      "y": 4637,
+      "w": 1360,
+      "h": 3356,
+      "title": "Artículo del blog",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Contacto.dc.html": {
+      "x": 2880,
+      "y": 4637,
+      "w": 1360,
+      "h": 1564,
+      "title": "Contacto",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Aviso.dc.html": {
+      "x": 4320,
+      "y": 4637,
+      "w": 1360,
+      "h": 3658,
+      "title": "Aviso de privacidad",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Blog-cargando.dc.html": {
+      "x": 0,
+      "y": 8655,
+      "w": 1360,
+      "h": 2630,
+      "title": "Blog: cargando",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Blog-vacio.dc.html": {
+      "x": 1440,
+      "y": 8655,
+      "w": 1360,
+      "h": 2227,
+      "title": "Blog: vacío",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Blog-error.dc.html": {
+      "x": 2880,
+      "y": 8655,
+      "w": 1360,
+      "h": 2227,
+      "title": "Blog: error de carga",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Articulo-cargando.dc.html": {
+      "x": 4320,
+      "y": 8655,
+      "w": 1360,
+      "h": 1438,
+      "title": "Artículo: cargando",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Articulo-noencontrado.dc.html": {
+      "x": 5760,
+      "y": 8655,
+      "w": 1360,
+      "h": 900,
+      "title": "Artículo no encontrado",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Articulo-recurso.dc.html": {
+      "x": 7200,
+      "y": 8655,
+      "w": 1360,
+      "h": 3331,
+      "title": "Artículo: cierre con recurso descargable",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Evaluacion-error.dc.html": {
+      "x": 8640,
+      "y": 8655,
+      "w": 1360,
+      "h": 1842,
+      "title": "Evaluación: error al enviar el resultado",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Flotantes.dc.html": {
+      "x": 0,
+      "y": 12346,
+      "w": 1360,
+      "h": 820,
+      "title": "Botones flotantes: formulario y agente",
+      "is_interactive": true
+    },
+    "EstadosAgente.dc.html": {
+      "x": 1440,
+      "y": 12346,
+      "w": 1360,
+      "h": 3080,
+      "title": "Asistente automático: flujo y estados"
+    },
+    "EstadosFormulario.dc.html": {
+      "x": 2880,
+      "y": 12346,
+      "w": 1360,
+      "h": 3047,
+      "title": "Formulario flotante: estados"
+    },
+    "EstadosContacto.dc.html": {
+      "x": 4320,
+      "y": 12346,
+      "w": 1360,
+      "h": 3666,
+      "title": "Formulario de Contacto: estados"
+    },
+    "EstadosBuscador.dc.html": {
+      "x": 5760,
+      "y": 12346,
+      "w": 1360,
+      "h": 1364,
+      "title": "Buscador (Ctrl K): estados"
+    },
+    "EstadosInteraccion.dc.html": {
+      "x": 7200,
+      "y": 12346,
+      "w": 1360,
+      "h": 1944,
+      "title": "Foco, hover y deshabilitado"
+    },
+    "Buscador.dc.html": {
+      "x": 8640,
+      "y": 12346,
+      "w": 720,
+      "h": 560,
+      "title": "Componente: buscador",
+      "is_interactive": true
+    },
+    "FormContacto.dc.html": {
+      "x": 9440,
+      "y": 12346,
+      "w": 640,
+      "h": 1000,
+      "title": "Componente: formulario de Contacto",
+      "is_interactive": true
+    },
+    "Movil-Inicio.dc.html": {
+      "x": 0,
+      "y": 16372,
+      "w": 390,
+      "h": 7949,
+      "title": "Inicio",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Movil-Inicio-cerrado.dc.html": {
+      "x": 470,
+      "y": 16372,
+      "w": 390,
+      "h": 7949,
+      "title": "Inicio (menú cerrado)",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Movil-Servicios.dc.html": {
+      "x": 940,
+      "y": 16372,
+      "w": 390,
+      "h": 6171,
+      "title": "Servicios",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Movil-Madurez.dc.html": {
+      "x": 1410,
+      "y": 16372,
+      "w": 390,
+      "h": 4900,
+      "title": "Marco de madurez",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Movil-Evaluacion.dc.html": {
+      "x": 1880,
+      "y": 16372,
+      "w": 390,
+      "h": 3300,
+      "title": "Evaluación",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Movil-Blog.dc.html": {
+      "x": 2350,
+      "y": 16372,
+      "w": 390,
+      "h": 7734,
+      "title": "Blog",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Movil-Articulo.dc.html": {
+      "x": 2820,
+      "y": 16372,
+      "w": 390,
+      "h": 4304,
+      "title": "Artículo",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Movil-Contacto.dc.html": {
+      "x": 3290,
+      "y": 16372,
+      "w": 390,
+      "h": 3075,
+      "title": "Contacto",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Movil-Aviso.dc.html": {
+      "x": 3760,
+      "y": 16372,
+      "w": 390,
+      "h": 5276,
+      "title": "Aviso de privacidad",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Movil-Flotantes-cerrado.dc.html": {
+      "x": 0,
+      "y": 24681,
+      "w": 390,
+      "h": 844,
+      "title": "Barra de botones y sugerencia",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Movil-Flotantes-formulario.dc.html": {
+      "x": 470,
+      "y": 24681,
+      "w": 390,
+      "h": 844,
+      "title": "Formulario corto",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Movil-Flotantes-formulario-teclado.dc.html": {
+      "x": 940,
+      "y": 24681,
+      "w": 390,
+      "h": 844,
+      "title": "Formulario con teclado",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Movil-Flotantes-agente.dc.html": {
+      "x": 1410,
+      "y": 24681,
+      "w": 390,
+      "h": 844,
+      "title": "Asistente: confirmación",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Movil-Flotantes-agente-teclado.dc.html": {
+      "x": 1880,
+      "y": 24681,
+      "w": 390,
+      "h": 844,
+      "title": "Asistente con teclado",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Tablet-Inicio.dc.html": {
+      "x": 0,
+      "y": 25885,
+      "w": 768,
+      "h": 5650,
+      "title": "Inicio (menú abierto)",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Tablet-Servicios.dc.html": {
+      "x": 848,
+      "y": 25885,
+      "w": 768,
+      "h": 3817,
+      "title": "Servicios",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Tablet-Contacto.dc.html": {
+      "x": 1696,
+      "y": 25885,
+      "w": 768,
+      "h": 2298,
+      "title": "Contacto",
+      "expand": "fill",
+      "is_interactive": true
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Servicios.dc.html",
+    "Madurez.dc.html",
+    "Evaluacion.dc.html",
+    "Blog.dc.html",
+    "Articulo.dc.html",
+    "Contacto.dc.html",
+    "Aviso.dc.html",
+    "Blog-cargando.dc.html",
+    "Blog-vacio.dc.html",
+    "Blog-error.dc.html",
+    "Articulo-cargando.dc.html",
+    "Articulo-noencontrado.dc.html",
+    "Articulo-recurso.dc.html",
+    "Evaluacion-error.dc.html",
+    "Flotantes.dc.html",
+    "EstadosAgente.dc.html",
+    "EstadosFormulario.dc.html",
+    "EstadosContacto.dc.html",
+    "EstadosBuscador.dc.html",
+    "EstadosInteraccion.dc.html",
+    "Buscador.dc.html",
+    "FormContacto.dc.html",
+    "Movil-Inicio.dc.html",
+    "Movil-Inicio-cerrado.dc.html",
+    "Movil-Servicios.dc.html",
+    "Movil-Madurez.dc.html",
+    "Movil-Evaluacion.dc.html",
+    "Movil-Blog.dc.html",
+    "Movil-Articulo.dc.html",
+    "Movil-Contacto.dc.html",
+    "Movil-Aviso.dc.html",
+    "Movil-Flotantes-cerrado.dc.html",
+    "Movil-Flotantes-formulario.dc.html",
+    "Movil-Flotantes-formulario-teclado.dc.html",
+    "Movil-Flotantes-agente.dc.html",
+    "Movil-Flotantes-agente-teclado.dc.html",
+    "Tablet-Inicio.dc.html",
+    "Tablet-Servicios.dc.html",
+    "Tablet-Contacto.dc.html"
+  ],
+  "notes": {
+    "titulo": {
+      "x": 0,
+      "y": -620,
+      "text": "Catalysis: prototipo completo del sitio (ronda 2)",
+      "kind": "title1",
+      "maxW": 7000
+    },
+    "fila1": {
+      "x": 0,
+      "y": -300,
+      "text": "1 · Escritorio (1360 px): páginas principales",
+      "kind": "title1",
+      "maxW": 5760
+    },
+    "fila2": {
+      "x": 0,
+      "y": 4337,
+      "text": "2 · Escritorio (1360 px): blog, contacto y aviso de privacidad",
+      "kind": "title1",
+      "maxW": 5760
+    },
+    "fila3": {
+      "x": 0,
+      "y": 8355,
+      "text": "3 · Estados de página: blog, artículo y evaluación",
+      "kind": "title1",
+      "maxW": 7000
+    },
+    "fila4": {
+      "x": 0,
+      "y": 12046,
+      "text": "4 · Flotantes, buscador, contacto y sistema: estados",
+      "kind": "title1",
+      "maxW": 7000
+    },
+    "fila5": {
+      "x": 0,
+      "y": 16072,
+      "text": "5 · Móvil (390 px): menú abierto",
+      "kind": "title1",
+      "maxW": 4230
+    },
+    "fila6": {
+      "x": 0,
+      "y": 24381,
+      "text": "6 · Móvil (390 px): flotantes como hoja inferior y teclado abierto",
+      "kind": "title1",
+      "maxW": 2350
+    },
+    "fila7": {
+      "x": 0,
+      "y": 25585,
+      "text": "7 · Tablet (768 px)",
+      "kind": "title1",
+      "maxW": 2544
+    }
+  },
+  "designSystems": []
+}

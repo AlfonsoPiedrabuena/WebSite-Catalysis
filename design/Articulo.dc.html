@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Catalysis: Artículo del blog</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F2EC}
+a{text-decoration:none;color:inherit}
+button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #14171C;outline-offset:2px}
+.dk a:focus-visible,.dk button:focus-visible,.dk input:focus-visible,.dk select:focus-visible{outline-color:#F4F2EC}
+button:disabled{cursor:not-allowed;opacity:.62}
+.fx{outline:3px solid #14171C;outline-offset:2px}
+.dk .fx{outline-color:#F4F2EC}
+input:disabled,select:disabled{background:#ECE9E0 !important;color:#5A6068 !important;cursor:not-allowed}
+::placeholder{color:#5A6068;opacity:1}
+.hv-f:hover{filter:brightness(.9)}
+.hv-o:hover{background:#ECE9E0 !important}
+.hv-d:hover{background:#262B33 !important}
+.hv-c:hover{border-color:#14171C !important}
+.hv-u:hover{text-decoration:underline}
+.nv:hover{background:#1B1F26}
+.mbar{display:none}
+.toc-m{display:none}
+.prose h2{margin:44px 0 14px;font-family:'Sora',sans-serif;font-weight:600;font-size:28px;line-height:1.2;letter-spacing:-0.02em}
+.prose h3{margin:32px 0 10px;font-family:'Sora',sans-serif;font-weight:600;font-size:20px;line-height:1.3;letter-spacing:-0.01em}
+.prose p{margin:0 0 18px;font-size:17px;line-height:1.75;color:#3A3F47}
+.prose ul,.prose ol{margin:0 0 20px;padding-left:22px;font-size:17px;line-height:1.7;color:#3A3F47}
+.prose li{margin-bottom:8px}
+.prose li::marker{color:#C23E15}
+.prose strong{color:#14171C}
+.prose a{color:#8F2D0F;text-decoration:underline}
+.prose blockquote{margin:28px 0;padding:4px 0 4px 20px;border-left:3px solid #C23E15;font-family:'Sora',sans-serif;font-size:20px;line-height:1.45;color:#14171C}
+.prose h4{margin:24px 0 8px;font-family:'Sora',sans-serif;font-weight:600;font-size:16px;line-height:1.35}
+.prose .note{margin:0 0 24px;padding:18px 20px;border-radius:12px;background:color-mix(in srgb,#C23E15 12%,#ffffff)}
+.prose .note p{margin:0;font-size:15px;color:#3A3F47}
+.prose .kv{margin:0 0 24px;padding:18px 20px;border:1px solid #DAD6CB;border-radius:12px;background:#FFFFFF}
+.prose .kv p{margin:0 0 8px;font-size:15px;line-height:1.5}
+.prose .kv p:last-child{margin:0}
+.prose figure{margin:28px 0}
+.prose figure img{width:100%;display:block;border-radius:12px}
+.prose figcaption{margin-top:10px;font-size:13px;color:#5A6068}
+.tbl{overflow-x:auto;margin:0 0 24px;border:1px solid #DAD6CB;border-radius:12px;background:#FFFFFF}
+.tbl table{border-collapse:collapse;width:100%;min-width:520px;font-size:15px;line-height:1.5}
+.tbl th{text-align:left;padding:12px 16px;background:#ECE9E0;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:12px;letter-spacing:0.08em;color:#14171C}
+.tbl td{padding:12px 16px;border-top:1px solid #ECE9E0;color:#3A3F47;vertical-align:top}
+.tbl td:first-child{font-weight:600;color:#14171C}
+@keyframes sk{0%{opacity:.55}50%{opacity:1}100%{opacity:.55}}
+.sk{animation:sk 1.4s ease-in-out infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin .9s linear infinite}
+@media (prefers-reduced-motion:reduce){.sk,.spin{animation:none}}
+@media (max-width:900px){
+.side{display:none !important}
+.mbar{display:block}
+.crumb{display:none !important}
+.pad{padding-left:32px !important;padding-right:32px !important}
+.g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+.fgrid{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+.h1{font-size:44px !important}
+.h2{font-size:28px !important}
+.toc-side{display:none !important}
+.toc-m{display:block}
+}
+@media (max-width:640px){
+.pad{padding-left:20px !important;padding-right:20px !important}
+.g2,.g3,.g4,.fgrid{grid-template-columns:minmax(0,1fr) !important}
+.h1{font-size:34px !important}
+.h2{font-size:25px !important}
+.bigcard{padding:28px 22px !important}
+section.pad{padding-bottom:28px !important}
+.tt{min-height:44px !important}
+.bpad{padding-bottom:96px !important}
+.prose h2{font-size:24px}
+.prose p,.prose ul,.prose ol{font-size:16px}
+.tbl{overflow-x:visible}
+.tbl table,.tbl tbody,.tbl tr,.tbl td{display:block;min-width:0 !important}
+.tbl thead{display:none}
+.tbl tr+tr{border-top:1px solid #DAD6CB}
+.tbl td{border-top:0;padding:6px 16px}
+.tbl td:first-child{background:#ECE9E0;padding:10px 16px;font-family:'Sora',sans-serif}
+.tbl td[data-label]::before{content:attr(data-label);display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;color:#5A6068;margin-bottom:2px}
+.tbl tr td:last-child{padding-bottom:12px}
+}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; align-items: stretch; background: #F4F2EC; color: #14171C; font-family: 'Inter', system-ui, sans-serif; min-height: 100%">
+
+<aside class="side dk" style="flex: 1 1 260px; max-width: 272px; box-sizing: border-box; background: #14171C; color: #D9D6CE; padding: 24px 18px; display: flex; flex-direction: column; gap: 28px">
+<a href="Main.dc.html" data-slot="logo" aria-label="Catalysis, inicio" style="display: flex; align-items: center; gap: 10px; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 20px; color: #F4F2EC; letter-spacing: -0.02em">
+<svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><circle cx="13" cy="13" r="11" stroke="#F4F2EC" stroke-width="1.6"></circle><circle cx="13" cy="13" r="4.5" fill="{{accent}}"></circle></svg>
+<span>catalysis</span>
+</a>
+<button type="button" onClick="{{openSearch}}" class="hv-d" style="cursor: pointer; display: flex; align-items: center; gap: 10px; width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1px solid #2E333B; background: #1B1F26; color: #A4A8B0; font-size: 14px; text-align: left">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A4A8B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<span style="flex: 1">Buscar en el sitio</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; border: 1px solid #3A3F47; border-radius: 4px; padding: 1px 6px">Ctrl K</span>
+</button>
+<nav aria-label="Principal" style="display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #8C9099; padding: 0 12px 8px">EXPLORAR</div>
+<a href="Main.dc.html" class="nv" style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; font-size: 14px"><span>Inicio</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8C9099">I</span></a>
+<a href="Servicios.dc.html" class="nv" style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; font-size: 14px"><span>Servicios</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8C9099">S</span></a>
+<a href="Madurez.dc.html" class="nv" style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; font-size: 14px"><span>Marco de madurez</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8C9099">M</span></a>
+<a href="Evaluacion.dc.html" class="nv" style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; font-size: 14px"><span style="display: flex; align-items: center; gap: 8px">Evaluación <span style="font-size: 11px; font-weight: 600; background: {{accent}}; color: #FFFFFF; border-radius: 999px; padding: 2px 8px">Gratis</span></span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8C9099">E</span></a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #8C9099; padding: 0 12px 8px">APRENDER</div>
+<a href="Blog.dc.html" aria-current="page" class="nv" style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; font-size: 14px; background: #262B33; color: #FFFFFF; font-weight: 500"><span>Blog</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #A4A8B0">B</span></a>
+<a href="Blog.dc.html#recursos" class="nv" style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; font-size: 14px"><span>Recursos gratuitos</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8C9099">R</span></a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #8C9099; padding: 0 12px 8px">HABLEMOS</div>
+<a href="Contacto.dc.html" class="nv" style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; font-size: 14px"><span>Contacto</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8C9099">C</span></a>
+</div>
+</nav>
+<div style="margin-top: auto; background: #1B1F26; border: 1px solid #2E333B; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+<div style="font-family: 'Sora', sans-serif; font-weight: 600; font-size: 15px; color: #F4F2EC">Agenda tu diagnóstico</div>
+<div style="font-size: 13px; line-height: 1.5; color: #A4A8B0">Una consulta estratégica gratuita para conocer tu punto de partida.</div>
+<a href="Contacto.dc.html" class="hv-f" style="display: block; text-align: center; background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 14px; padding: 10px 14px; border-radius: 8px">Agendar</a>
+</div>
+</aside>
+
+<main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+
+<div class="mbar dk" style="background: #14171C; color: #F4F2EC; position: relative; z-index: 20">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 12px 6px 20px; min-height: 56px; box-sizing: border-box">
+<a href="Main.dc.html" data-slot="logo" aria-label="Catalysis, inicio" style="display: flex; align-items: center; gap: 10px; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 20px; color: #F4F2EC; letter-spacing: -0.02em">
+<svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><circle cx="13" cy="13" r="11" stroke="#F4F2EC" stroke-width="1.6"></circle><circle cx="13" cy="13" r="4.5" fill="{{accent}}"></circle></svg>
+<span>catalysis</span>
+</a>
+<div style="display: flex; align-items: center; gap: 4px">
+<button type="button" aria-label="Buscar en el sitio" onClick="{{openSearch}}" class="hv-d" style="cursor: pointer; width: 44px; height: 44px; border-radius: 10px; border: 0; background: transparent; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F4F2EC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg></button>
+<button type="button" aria-label="Menú" aria-expanded="{{menuOpen}}" onClick="{{toggleMenu}}" class="hv-d" style="cursor: pointer; width: 44px; height: 44px; border-radius: 10px; border: 0; background: {{menuBg}}; display: flex; align-items: center; justify-content: center">
+<sc-if value="{{menuClosed}}" hint-placeholder-val="{{ true }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4F2EC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></sc-if>
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4F2EC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></sc-if>
+</button>
+</div>
+</div>
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{ false }}">
+<nav aria-label="Principal móvil" style="position: absolute; left: 0; right: 0; top: 100%; box-sizing: border-box; background: #14171C; border-top: 1px solid #2E333B; padding: 4px 12px 20px; display: flex; flex-direction: column; gap: 2px; box-shadow: 0 16px 32px rgba(20,23,28,0.28)">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #8C9099; padding: 14px 4px 4px">EXPLORAR</div>
+<a href="Main.dc.html" class="nv" style="display: flex; align-items: center; min-height: 48px; padding: 0 8px; border-radius: 8px; font-size: 16px; color: #F4F2EC">Inicio</a>
+<a href="Servicios.dc.html" class="nv" style="display: flex; align-items: center; min-height: 48px; padding: 0 8px; border-radius: 8px; font-size: 16px; color: #F4F2EC">Servicios</a>
+<a href="Madurez.dc.html" class="nv" style="display: flex; align-items: center; min-height: 48px; padding: 0 8px; border-radius: 8px; font-size: 16px; color: #F4F2EC">Marco de madurez</a>
+<a href="Evaluacion.dc.html" class="nv" style="display: flex; align-items: center; min-height: 48px; padding: 0 8px; border-radius: 8px; font-size: 16px; color: #F4F2EC">Evaluación <span style="font-size: 11px; font-weight: 600; background: {{accent}}; color: #FFFFFF; border-radius: 999px; padding: 2px 8px; margin-left: 6px">Gratis</span></a>
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #8C9099; padding: 14px 4px 4px">APRENDER</div>
+<a href="Blog.dc.html" class="nv" style="display: flex; align-items: center; min-height: 48px; padding: 0 8px; border-radius: 8px; font-size: 16px; color: #F4F2EC">Blog</a>
+<a href="Blog.dc.html#recursos" class="nv" style="display: flex; align-items: center; min-height: 48px; padding: 0 8px; border-radius: 8px; font-size: 16px; color: #F4F2EC">Recursos gratuitos</a>
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #8C9099; padding: 14px 4px 4px">HABLEMOS</div>
+<a href="Contacto.dc.html" class="nv" style="display: flex; align-items: center; min-height: 48px; padding: 0 8px; border-radius: 8px; font-size: 16px; color: #F4F2EC">Contacto</a>
+<div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px">
+<button type="button" onClick="{{openAgent}}" class="hv-d" style="cursor: pointer; min-height: 48px; border-radius: 10px; border: 1px solid #4A4F57; background: transparent; color: #F4F2EC; font-weight: 600; font-size: 15px">Habla con nuestro agente</button>
+<a href="Contacto.dc.html" class="hv-f" style="display: flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 10px; background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 15px">Agenda tu diagnóstico</a>
+</div>
+</nav>
+</sc-if>
+</div>
+<div class="crumb pad" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 18px 48px; border-bottom: 1px solid #DAD6CB">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A6068">catalysis.com.mx / blog / articulo</div>
+<button type="button" onClick="{{openAgent}}" class="hv-o" style="cursor: pointer; font-size: 13px; font-weight: 500; border: 1px solid #14171C; border-radius: 999px; padding: 7px 16px; background: transparent; color: #14171C">Habla con nuestro agente</button>
+</div>
+
+<sc-if value="{{isOk}}" hint-placeholder-val="{{ true }}">
+<article class="pad" style="padding: 40px 48px 56px">
+<div style="max-width: 920px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px">
+<header style="display: flex; flex-direction: column; gap: 18px">
+<a href="Blog.dc.html" class="hv-u" style="display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; min-height: 32px; font-size: 14px; font-weight: 500; color: #3A3F47"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg><span>Volver al blog</span></a>
+<div><span style="font-size: 12px; font-weight: 600; background: {{accentSoft}}; color: #8F2D0F; border-radius: 999px; padding: 4px 12px">Inteligencia Artificial</span></div>
+<h1 class="h1" style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 600; line-height: 1.06; letter-spacing: -0.03em; font-size: 48px; line-height: 1.1">IA generativa vs. agentes de IA: qué necesita tu empresa</h1>
+<div style="display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 14px; color: #5A6068"><span>Por Equipo Catalysis</span><span>26 sep 2026</span><span>0 vistas</span></div>
+</header>
+<img src="/_blob/5924ed9778a65846972823f5f3946669" alt="IA generativa vs. agentes de IA: qué necesita tu empresa" style="width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 16px; display: block">
+<div style="display: flex; justify-content: center">
+<div class="prose" style="width: 100%; max-width: 720px; box-sizing: border-box">
+<p>Una IA generativa responde: produce texto, imágenes o código a partir de una instrucción. Un agente de IA actúa: toma una instrucción, usa herramientas y completa una tarea de principio a fin.</p>
+<h2>La diferencia en una frase</h2>
+<p>Cuando alguien dice que «usa IA» puede referirse a dos cosas distintas. Confundirlas es la causa más común de proyectos que se alargan: se elige una herramienta pensada para <strong>generar contenido</strong> cuando el problema pedía <strong>ejecutar un proceso</strong>, o al revés.</p>
+<div class="tbl"><table>
+<thead><tr><th>CRITERIO</th><th>IA GENERATIVA</th><th>AGENTE DE IA</th></tr></thead>
+<tbody>
+<tr><td>Qué hace</td><td data-label="IA GENERATIVA">Genera contenido a partir de una instrucción</td><td data-label="AGENTE DE IA">Ejecuta tareas de varios pasos</td></tr>
+<tr><td>Herramientas</td><td data-label="IA GENERATIVA">Normalmente ninguna</td><td data-label="AGENTE DE IA">Usa tus sistemas: CRM, correo, hojas de cálculo</td></tr>
+<tr><td>Supervisión humana</td><td data-label="IA GENERATIVA">Revisa cada resultado</td><td data-label="AGENTE DE IA">Aprueba los puntos clave</td></tr>
+<tr><td>Mejor para</td><td data-label="IA GENERATIVA">Redactar, resumir, proponer ideas</td><td data-label="AGENTE DE IA">Procesos repetibles con reglas claras</td></tr>
+</tbody></table></div>
+<h3>Cuándo conviene cada una</h3>
+<ul>
+<li>Si el resultado es un <strong>texto que una persona va a revisar</strong>, empieza con IA generativa.</li>
+<li>Si el resultado es una <strong>tarea completada en tus sistemas</strong>, evalúa un agente.</li>
+<li>Si no estás seguro, empieza por el proceso, no por la herramienta.</li>
+</ul>
+<blockquote>Elegir mal cuesta meses de implementación.</blockquote>
+<figure><img src="/_blob/5924ed9778a65846972823f5f3946669" alt=""><figcaption>Las imágenes dentro del artículo ocupan el ancho de la columna y llevan pie opcional.</figcaption></figure>
+<h2>Cómo decidir</h2>
+<ol>
+<li>Describe el proceso actual en pasos.</li>
+<li>Marca qué pasos son redacción y cuáles son acciones en un sistema.</li>
+<li>Decide dónde quieres que haya una persona aprobando.</li>
+</ol>
+<p>Si quieres ubicar primero tu punto de partida, puedes <a href="Evaluacion.dc.html">hacer la evaluación de madurez digital</a>.</p>
+</div>
+</div>
+<div style="width: 100%; max-width: 720px; box-sizing: border-box; align-self: center; border-top: 1px solid #DAD6CB; padding-top: 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: #5A6068; margin-right: 6px">TAGS</span>
+<span style="font-size: 13px; border: 1px solid #B9B5A9; border-radius: 999px; padding: 6px 14px">IA generativa</span>
+<span style="font-size: 13px; border: 1px solid #B9B5A9; border-radius: 999px; padding: 6px 14px">agentes de IA</span>
+<span style="font-size: 13px; border: 1px solid #B9B5A9; border-radius: 999px; padding: 6px 14px">inteligencia artificial</span>
+</div>
+<sc-if value="{{closingEval}}" hint-placeholder-val="{{ true }}">
+<div class="bigcard dk" style="background: #14171C; color: #F4F2EC; border-radius: 22px; padding: 44px; display: flex; flex-wrap: wrap; gap: 28px; align-items: center; justify-content: space-between">
+<div style="flex: 1 1 380px; display: flex; flex-direction: column; gap: 12px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: #A4A8B0">EVALUACIÓN DE MADUREZ DIGITAL</div>
+<h2 class="h2" style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 600; letter-spacing: -0.02em; font-size: 30px; line-height: 1.15">Antes de elegir una tecnología, conoce tu punto de partida</h2>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: #C9C6BE">Seis preguntas para ubicar a tu empresa en uno de los cinco niveles del marco y ver los retos que enfrentan las empresas en esa etapa.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="Evaluacion.dc.html" class="hv-f" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 15px; padding: 14px 22px; border-radius: 10px">Hacer la evaluación</a>
+<a href="Blog.dc.html" class="hv-d" style="display: inline-flex; align-items: center; justify-content: center; font-weight: 600; font-size: 15px; padding: 13px 22px; border-radius: 10px; border: 1px solid #4A4F57; color: #F4F2EC">Ver más artículos</a>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{closingResource}}" hint-placeholder-val="{{ false }}">
+<div class="bigcard" style="background: #FFFFFF; border: 1px solid #DAD6CB; border-radius: 22px; padding: 44px; display: flex; flex-wrap: wrap; gap: 28px; align-items: center; justify-content: space-between">
+<div style="flex: 1 1 380px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap"><span style="font-size: 12px; font-weight: 600; background: {{accentSoft}}; color: #8F2D0F; border-radius: 999px; padding: 4px 12px">Checklist</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5A6068">Descarga gratis</span></div>
+<h2 class="h2" style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 600; letter-spacing: -0.02em; font-size: 30px; line-height: 1.15">Checklist de cierre fiscal digital para PyMEs</h2>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: #3A3F47">Todo lo que tu PyME debe revisar antes de que cierre el año fiscal: comprobantes, complementos de pago y datos de clientes.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="Blog.dc.html#recursos" class="hv-f" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 15px; padding: 14px 22px; border-radius: 10px">Descargar checklist</a>
+<a href="Blog.dc.html" class="hv-o" style="display: inline-flex; align-items: center; justify-content: center; font-weight: 600; font-size: 15px; padding: 13px 22px; border-radius: 10px; border: 1px solid #14171C">Ver más artículos</a>
+</div>
+</div>
+</sc-if>
+</div>
+</article>
+</sc-if>
+
+<sc-if value="{{isLoading}}" hint-placeholder-val="{{ false }}">
+<div class="pad" style="padding: 40px 48px 56px" role="status" aria-live="polite">
+<div style="max-width: 920px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A6068">Cargando artículo…</div>
+<div aria-hidden="true" style="display: flex; flex-direction: column; gap: 18px">
+<div class="sk" style="width: 120px; height: 14px; border-radius: 6px; background: #ECE9E0; "></div>
+<div class="sk" style="width: 110px; height: 24px; border-radius: 6px; background: #ECE9E0; border-radius: 999px"></div>
+<div class="sk" style="width: 88%; height: 40px; border-radius: 6px; background: #ECE9E0; "></div>
+<div class="sk" style="width: 62%; height: 40px; border-radius: 6px; background: #ECE9E0; "></div>
+<div class="sk" style="width: 320px; height: 14px; border-radius: 6px; background: #ECE9E0; "></div>
+<div class="sk" style="width: 100%; height: 0px; border-radius: 6px; background: #ECE9E0; height: auto; aspect-ratio: 16 / 9; border-radius: 16px"></div>
+<div style="max-width: 720px; align-self: center; width: 100%; display: flex; flex-direction: column; gap: 12px"><div class="sk" style="width: 100%; height: 14px; border-radius: 6px; background: #ECE9E0; "></div><div class="sk" style="width: 96%; height: 14px; border-radius: 6px; background: #ECE9E0; "></div><div class="sk" style="width: 100%; height: 14px; border-radius: 6px; background: #ECE9E0; "></div><div class="sk" style="width: 72%; height: 14px; border-radius: 6px; background: #ECE9E0; "></div></div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isMissing}}" hint-placeholder-val="{{ false }}">
+<div class="pad" style="padding: 96px 48px 120px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center">
+<span style="width: 56px; height: 56px; border-radius: 50%; background: {{accentSoft}}; display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"></path><path d="M14 3v4h4M10 14l4 4M14 14l-4 4"></path></svg></span>
+<h1 class="h2" style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 600; letter-spacing: -0.02em; font-size: 34px; line-height: 1.15">Artículo no encontrado</h1>
+<p style="margin: 0; font-size: 16px; line-height: 1.6; color: #3A3F47; max-width: 440px">El artículo que buscas no existe o ha sido eliminado.</p>
+<a href="Blog.dc.html" class="hv-f" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 15px; padding: 14px 22px; border-radius: 10px; margin-top: 8px">Ver todos los artículos</a>
+</div>
+</sc-if>
+
+<footer class="pad dk bpad" style="margin-top: auto; background: #14171C; color: #D9D6CE; padding: 56px 48px 28px; display: flex; flex-direction: column; gap: 40px">
+<div class="fgrid" style="display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 16px; max-width: 360px">
+<a href="Main.dc.html" data-slot="logo" aria-label="Catalysis, inicio" style="display: flex; align-items: center; gap: 10px; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 22px; color: #F4F2EC; letter-spacing: -0.02em">
+<svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><circle cx="13" cy="13" r="11" stroke="#F4F2EC" stroke-width="1.6"></circle><circle cx="13" cy="13" r="4.5" fill="{{accent}}"></circle></svg>
+<span>catalysis</span>
+</a>
+<p style="margin: 0; font-size: 14px; line-height: 1.6; color: #D9D6CB">Impulsamos la transformación digital de empresas que quieren liderar en la era digital. Estrategia, tecnología y resultados medibles.</p>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 14px">
+<li style="display: flex; align-items: center; gap: 10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A4A8B0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg><a href="mailto:contacto@catalysis.com.mx" class="hv-u">contacto@catalysis.com.mx</a></li>
+<li style="display: flex; align-items: center; gap: 10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A4A8B0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"></path></svg><a href="tel:+525539337086" class="hv-u">+52 55 3933 7086</a></li>
+<li style="display: flex; align-items: center; gap: 10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A4A8B0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg><span>Ciudad de México, México</span></li>
+</ul>
+</div>
+<nav aria-label="Servicios" style="display: flex; flex-direction: column; gap: 14px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: #8C9099">SERVICIOS</div>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px">
+<li><a href="Servicios.dc.html#servicio-1" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Transformación Digital</a></li>
+<li><a href="Servicios.dc.html#servicio-4" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Data & Analytics</a></li>
+<li><a href="Servicios.dc.html#servicio-6" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Inteligencia Artificial</a></li>
+<li><a href="Servicios.dc.html#servicio-3" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Cloud Computing</a></li>
+<li><a href="Servicios.dc.html#servicio-2" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Optimización de Procesos</a></li>
+</ul>
+</nav>
+<nav aria-label="Empresa" style="display: flex; flex-direction: column; gap: 14px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: #8C9099">EMPRESA</div>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px">
+<li><a href="Main.dc.html#metodologia" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Metodología</a></li>
+<li><a href="Madurez.dc.html" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Marco de madurez</a></li>
+<li><a href="Blog.dc.html" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Blog</a></li>
+<li><a href="Contacto.dc.html" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Contacto</a></li>
+<li><a href="Aviso.dc.html" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Aviso de Privacidad</a></li>
+</ul>
+</nav>
+<nav aria-label="Recursos" style="display: flex; flex-direction: column; gap: 14px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: #8C9099">RECURSOS</div>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px">
+<li><a href="Blog.dc.html" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Artículos</a></li>
+<li><a href="Evaluacion.dc.html" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Evaluación de madurez</a></li>
+<li><a href="Contacto.dc.html" class="hv-u" style="color: #D9D6CB; font-size: 14px; line-height: 1.4">Contacto</a></li>
+</ul>
+</nav>
+</div>
+<div style="border-top: 1px solid #2E333B; padding-top: 20px; display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; font-size: 13px; color: #A4A8B0">
+<span>© 2026 Catalysis. Todos los derechos reservados.</span>
+<a href="Aviso.dc.html" class="hv-u">Aviso de privacidad</a>
+</div>
+</footer>
+
+</main>
+<dc-import name="Flotantes" demo="{{ false }}" accent="{{accent}}" scenario="{{float}}" hideform="{{hideform}}" chatreq="{{chatReq}}" hint-size="1px,1px"></dc-import>
+<dc-import name="Buscador" accent="{{accent}}" layout="float" scenario="closed" searchreq="{{searchReq}}" hint-size="1px,1px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#C23E15","options":["#C23E15","#1F6F66","#2F4FD1","#14171C"]},"menuopen":{"editor":"boolean","default":false},"float":{"editor":"text","default":""},"hideform":{"editor":"boolean","default":false},"state":{"editor":"enum","default":"ok","options":["ok","loading","notfound"]},"closing":{"editor":"enum","default":"eval","options":["eval","resource"]},"$preview":{"width":1360,"height":3356}}'>
+function NAVVALS(self) {
+const st = self.state || {};
+const mo = st.menuOpen !== undefined ? st.menuOpen : (self.props.menuopen === true);
+return {
+menuOpen: mo,
+menuClosed: !mo,
+menuBg: mo ? '#262B33' : 'transparent',
+toggleMenu: () => self.setState({ menuOpen: !mo }),
+openAgent: () => self.setState({ chatReq: (st.chatReq || 0) + 1, menuOpen: false }),
+openSearch: () => self.setState({ searchReq: (st.searchReq || 0) + 1, menuOpen: false }),
+chatReq: st.chatReq || 0,
+searchReq: st.searchReq || 0,
+float: self.props.float || '',
+hideform: self.props.hideform === true
+};
+}
+class Component extends DCLogic {
+renderVals() {
+const a = this.props.accent ?? '#C23E15';
+const mode = this.props.state || 'ok';
+const closing = this.props.closing || 'eval';
+return {
+accent: a,
+accentSoft: 'color-mix(in srgb, ' + a + ' 12%, #ffffff)',
+...NAVVALS(this),
+isOk: mode === 'ok',
+isLoading: mode === 'loading',
+isMissing: mode === 'notfound',
+closingEval: closing === 'eval',
+closingResource: closing === 'resource'
+};
+}
+}
+</script>
+</body>
+</html>
