@@ -29,12 +29,12 @@ Cuándo leerlo: antes de cambiar algo que parezca arbitrario del rediseño; aqu�
 | 3 | Canales nuevos del CRM | Documentado para el agente del CRM en `docs/crm-canales-rediseno.md`; **sigue bloqueando el deploy a producción** |
 | 4 | Teléfono del aviso de privacidad | Se unificó a `+52 55 3933 7086` (el del resto del sitio) |
 | 5, 6, 7 | Texto del marco, sectores, destacado del blog | Aprobado como quedó |
+| 2 | Preguntas de la evaluación | Aprobadas tal como están (`content/evaluacion.mjs`) |
 | 10 | Repo público con `clients/` | Las cotizaciones se mantienen como estaban |
 
 ## Abiertos
 
-1. **Preguntas de la evaluación** (`content/evaluacion.mjs`): propuesta a revisar con Poncho; no bloquea el preview, sí el lanzamiento.
-2. **Canales nuevos y `primerApellido` opcional en el CRM**: especificado en `docs/crm-canales-rediseno.md`. **Deben estar en producción antes de desplegar el sitio.**
-3. **GA4 (acciones manuales)**: marcar `generate_lead` como key event y registrar las dimensiones `lead_source`, `cta_id`, `cta_location`, `blog_slug`, `lead_magnet_id` (Admin → Definiciones personalizadas).
-4. **Checklist fiscal**: Poncho revisa el PDF (`downloads/checklist-cierre-fiscal-digital-pymes.pdf`); después del deploy, actualizar el post con `actualizar_post_blog` (enlace a `/recursos/checklist-cierre-fiscal.html`). Fecha límite: 24 de noviembre.
-5. **Revisión visual y Lighthouse ≥ 90** en el preview de `sandbox` (escritorio, tablet, móvil, teclado).
+1. **Canales nuevos y `primerApellido` opcional en el CRM**: especificado en `docs/crm-canales-rediseno.md`. **Deben estar en producción antes de desplegar el sitio.**
+2. **GA4 (acciones manuales)**: marcar `generate_lead` como key event y registrar las dimensiones `lead_source`, `cta_id`, `cta_location`, `blog_slug`, `lead_magnet_id` (Admin → Definiciones personalizadas).
+3. **Checklist fiscal**: Poncho revisa el PDF (`downloads/checklist-cierre-fiscal-digital-pymes.pdf`); después del deploy, actualizar el post con `actualizar_post_blog` (enlace a `/recursos/checklist-cierre-fiscal.html`). Fecha límite: 24 de noviembre.
+4. **Revisión visual y Lighthouse ≥ 90** en el preview de `sandbox` (escritorio, tablet, móvil, teclado).

@@ -1,4 +1,4 @@
-/* Banco de la evaluación de madurez (6 preguntas, una opción por nivel). PROPUESTA pendiente de validación de Poncho. */
+/* Banco de la evaluación de madurez (6 preguntas, una opción por nivel). Aprobado por Poncho el 2026-10-26. */
 export const PREGUNTAS = [
   {
     "dimension": "Procesos",
