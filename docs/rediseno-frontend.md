@@ -38,9 +38,19 @@ python3 -m http.server 8000      # revisión rápida (las edge functions y lead-
 
 Todos los formularios (Contacto, flotante, asistente, evaluación, lead magnet) comparten `js/lib/lead-form.mjs` y envían al mismo `lead-register`, con Turnstile, `Idempotency-Key` y atribución (`js/attribution.js` → `window.getFuente`). Canal por origen: `sitio-contacto`, `sitio-flotante`, `agente`, `evaluacion`, `lead-magnet` (+ `sitio-home`, histórico). **Los canales nuevos deben existir en la lista blanca del CRM antes de desplegar el sitio** (si no, el CRM responde 400 y el lead se pierde). El formulario flotante y el asistente mandan el nombre completo en `firstname` (no se separa el apellido).
 
-## Asistente automático
+## Asistente automático (etapa 1, sin IA)
 
-Guion fijo sin IA (`js/lib/asistente.mjs`: `reducir(estado, evento)`). La interfaz solo lee `{ mensajes, paso, registro, consentimientos }` y `chips()`, así que otro motor puede reemplazar el módulo sin tocar `js/flotantes.js`. Solo guarda tras "Confirmar y guardar", con el aviso de privacidad aceptado (WhatsApp separado, opcional, sin marcar). No guarda el historial.
+Motor de guion fijo en `js/lib/asistente.mjs` (`reducir(estado, evento)`). La interfaz (`js/flotantes.js`) solo lee `{ mensajes, paso, registro, consentimientos, clave }`, `chips()` y `enlaces()`, así que otro motor (la IA de la etapa 2) puede reemplazar el módulo sin tocarla.
+
+**Flujos** (menú = paso `bienvenida`): dejar mis datos (registro → `lead-register`, canal `agente`; solo guarda tras "Confirmar y guardar" con el aviso aceptado, WhatsApp separado y opcional), agendar (abre Calendly con UTM; elegir horario dentro del chat con la API de Calendly es etapa 2), dudas, checklist y hablar con una persona (WhatsApp `wa.me/525539337086`). Agendar, checklist y persona solo ofrecen un enlace (paso `enlace`). Durante el registro el texto libre es un campo; en el menú y en `dudas` es una búsqueda.
+
+**Dudas**: `js/lib/buscador-dudas.mjs` busca por palabras (sin acentos, raíz de 5 letras, sinónimos como nube→cloud) en servicios, metodología, niveles, marco, evaluación, checklist y aviso. Sin coincidencia lo dice y ofrece menú, formulario, calendario o WhatsApp; nunca inventa. Los textos salen de `content/*.mjs` (no duplicar).
+
+**Historial** (para entrenar la etapa 2): `js/lib/chat-log.mjs` arma el envío y la Function `netlify/functions/chat-log.js` lo escribe en Firestore `asistente_conversaciones` (id = clave `CAT-XXXX-XXXX`, visible para el visitante). Sin dependencias: JWT de la cuenta de servicio con `node:crypto` y API REST de Firestore; el navegador no escribe en Firestore. No guarda nombre, correo, empresa ni teléfono (los mensajes del registro, marcados `privado` por el motor, van como `[dato de registro]`); correos y teléfonos del texto libre se enmascaran en el cliente y otra vez en la Function (`enmascarar` idéntica, la prueba lo verifica). El primer envío de cada conversación lleva token de Turnstile (widget propio `tsLog`, porque el del registro es de un solo uso); la respuesta trae un `sello` (HMAC de la clave) para los siguientes. Se envía al llegar a un enlace o al registro, al cerrar o reiniciar y al ocultar la página, solo si cambió. Se conserva 5 meses: política TTL de Firestore sobre `expira` (activa). Sin botón para no guardar: oposición y eliminación por correo con la clave (aviso de privacidad, secciones 2, 3, 10 y 13).
+
+**Operación**: variables `FIREBASE_CLIENT_EMAIL` y `FIREBASE_PRIVATE_KEY` en Netlify. **No** crear `FIREBASE_PROJECT_ID` (su valor está en archivos versionados y el escáner de secretos rompe el build; el id va fijo en `chat-log.js`). **No** desplegar `firestore.rules` de este repo: las reglas vivas del proyecto son las del repo `catalysis-crm` y desplegar este archivo las borraría; la colección no necesita regla (denegada por omisión al cliente).
+
+**Medición**: `asistente_flujo`, `asistente_resultado` y `asistente_sin_respuesta` (sin texto del visitante); clics en ligas como `cta_click` con `data-cta` `chat_*`. Ver `docs/medicion-leads.md`.
 
 ## Pendientes conocidos
 

@@ -91,7 +91,7 @@ siendo `blog-post.html?id=<slug>`. **Al agregar un tipo de contenido nuevo, expo
 markdown y registrarlo en `llms.txt`.** Detalle y política de bots: `docs/agent-friendly.md`.
 Pruebas: `cd tests && npm install && npm test`.
 
-**`asistente_conversaciones`** — solo la escribe la Function `chat-log` con cuenta de servicio (no pasa por reglas); sin regla propia, el cliente la tiene denegada por omisión. Id = clave de conversación (`CAT-XXXX-XXXX`). Sin nombre, correo ni teléfono. Se borra a los 5 meses con la política TTL de Firestore sobre `expira` (**activarla en la consola**). Spec: `reqs/asistente-conversacional.md`.
+**`asistente_conversaciones`** — solo la escribe la Function `chat-log` con cuenta de servicio (no pasa por reglas); sin regla propia, el cliente la tiene denegada por omisión. Id = clave de conversación (`CAT-XXXX-XXXX`). Sin nombre, correo ni teléfono. Se borra a los 5 meses con la política TTL de Firestore sobre `expira` (política activa). Detalle: `docs/rediseno-frontend.md` (Asistente automático).
 
 **`contactos`** — solo lectura/edición autenticada; `create` público (legacy)
 ```
