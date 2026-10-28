@@ -29,7 +29,6 @@ async function init() {
     cargando.hidden = true;
     contenido.hidden = false;
     pintar(post);
-    sumarVista(doc.id);
   } catch (error) {
     console.error('Error al cargar el artículo:', error);
     fallo();
@@ -58,7 +57,7 @@ function pintar(post) {
   $('post-heading').textContent = post.titulo;
 
   const fecha = post.fecha_publicacion && post.fecha_publicacion.toDate ? formatearFecha(post.fecha_publicacion.toDate()) : '';
-  const meta = [`Por ${post.autor || 'Catalysis'}`, fecha, `${post.vistas || 0} vistas`].filter(Boolean);
+  const meta = [`Por ${post.autor || 'Catalysis'}`, fecha].filter(Boolean);
   $('post-meta').replaceChildren(...meta.map((t) => Object.assign(document.createElement('span'), { textContent: t })));
 
   if (post.imagen_portada) {
@@ -88,15 +87,6 @@ function pintar(post) {
     cta.href = recurso.href;
     $('cierre-eval').hidden = true;
     $('cierre-recurso').hidden = false;
-  }
-}
-
-async function sumarVista(docId) {
-  try {
-    await window.firestoreDb.collection('blog_posts').doc(docId)
-      .update({ vistas: window.firebase.firestore.FieldValue.increment(1) });
-  } catch (error) {
-    console.error('Error al sumar la vista:', error);
   }
 }
 

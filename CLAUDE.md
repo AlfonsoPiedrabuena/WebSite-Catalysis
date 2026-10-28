@@ -184,7 +184,7 @@ Trabajo en ramas por bloque desde `sandbox` → PR → `main` → `production` (
 
 - Setup detallado de Firebase: `README.md`; variables de entorno: `.env.example`; reglas: `firestore.rules`.
 - Contexto bajo demanda (leer solo si la tarea lo toca): `docs/rediseno-frontend.md` (shell, contenido, pruebas, flotantes), `docs/medicion-leads.md` (GA4/UTM), `docs/decisions.md` (decisiones y pendientes), `docs/agent-friendly.md` (blog `.md`, llms.txt, caché, bots), `docs/blog-slugs-og.md` (slugs y Open Graph), `docs/crm-leads.md` y `docs/crm-fuente-contrato.md` (alta en CRM, `fuente`/dedupe).
-- Trabajo pendiente: `reqs/` — `rediseno-sitio-catalysis.md` (spec del rediseño), `medicion-leads-ga4-utm.md` y `lead-magnet-checklist-cierre-fiscal.md` (implementados en código, pendientes de verificar en preview), contador de vistas.
+- Trabajo pendiente: `reqs/` — `rediseno-sitio-catalysis.md` (spec del rediseño), `medicion-leads-ga4-utm.md` y `lead-magnet-checklist-cierre-fiscal.md` (implementados en código, pendientes de verificar en preview). El contador público de vistas del blog se eliminó (2026-10-27): el tráfico por artículo se mide en GA4.
 - Documentos históricos (privacidad, framework): fuera de este repo, en `../archive/`.
 
 ---
