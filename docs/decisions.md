@@ -20,6 +20,9 @@ Cuándo leerlo: antes de cambiar algo que parezca arbitrario del rediseño; aqu�
 | 2026-10-26 | Token `--accent-on-dark` (`#F08A63`) para el número de nivel sobre fondo oscuro | `--accent` da ~3.4:1 sobre esa superficie y falla AA en texto pequeño |
 | 2026-10-26 | `design/`, `reqs/`, `tests/`, `scripts/` y `shell/` responden 404 en producción (`netlify.toml`) | La raíz del repo es el directorio publicado |
 | 2026-10-26 | `netlify.toml` omite el build si solo cambió documentación, specs, diseño, pruebas o herramientas | Créditos de build limitados |
+| 2026-10-27 | Asistente etapa 1: cinco flujos (datos, agendar, dudas, checklist, hablar con una persona); dudas por coincidencia de palabras sobre `content/*.mjs`; Calendly solo abre la liga (API en etapa 2) | Sin IA ni costo; la API de Calendly es trabajo aparte |
+| 2026-10-27 | "Hablar con una persona" = WhatsApp (+52 55 3933 7086); los registros entran por el canal `agente` existente | Deja lead y no requiere cambios en el CRM |
+| 2026-10-27 | Las conversaciones del asistente se guardan en Firestore (`asistente_conversaciones`) vía Function, 5 meses, incluso sin registro, con correos/teléfonos enmascarados y botón "No guardar esta conversación" | Datos para entrenar la etapa 2; el botón es la oposición a una finalidad secundaria. Aviso de privacidad actualizado |
 
 ## Respuestas de Poncho (2026-10-26)
 
@@ -34,7 +37,9 @@ Cuándo leerlo: antes de cambiar algo que parezca arbitrario del rediseño; aqu�
 
 ## Abiertos
 
-1. **Canales nuevos y `primerApellido` opcional en el CRM**: especificado en `docs/crm-canales-rediseno.md`. **Deben estar en producción antes de desplegar el sitio.**
+1. ~~Canales nuevos y `primerApellido` opcional en el CRM~~: en producción del CRM (confirmado 2026-10-27).
 2. **GA4 (acciones manuales)**: marcar `generate_lead` como key event y registrar las dimensiones `lead_source`, `cta_id`, `cta_location`, `blog_slug`, `lead_magnet_id` (Admin → Definiciones personalizadas).
 3. **Checklist fiscal**: Poncho revisa el PDF (`downloads/checklist-cierre-fiscal-digital-pymes.pdf`); después del deploy, actualizar el post con `actualizar_post_blog` (enlace a `/recursos/checklist-cierre-fiscal.html`). Fecha límite: 24 de noviembre.
 4. **Revisión visual y Lighthouse ≥ 90** en el preview de `sandbox` (escritorio, tablet, móvil, teclado).
+5. **Versión en inglés** (acordado 2026-10-27, se trabaja en las próximas sesiones): páginas núcleo en `/en/` con hreflang, sitemap y `llms.txt`; después evaluación/formularios/asistente y blog bilingüe (`lang: en`). Por definir: público objetivo (EE. UU./LatAm o clientes que ya hablan inglés) y si la oferta y los precios son los mismos.
+6. **Asistente conversacional (antes "Fase 3")**: alcance definido en `reqs/asistente-conversacional.md` (sin implementar). Pendiente: motor de flujos, buscador de dudas, interfaz, Function `chat-log` con credencial de Firebase Admin, reglas y TTL de Firestore. No publicar el aviso de privacidad nuevo sin el chat que lo cumple.
