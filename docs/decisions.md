@@ -38,7 +38,7 @@ Cuándo leerlo: antes de cambiar algo que parezca arbitrario del rediseño; aqu�
 ## Abiertos
 
 1. ~~Canales nuevos y `primerApellido` opcional en el CRM~~: en producción del CRM (confirmado 2026-10-27).
-2. **GA4 (acciones manuales)**: marcar `generate_lead` como key event y registrar las dimensiones `lead_source`, `cta_id`, `cta_location`, `blog_slug`, `lead_magnet_id` (Admin → Definiciones personalizadas).
+2. **GA4 (acciones manuales)**: las 5 dimensiones personalizadas ya están registradas (2026-10-27). **Pendiente:** marcar `generate_lead` como key event. No aparece aún en *Admin → Events* por el retraso de procesamiento de GA4 (24 a 48 h); se puede crear ya en *Admin → Key events → New key event* con el nombre exacto `generate_lead`. El evento sí llega (visto en Realtime el 2026-10-27). Detalle y retrasos: `docs/medicion-leads.md`.
 3. **Checklist fiscal**: Poncho revisa el PDF (`downloads/checklist-cierre-fiscal-digital-pymes.pdf`); después del deploy, actualizar el post con `actualizar_post_blog` (enlace a `/recursos/checklist-cierre-fiscal.html`). Fecha límite: 24 de noviembre.
 4. **Revisión visual y Lighthouse ≥ 90** en el preview de `sandbox` (escritorio, tablet, móvil, teclado).
 5. **Versión en inglés** (acordado 2026-10-27, se trabaja en las próximas sesiones): páginas núcleo en `/en/` con hreflang, sitemap y `llms.txt`; después evaluación/formularios/asistente y blog bilingüe (`lang: en`). Por definir: público objetivo (EE. UU./LatAm o clientes que ya hablan inglés) y si la oferta y los precios son los mismos.

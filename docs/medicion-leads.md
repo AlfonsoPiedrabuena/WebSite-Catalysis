@@ -30,7 +30,15 @@ Convención `<página>_<acción>` con `data-cta-location` = sección (`hero`, `m
 ## Acciones manuales en GA4 (no son código)
 
 1. Admin → Events: marcar `generate_lead` como **key event** cuando aparezca (opcional: `cta_click`).
-2. Admin → Custom definitions: dimensiones de evento `lead_source`, `cta_id`, `cta_location`, `blog_slug`, `lead_magnet_id`.
+2. Admin → Custom definitions: dimensiones de evento `lead_source`, `cta_id`, `cta_location`, `blog_slug`, `lead_magnet_id`. **Hecho el 2026-10-27**; solo muestran datos desde esa fecha.
+
+### Estado y retrasos de GA4 (verificado 2026-10-27)
+
+- `generate_lead` llega a GA4 (visto en Realtime). Las pruebas de ese día (`emailprueba271026b@gmail.com` por Contacto, `correo_prueba271026@gmail.com` por el flotante) sí quedaron en el CRM.
+- Retrasos: Realtime/DebugView = segundos (ventana de 30 min); *Admin → Events* = horas a 24 h; reportes y Data API = 24 a 48 h. Un evento que "no aparece" el mismo día no implica un fallo del sitio: confirmar primero en Realtime/DebugView.
+- El key event se puede crear antes de que el evento aparezca en la lista (*Admin → Key events → New key event*, nombre `generate_lead`).
+- Pendiente: confirmar en DebugView que el evento trae `lead_source` y ningún dato personal.
+- El contador público de vistas del blog se eliminó; el tráfico por artículo se lee en GA4 (`pagePath` / `blog_slug`).
 
 ## Cómo probar sin ensuciar producción
 
