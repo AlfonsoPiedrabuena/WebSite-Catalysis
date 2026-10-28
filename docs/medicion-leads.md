@@ -11,6 +11,11 @@ Cuándo leerlo: al agregar un CTA, un formulario o un evento, o al revisar repor
 | `evaluacion_inicio` / `evaluacion_completa` | Al empezar / terminar la evaluación | `nivel`, `promedio` (solo en completa) |
 | `marco_nivel_ver` | Al elegir un nivel en el marco de madurez | `nivel` |
 | `flotante_form_abrir` / `flotante_chat_abrir` | Al abrir cada panel | — |
+| `asistente_flujo` | Al elegir un flujo del menú (o al hacer la primera pregunta de dudas) | `flujo`: `datos`, `agendar`, `dudas`, `checklist`, `persona` |
+| `asistente_resultado` | Al llegar el chat a un enlace (agendar, checklist, persona) o completar el registro | `resultado`: `registro`, `agenda`, `whatsapp`, `checklist`, `dudas`. Es lo que el bot ofreció, no un clic |
+| `asistente_sin_respuesta` | Cuando el buscador no encuentra nada | — (nunca se envía el texto escrito) |
+
+Los clics en las ligas del chat ya los mide `cta_click` con `cta_location: chat` (`chat_calendly`, `chat_whatsapp`, `chat_checklist`, `chat_servicio`, `chat_nivel`, `chat_marco`, `chat_evaluacion`…). Para ver `flujo` y `resultado` en informes, registrarlos como dimensiones personalizadas de evento en GA4 (Admin → Definiciones personalizadas).
 
 **Nunca** se envían a GA4 correo, teléfono, nombre ni empresa. Los enlaces a Calendly salen con los UTM del último toque (`catTrack.calendlyUrl`).
 
