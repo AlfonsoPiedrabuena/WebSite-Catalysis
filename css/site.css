@@ -494,6 +494,8 @@ a.card:hover, .card--link:hover { border-color: var(--ink); }
 .chat__composer { display: flex; gap: 8px; align-items: center; }
 .chat__composer .input { min-height: 44px; padding: 10px 12px; flex: 1; }
 .chat__send { width: 44px; height: 44px; border-radius: var(--r-md); border: 0; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.chat__clave { margin: 0; font-size: 11px; line-height: 1.4; font-style: italic; color: var(--ink-3); }
+.chat__clave b { font-weight: 600; font-style: normal; letter-spacing: .04em; color: var(--ink-2); user-select: all; }
 .chat__note { display: flex; justify-content: space-between; gap: 12px; align-items: center; font-size: 11px; line-height: 1.4; color: var(--ink-3); }
 .chat__note button { background: none; border: 0; color: var(--ink); text-decoration: underline; font-size: 12px; white-space: nowrap; min-height: 32px; }
 .chat__ts { min-height: 0; }

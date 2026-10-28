@@ -33,6 +33,7 @@ La raíz de este repositorio **es** el sitio de producción servido por Netlify 
 │   └── firebase-config.js         # Init Firebase (window.firestoreDb)
 ├── scripts/                       # sync-shell.mjs, build-content.mjs (herramientas de desarrollo)
 ├── netlify/functions/lead-register.js   # POST → Turnstile → alta (empresa + contacto + fuente) en Catalysis CRM
+├── netlify/functions/chat-log.js        # POST → historial del asistente → Firestore `asistente_conversaciones` (sin dependencias)
 ├── netlify/edge-functions/        # blog-og, blog-md, llms-txt, sitemap, blog-feed
 ├── netlify/edge-lib/              # Lógica compartida de las edge functions (vitest en tests/)
 ├── tests/                         # vitest: `cd tests && npm install && npm test`
@@ -61,6 +62,7 @@ Configurar en **Netlify → Site settings → Environment variables**:
 |---|---|---|
 | `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile | Verificación server-side del token |
 | `CRM_LEADS_ENDPOINT` | dominio del CRM interno + `/api/external/v1/leads` (ver `.env.example`) | Destino del alta en Catalysis CRM |
+| `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY` | Cuenta de servicio de Firebase (`.env.example`) | Function `chat-log`: historial del asistente en Firestore |
 | `CRM_API_KEY` | `scripts/create-api-key.mjs` en el repo `catalysis-crm` (scope `leads:create`) | Auth machine-to-machine contra Catalysis CRM |
 
 
@@ -88,6 +90,8 @@ nuevo aparece solo en `.md`, `/llms.txt`, sitemap y RSS sin deploy). Las URLs ca
 siendo `blog-post.html?id=<slug>`. **Al agregar un tipo de contenido nuevo, exponer su versión
 markdown y registrarlo en `llms.txt`.** Detalle y política de bots: `docs/agent-friendly.md`.
 Pruebas: `cd tests && npm install && npm test`.
+
+**`asistente_conversaciones`** — solo la escribe la Function `chat-log` con cuenta de servicio (no pasa por reglas); sin regla propia, el cliente la tiene denegada por omisión. Id = clave de conversación (`CAT-XXXX-XXXX`). Sin nombre, correo ni teléfono. Se borra a los 5 meses con la política TTL de Firestore sobre `expira` (**activarla en la consola**). Spec: `reqs/asistente-conversacional.md`.
 
 **`contactos`** — solo lectura/edición autenticada; `create` público (legacy)
 ```
