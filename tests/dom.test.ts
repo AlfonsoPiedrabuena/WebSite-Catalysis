@@ -28,9 +28,9 @@ beforeEach(() => {
   fetchMock.mockReset();
   vi.stubGlobal("fetch", fetchMock);
   (window as any).turnstile = { render: (_el: unknown, o: any) => { o.callback("token-prueba"); return "w1"; }, reset: vi.fn(), remove: vi.fn() };
-  const w = (window as any).turnstile; let ultimo: any = null;
-  w.render = (_el: unknown, o: any) => { ultimo = o; o.callback("token-prueba"); return "w1"; };
-  w.reset = vi.fn(() => ultimo && ultimo.callback("token-prueba"));
+  const w = (window as any).turnstile; const widgets: Record<string, any> = {}; let n = 0;
+  w.render = (_el: unknown, o: any) => { const id = `w${++n}`; widgets[id] = o; o.callback("token-prueba"); return id; };
+  w.reset = vi.fn((id: string) => widgets[id] && widgets[id].callback("token-prueba"));
   (window as any).getFuente = (canal: string, leadMagnet?: string) => ({ canal, ...(leadMagnet ? { leadMagnet } : {}) });
   (window as any).catTrack = { event: vi.fn(), lead: vi.fn(), calendlyUrl: (u: string) => u };
   window.scrollTo = vi.fn() as any;
@@ -39,7 +39,8 @@ beforeEach(() => {
 });
 afterEach(() => { vi.unstubAllGlobals(); document.body.innerHTML = ""; });
 
-const cuerpoEnviado = () => JSON.parse(fetchMock.mock.calls.at(-1)![1].body);
+const llamadasA = (parte: string) => fetchMock.mock.calls.filter((c) => String(c[0]).includes(parte));
+const cuerpoEnviado = () => JSON.parse(llamadasA("lead-register").at(-1)![1].body);
 
 describe("contacto.html + js/contact.js", () => {
   it("muestra errores por campo y no envía si faltan datos", async () => {
@@ -269,7 +270,7 @@ describe("flotantes (js/flotantes.js)", () => {
     const chip = (t: string) => ([...document.querySelectorAll(".chat__chip")].find((c) => c.textContent === t) as HTMLElement);
     const decir = (t: string) => { const i = $<HTMLInputElement>("#chat-in"); i.value = t; $(".chat__composer").dispatchEvent(new Event("submit", { bubbles: true, cancelable: true })); };
     expect($(".chat__head").textContent).toContain("Asistente automático");
-    chip("Sí, empecemos").click();
+    chip("Dejar mis datos").click();
     decir("Laura Mendoza"); decir("laura@empresa.com"); decir("Acme");
     chip("CRM y automatización").click();
     expect($(".chat__card")?.textContent).toContain("Consentimiento");
@@ -290,13 +291,14 @@ describe("flotantes (js/flotantes.js)", () => {
   });
 
   it("asistente: si falla el guardado muestra el error y permite reintentar", async () => {
-    fetchMock.mockResolvedValueOnce(respuesta(502)).mockResolvedValueOnce(respuesta(201));
+    let intentos = 0;
+    fetchMock.mockImplementation(async (url: string) => (String(url).includes("lead-register") && ++intentos === 1 ? respuesta(502) : respuesta(201)));
     await conFlotantes();
     $(".fbtn--dark").click();
     await tick();
     const chip = (t: string) => ([...document.querySelectorAll(".chat__chip")].find((c) => c.textContent === t) as HTMLElement);
     const decir = (t: string) => { const i = $<HTMLInputElement>("#chat-in"); i.value = t; $(".chat__composer").dispatchEvent(new Event("submit", { bubbles: true, cancelable: true })); };
-    chip("Sí, empecemos").click();
+    chip("Dejar mis datos").click();
     decir("Laura"); decir("laura@empresa.com"); decir("Acme"); chip("Otro tema").click();
     ($("#chat-priv") as HTMLInputElement).click();
     ([...document.querySelectorAll(".chat__card button")].find((b) => b.textContent === "Continuar") as HTMLElement).click();
@@ -307,6 +309,96 @@ describe("flotantes (js/flotantes.js)", () => {
     chip("Reintentar").click();
     await tick(10);
     expect($(".chat__log").textContent).toContain("Registro creado");
+  });
+
+  it("asistente: el menú ofrece los cinco flujos; hablar con una persona abre WhatsApp y las dudas buscan en el sitio", async () => {
+    await conFlotantes();
+    $(".fbtn--dark").click();
+    await tick();
+    const chip = (t: string) => ([...document.querySelectorAll(".chat__chip")].find((c) => c.textContent === t) as HTMLElement);
+    const decir = (t: string) => { const i = $<HTMLInputElement>("#chat-in"); i.value = t; $(".chat__composer").dispatchEvent(new Event("submit", { bubbles: true, cancelable: true })); };
+    expect($(".chat__clave").textContent).toMatch(/Clave de tu conversación: CAT-[A-Z0-9]{4}-[A-Z0-9]{4}\. Puedes referenciar/);
+    const clave1 = $(".chat__clave b").textContent;
+    ([...document.querySelectorAll(".ib")].find((b) => b.getAttribute("aria-label") === "Reiniciar la conversación") as HTMLElement).click();
+    expect($(".chat__clave b").textContent).not.toBe(clave1);
+    for (const t of ["Dejar mis datos", "Agendar diagnóstico", "Dudas sobre servicios", "Recibir el checklist", "Hablar con una persona"]) expect(chip(t)).toBeTruthy();
+    expect($(".chat__note").textContent).toContain("aviso de privacidad");
+    chip("Hablar con una persona").click();
+    const wa = $<HTMLAnchorElement>('.chat__chip[data-cta="chat_whatsapp"]');
+    expect(wa.href).toContain("wa.me/525539337086");
+    expect(wa.target).toBe("_blank");
+    chip("Volver al menú").click();
+    decir("migrar a la nube");
+    expect($(".chat__log").textContent).toContain("Cloud");
+    expect($<HTMLAnchorElement>('.chat__chip[data-cta="chat_servicio"]').getAttribute("href")).toBe("/servicios.html#servicio-3");
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("asistente: guarda el historial sin datos del registro; el primer envío lleva el token y los siguientes el sello", async () => {
+    fetchMock.mockImplementation(async (url: string) => (String(url).includes("chat-log")
+      ? { ok: true, status: 200, json: async () => ({ ok: true, sello: "s".repeat(64) }) } : respuesta(201)));
+    await conFlotantes();
+    $(".fbtn--dark").click();
+    await tick();
+    const chip = (t: string) => ([...document.querySelectorAll(".chat__chip")].find((c) => c.textContent === t) as HTMLElement);
+    const decir = (t: string) => { const i = $<HTMLInputElement>("#chat-in"); i.value = t; $(".chat__composer").dispatchEvent(new Event("submit", { bubbles: true, cancelable: true })); };
+    chip("Dejar mis datos").click();
+    decir("Laura Mendoza"); decir("laura@empresa.com"); decir("Acme"); chip("Otro tema").click();
+    ($("#chat-priv") as HTMLInputElement).click();
+    ([...document.querySelectorAll(".chat__card button")].find((b) => b.textContent === "Continuar") as HTMLElement).click();
+    chip("Confirmar y guardar").click();
+    await tick(10);
+    const envios = llamadasA("chat-log");
+    expect(envios.length).toBeGreaterThanOrEqual(1);
+    const primero = JSON.parse(envios[0][1].body);
+    expect(primero).toMatchObject({ resultado: "registro", turnstileToken: "token-prueba" });
+    expect(primero.clave).toMatch(/^CAT-/);
+    for (const dato of ["Laura", "laura@empresa.com", "Acme"]) expect(envios.map((c) => c[1].body).join("")).not.toContain(dato);
+  });
+
+  it("asistente: mide flujo, resultado y dudas sin respuesta, sin texto del visitante", async () => {
+    await conFlotantes();
+    $(".fbtn--dark").click();
+    await tick();
+    const chip = (t: string) => ([...document.querySelectorAll(".chat__chip")].find((c) => c.textContent === t) as HTMLElement);
+    const decir = (t: string) => { const i = $<HTMLInputElement>("#chat-in"); i.value = t; $(".chat__composer").dispatchEvent(new Event("submit", { bubbles: true, cancelable: true })); };
+    const ev = (window as any).catTrack.event as ReturnType<typeof vi.fn>;
+    chip("Agendar diagnóstico").click();
+    expect(ev).toHaveBeenCalledWith("asistente_flujo", { flujo: "agendar" });
+    expect(ev).toHaveBeenCalledWith("asistente_resultado", { resultado: "agenda" });
+    chip("Volver al menú").click();
+    decir("quiero un descuento secreto");
+    expect(ev).toHaveBeenCalledWith("asistente_sin_respuesta", {});
+    decir("migrar a la nube");
+    expect(ev).toHaveBeenCalledWith("asistente_flujo", { flujo: "dudas" });
+    expect(JSON.stringify(ev.mock.calls)).not.toContain("descuento");
+  });
+
+  it("asistente: el primer envío del historial lleva el token y los siguientes el sello; no reenvía si nada cambió", async () => {
+    fetchMock.mockImplementation(async (url: string) => (String(url).includes("chat-log")
+      ? { ok: true, status: 200, json: async () => ({ ok: true, sello: "s".repeat(64) }) } : respuesta(201)));
+    await conFlotantes();
+    $(".fbtn--dark").click();
+    await tick();
+    const chip = (t: string) => ([...document.querySelectorAll(".chat__chip")].find((c) => c.textContent === t) as HTMLElement);
+    const decir = (t: string) => { const i = $<HTMLInputElement>("#chat-in"); i.value = t; $(".chat__composer").dispatchEvent(new Event("submit", { bubbles: true, cancelable: true })); };
+    chip("Hablar con una persona").click();   // paso 'enlace' → primer envío
+    await tick(5);
+    chip("Volver al menú").click();
+    decir("migrar a la nube");
+    $(".chat__head .ib[aria-label='Cerrar']").click();   // cerrar → segundo envío
+    await tick(10);
+    const envios = llamadasA("chat-log").map((c) => JSON.parse(c[1].body));
+    expect(envios).toHaveLength(2);
+    expect(envios[0]).toMatchObject({ resultado: "whatsapp", turnstileToken: "token-prueba" });
+    expect(envios[1]).toMatchObject({ resultado: "dudas", sello: "s".repeat(64) });
+    expect(envios[1].turnstileToken).toBeUndefined();
+    expect(envios[0].clave).toBe(envios[1].clave);
+    {
+      $(".fbtn--dark").click(); await tick();
+      $(".chat__head .ib[aria-label='Cerrar']").click(); await tick(10);
+      expect(llamadasA("chat-log")).toHaveLength(2);
+    }
   });
 
   it("en Contacto se oculta solo el botón del formulario", async () => {

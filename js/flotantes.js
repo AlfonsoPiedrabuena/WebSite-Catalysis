@@ -10,9 +10,10 @@ import {
   validarLead, construirPayload, enviarLead, limpiarTelefono, LIMITES,
 } from '/js/lib/lead-form.mjs';
 import { montarTurnstile } from '/js/lib/turnstile.mjs';
+import { prepararHistorial, enviarHistorial, resultadoDe } from '/js/lib/chat-log.mjs';
 import { SECTOR_ETIQUETAS } from '/js/data/sectores.mjs';
 import {
-  estadoInicial, reducir, chips, enlaces, filasConfirmacion, datosParaLead, entradaDeTexto, CALENDLY,
+  estadoInicial, generarClave, reducir, chips, enlaces, filasConfirmacion, datosParaLead, entradaDeTexto, CALENDLY,
 } from '/js/lib/asistente.mjs';
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -56,13 +57,15 @@ const S = {
   abierto: 'ninguno',          // 'ninguno' | 'form' | 'chat'
   opener: null,
   form: { status: 'idle', mas: false, enviado: null },
-  chat: estadoInicial(),
+  chat: null,          // se crea justo debajo (necesita nuevoLog)
+  log: null,           // historial de la conversación: { clave, inicio, sello, ultimo, cola }
   guardando: false,
 };
 let raiz;           // .fdock
 let panelEl = null; // panel abierto
 let tsForm = null;
 let tsChat = null;
+let tsLog = null;   // widget aparte para el historial: el token de tsChat es de un solo uso y lo necesita el registro
 let btnForm = null;
 let btnChat = null;
 
@@ -123,15 +126,20 @@ function abrir(cual, opener) {
   document.addEventListener('keydown', onKey, true);
   ajustarTeclado();
   if (cual === 'form') { tsForm = tsForm || montarTurnstile(panelEl.querySelector('.turnstile-slot'), { appearance: 'interaction-only' }); }
-  if (cual === 'chat') { tsChat = montarTurnstile(panelEl.querySelector('.turnstile-slot'), { appearance: 'interaction-only' }); }
+  if (cual === 'chat') {
+    tsChat = montarTurnstile(panelEl.querySelector('.turnstile-slot'), { appearance: 'interaction-only' });
+    if (!S.log.sello) tsLog = montarTurnstile(panelEl.querySelector('.chat__tslog'), { appearance: 'interaction-only' });
+  }
   track(cual === 'form' ? 'flotante_form_abrir' : 'flotante_chat_abrir', {});
   const primero = panelEl.querySelector('input:not([type=hidden]), button.fchip, .chat__chip, button');
   (cual === 'chat' ? panelEl.querySelector('.chat__composer input') || primero : panelEl.querySelector('input')).focus();
 }
 function cerrar({ devolverFoco = true } = {}) {
+  if (S.abierto === 'chat') registrarHistorial();
   if (panelEl) { panelEl.remove(); panelEl = null; }
   if (tsForm) { tsForm.remove(); tsForm = null; }
   if (tsChat) { tsChat.remove(); tsChat = null; }
+  if (tsLog) { tsLog.remove(); tsLog = null; }
   S.abierto = 'ninguno';
   btnForm && btnForm.setAttribute('aria-expanded', 'false');
   btnChat && btnChat.setAttribute('aria-expanded', 'false');
@@ -317,14 +325,16 @@ function construirChat() {
   const pie = h('div', { class: 'chat__foot' },
     chipsEl, composer,
     h('div', { class: 'chat__note' },
-      h('span', { text: 'Asistente automático: sigue un guion y no interpreta mensajes libres. Revisarás tus datos antes de guardarlos.' }),
+      h('span', {}, 'Asistente automático: sigue un guion y busca palabras en el sitio; no usa IA. Guardamos la conversación para mejorarlo (',
+        h('a', { href: '/aviso-privacidad.html', target: '_blank', rel: 'noopener', text: 'aviso de privacidad' }), '). Revisarás tus datos antes de registrarlos.'),
       h('button', { type: 'button', text: 'Ir al formulario', onclick: irAlFormulario })),
-    h('div', { class: 'turnstile-slot chat__ts' }));
+    h('div', { class: 'turnstile-slot chat__ts' }),
+    h('div', { class: 'turnstile-slot chat__tslog', style: 'min-height:0' }));
   const panel = h('div', { class: 'fpanel fp-chat', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'chat-titulo' },
     h('div', { class: 'chat__head dk' },
       h('span', { class: 'chat__avatar', 'aria-hidden': 'true' }),
-      h('div', {}, h('strong', { id: 'chat-titulo', text: 'Asistente de Catalysis' }), h('small', { text: 'Asistente automático · te ayuda a crear tu registro' })),
-      h('button', { type: 'button', class: 'ib', 'aria-label': 'Reiniciar la conversación', onclick: () => emitir({ tipo: 'reiniciar' }) }, icono(ICO.reiniciar)),
+      h('div', {}, h('strong', { id: 'chat-titulo', text: 'Asistente de Catalysis' }), h('small', { text: 'Asistente automático · registro, citas y dudas' })),
+      h('button', { type: 'button', class: 'ib', 'aria-label': 'Reiniciar la conversación', onclick: () => emitir({ tipo: 'reiniciar', clave: generarClave() }) }, icono(ICO.reiniciar)),
       h('button', { type: 'button', class: 'ib', 'aria-label': 'Cerrar', onclick: () => cerrar() }, icono(ICO.cerrar))),
     log, pie);
   panel._refs = { log, chipsEl, entrada, enviar };
@@ -346,7 +356,9 @@ function pintarChat(panel = panelEl) {
       ...filasConfirmacion(e).map(([k, v]) => h('div', { class: 'chat__row' }, h('span', { text: k }), h('span', { text: v })))));
   }
   if (e.paso === 'guardando') extras.push(h('div', { role: 'status', 'aria-label': 'Guardando tu registro' }, h('div', { class: 'typing sk' }, h('span'), h('span'), h('span'))));
-  log.replaceChildren(...burbujas, ...extras);
+  const clave = e.clave ? h('p', { class: 'chat__clave' }, 'Clave de tu conversación: ', h('b', { text: e.clave }),
+    '. Puedes referenciar esta conversación en el futuro mencionando esta clave.') : null;
+  log.replaceChildren(...(clave ? [clave] : []), ...burbujas, ...extras);
   log.scrollTop = log.scrollHeight;
 
   const botones = chips(e).map((c) => h('button', {
@@ -356,7 +368,7 @@ function pintarChat(panel = panelEl) {
   const links = enlaces(e).map((l) => h('a', {
     class: 'chat__chip', href: /calendly/.test(l.href) && window.catTrack ? window.catTrack.calendlyUrl(l.href) : l.href,
     target: l.href.startsWith('http') ? '_blank' : null, rel: l.href.startsWith('http') ? 'noopener' : null,
-    'data-cta': `chat_${/calendly/.test(l.href) ? 'calendly' : l.href.startsWith('mailto') ? 'correo' : 'evaluacion'}`, 'data-cta-location': 'chat', text: l.etiqueta,
+    'data-cta': l.cta || 'chat_enlace', 'data-cta-location': 'chat', text: l.etiqueta,
   }));
   chipsEl.replaceChildren(...botones, ...links);
   chipsEl.hidden = botones.length + links.length === 0;
@@ -380,14 +392,50 @@ function tarjetaConsentimiento() {
     h('button', { type: 'button', class: 'btn btn--primary', disabled: !c.priv, text: 'Continuar', onclick: () => emitir({ tipo: 'aceptar_consentimiento' }) }));
 }
 
+// ---------- historial (js/lib/chat-log.mjs → Function chat-log) ----------
+function nuevoLog(clave) { return { clave, inicio: new Date().toISOString(), sello: '', ultimo: '', cola: Promise.resolve() }; }
+S.chat = estadoInicial(generarClave());
+S.log = nuevoLog(S.chat.clave);
+
+/** Eventos GA4 del asistente (docs/medicion-leads.md). Nunca llevan texto del visitante ni datos del registro. */
+function medirAsistente(estado, flujosAntes, pasoAntes, evento) {
+  estado.flujos.slice(flujosAntes).forEach((flujo) => track('asistente_flujo', { flujo }));
+  if (estado.paso !== pasoAntes && (estado.paso === 'hecho' || estado.paso === 'enlace')) track('asistente_resultado', { resultado: resultadoDe(estado) });
+  if (evento.tipo === 'texto' && estado.noEntendido && ['bienvenida', 'dudas', 'enlace'].includes(estado.paso)) track('asistente_sin_respuesta', {});
+}
+
+/** Envía el historial si cambió. Silencioso: guardarlo nunca debe afectar al chat. */
+function registrarHistorial(estado = S.chat, log = S.log) {
+  const historial = prepararHistorial(estado, {
+    inicio: log.inicio, pagina: window.location.pathname, fuente: window.getFuente ? window.getFuente('agente') : undefined,
+  });
+  if (!historial) return;
+  const huella = JSON.stringify([historial.mensajes, historial.resultado]);
+  if (huella === log.ultimo) return;
+  const token = tsLog && tsLog.token();   // se lee ahora: el widget se quita al cerrar el panel
+  log.cola = log.cola.then(async () => {
+    const r = await enviarHistorial(historial, { turnstileToken: log.sello ? null : token, sello: log.sello });
+    if (r.ok) { log.sello = r.sello || log.sello; log.ultimo = huella; }
+  });
+}
+window.addEventListener('pagehide', () => registrarHistorial());
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') registrarHistorial(); });
+
 function emitir(evento) {
   const antes = S.chat.paso;
+  if (evento.tipo === 'reiniciar') { registrarHistorial(); S.log = nuevoLog(evento.clave);
+    if (tsLog) tsLog.reset();
+    else if (panelEl && panelEl.querySelector('.chat__tslog')) tsLog = montarTurnstile(panelEl.querySelector('.chat__tslog'), { appearance: 'interaction-only' });
+  }
+  const flujosAntes = S.chat.flujos.length;
   S.chat = reducir(S.chat, evento);
+  medirAsistente(S.chat, flujosAntes, antes, evento);
+  if (S.chat.paso !== antes && (S.chat.paso === 'hecho' || S.chat.paso === 'enlace')) registrarHistorial();
   pintarChat();
   if (panelEl && panelEl._refs) {
     const { entrada } = panelEl._refs;
     const conCheck = evento.tipo === 'alternar_consentimiento';
-    if (!conCheck && !entrada.disabled && /^(nombre|correo|empresa|telefono)$/.test(S.chat.paso)) entrada.focus();
+    if (!conCheck && !entrada.disabled && /^(nombre|correo|empresa|telefono|dudas)$/.test(S.chat.paso)) entrada.focus();
     else if (!conCheck && S.chat.paso !== antes) {
       const primero = panelEl.querySelector('.chat__card button:not([disabled]), .chat__chip');
       if (primero) primero.focus();
